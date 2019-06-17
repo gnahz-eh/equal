@@ -2,6 +2,7 @@ package com.github.zhanghe.jxcel;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.stream.Stream;
 
 /**
  * Jxcel Selector
@@ -92,7 +93,77 @@ public class Selector<T> {
     }
 
     /**
-     * getters and setters
+     * Set the index of start line, default is 0
+     * @return Selector
+     */
+    public Selector<T> where() {
+        this.rowStartIndex = 0;
+        this.rowEndIndex = -1;
+        return this;
+    }
+
+    /**
+     * Set the index of start line, default is 0
+     *
+     * @param rowStartIndex start row index
+     * @return Selector
+     */
+    public Selector<T> where(int rowStartIndex) {
+        if (rowStartIndex < 0) {
+            throw new IllegalArgumentException("rowStartIndex should be more than 0");
+        }
+        this.rowStartIndex = rowStartIndex;
+        this.rowEndIndex = -1;
+        return this;
+    }
+
+    /**
+     * Set the index of start line, default is 0,
+     * Set the index of end line, default is -1,
+     *
+     * @param rowStartIndex start row index
+     * @param rowEndIndex end row index
+     * @return Selector
+     */
+    public Selector<T> where(int rowStartIndex, int rowEndIndex) {
+        if (rowStartIndex < 0) {
+            throw new IllegalArgumentException("rowStartIndex should be more than 0");
+        }
+        if (rowEndIndex < 0) {
+            throw new IllegalArgumentException("rowEndIndex should be more than 0");
+        }
+        if (rowEndIndex < rowStartIndex) {
+            throw new IllegalArgumentException("rowEndIndex should be more than or equal to rowStartIndex");
+        }
+
+        this.rowStartIndex = rowStartIndex;
+        this.rowEndIndex = rowEndIndex;
+        return this;
+    }
+
+    /**
+     * Return the result as a Stream
+     *
+     * @return Stream
+     */
+    public Stream<T> toStream() {
+        if (clazz == null) {
+            throw new IllegalArgumentException("clazz can be not null");
+        }
+
+        if (file == null && inputStream == null) {
+            throw new IllegalArgumentException("the excel can not be null");
+        }
+
+        if (file == null) {
+            return null;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Getters and Setters
      */
     public String getSheetName() {
         return sheetName;
