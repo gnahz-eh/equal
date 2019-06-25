@@ -220,4 +220,5 @@ public class Selector<T> {
     public void setRowEndIndex(int rowEndIndex) {
         this.rowEndIndex = rowEndIndex;
     }
+
 }
