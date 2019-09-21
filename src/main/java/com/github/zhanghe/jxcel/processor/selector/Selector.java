@@ -36,11 +36,11 @@ import java.util.stream.Stream;
 
 public class Selector<T> {
 
-    private String tableName;
-    private int tableIndex = 0;
-    private Class<T> clazz;
     private File sourceFile;
     private InputStream inputStream;
+    private String tableName;
+    private Class<T> clazz;
+    private int tableIndex = 0;
     private int rowStartIndex = 2;
     private int rowEndIndex = -1;
 
