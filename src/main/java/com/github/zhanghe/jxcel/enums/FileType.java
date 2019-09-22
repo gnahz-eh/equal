@@ -24,8 +24,21 @@
 
 package com.github.zhanghe.jxcel.enums;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public enum FileType {
     CSV,
     XLS,
-    XLSX
+    XLSX,
+    OTHERS,
+    NONE;
+
+    public static Map<String, FileType> fileTypeMap = new HashMap<>();
+
+    static {
+        fileTypeMap.put("CSV", CSV);
+        fileTypeMap.put("XLS", XLS);
+        fileTypeMap.put("XLSX", XLSX);
+    }
 }

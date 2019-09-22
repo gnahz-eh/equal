@@ -22,23 +22,7 @@
  * SOFTWARE.
  */
 
-package com.github.zhanghe.jxcel.utils;
+package com.github.zhanghe.jxcel.processor.selector;
 
-import lombok.experimental.UtilityClass;
-
-@UtilityClass
-public class StringUtils {
-
-    public static final String XLS = "XLS";
-    public static final String XLSX = "XLSX";
-    public static final String CSV = "CSV";
-
-    public static boolean isNotEmpty(String value) {
-        return null != value && !value.isEmpty();
-    }
-
-    public static boolean isEmpty(String value) {
-        return null == value || value.isEmpty();
-    }
-
+public class FileSelectorXLS {
 }

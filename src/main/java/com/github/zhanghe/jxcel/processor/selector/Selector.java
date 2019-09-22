@@ -31,6 +31,7 @@ import com.github.zhanghe.jxcel.utils.StringUtils;
 import java.io.File;
 import java.io.InputStream;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -43,6 +44,7 @@ public class Selector<T> {
     private int tableIndex = 0;
     private int rowStartIndex = 2;
     private int rowEndIndex = -1;
+    private Stream<T> returnStream;
 
     /**
      * Construction method
@@ -159,18 +161,28 @@ public class Selector<T> {
 
         if (sourceFile != null) {
             // TODO
-            return null;
+            if (this.returnStream == null) {
+                this.returnStream = SelectorContext.selectFromFile(this);
+            }
+            return returnStream;
         } else {
             // TODO
-            return null;
+            if (this.returnStream == null) {
+                this.returnStream = null;
+            }
+            return returnStream;
         }
     }
 
     public List<T> toLists() throws JxcelException {
-        Stream<T> stream = this.toStream();
-        return stream.collect(Collectors.toList());
+        toStream();
+        return this.returnStream.collect(Collectors.toList());
     }
 
+    public Selector<T> where(Predicate<? super T> predicate) {
+        this.returnStream = this.toStream().filter(predicate);
+        return this;
+    }
     /**
      * Getters
      */

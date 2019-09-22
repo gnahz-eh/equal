@@ -8,7 +8,7 @@
     <artifactId>Jxcel</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>Jxcel</name>
-    <description>A Java framework to operator excel like SQL</description>
+    <description>A Java framework to operate excel like SQL</description>
 
     <properties>
         <poi.version>4.0.1</poi.version>
