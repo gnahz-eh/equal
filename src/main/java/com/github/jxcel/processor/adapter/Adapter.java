@@ -22,20 +22,7 @@
  * SOFTWARE.
  */
 
-package com.github.zhanghe.jxcel.processor.selector;
+package com.github.jxcel.processor.adapter;
 
-import org.apache.poi.ss.usermodel.Workbook;
-
-import java.util.stream.Stream;
-
-public class FileSelectorXLS extends FileSelector {
-
-    public FileSelectorXLS(Workbook workbook) {
-        this.workbook = workbook;
-    }
-
-    @Override
-    public <T> Stream<T> selectFromFile(Selector selector) {
-        return null;
-    }
+public interface Adapter<String, T> {
 }

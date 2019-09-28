@@ -22,11 +22,11 @@
  * SOFTWARE.
  */
 
-package com.github.zhanghe.jxcel.processor.selector;
+package com.github.jxcel.processor.selector;
 
-import com.github.zhanghe.jxcel.exception.ExceptionUtils;
-import com.github.zhanghe.jxcel.exception.JxcelException;
-import com.github.zhanghe.jxcel.utils.StringUtils;
+import com.github.jxcel.exception.ExceptionUtils;
+import com.github.jxcel.exception.JxcelException;
+import com.github.jxcel.utils.StringUtils;
 
 import java.io.File;
 import java.io.InputStream;

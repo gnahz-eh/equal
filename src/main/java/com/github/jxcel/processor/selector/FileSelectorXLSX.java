@@ -22,25 +22,20 @@
  * SOFTWARE.
  */
 
-package com.github.zhanghe.jxcel.processor.selector;
+package com.github.jxcel.processor.selector;
 
-import com.github.zhanghe.jxcel.exception.JxcelException;
-import com.github.zhanghe.jxcel.processor.adapter.Adapter;
 import org.apache.poi.ss.usermodel.Workbook;
 
-import java.lang.reflect.Field;
-import java.util.Map;
 import java.util.stream.Stream;
 
-public abstract class FileSelector {
+public class FileSelectorXLSX extends FileSelector {
 
-    protected Map<Integer, Field> fieldIndexes;
-    protected Map<Field, Adapter<String, ?>> fieldAdapters;
-    protected Workbook workbook;
+    public FileSelectorXLSX(Workbook workbook) {
+        this.workbook = workbook;
+    }
 
-    public abstract <T>Stream<T> selectFromFile(Selector selector);
-
-    public void init(Field[] fields) throws JxcelException {
-
+    @Override
+    public <T> Stream<T> selectFromFile(Selector selector) {
+        return null;
     }
 }

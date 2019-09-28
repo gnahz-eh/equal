@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.github.zhanghe.jxcel.enums;
+package com.github.jxcel.enums;
 
 import java.util.HashMap;
 import java.util.Map;

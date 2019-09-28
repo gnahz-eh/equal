@@ -22,21 +22,23 @@
  * SOFTWARE.
  */
 
-package com.github.zhanghe.jxcel.processor.selector;
+package com.github.jxcel.utils;
 
-import java.io.InputStream;
-import java.util.stream.Stream;
+import lombok.experimental.UtilityClass;
 
-public class FileSelectorCSV extends FileSelector {
+@UtilityClass
+public class StringUtils {
 
-    private InputStream inputStream;
+    public static final String XLS = "XLS";
+    public static final String XLSX = "XLSX";
+    public static final String CSV = "CSV";
 
-    public FileSelectorCSV(InputStream inputStream) {
-        this.inputStream = inputStream;
+    public static boolean isNotEmpty(String value) {
+        return null != value && !value.isEmpty();
     }
 
-    @Override
-    public <T> Stream<T> selectFromFile(Selector selector) {
-        return null;
+    public static boolean isEmpty(String value) {
+        return null == value || value.isEmpty();
     }
+
 }

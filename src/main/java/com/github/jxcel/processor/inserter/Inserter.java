@@ -22,12 +22,12 @@
  * SOFTWARE.
  */
 
-package com.github.zhanghe.jxcel.processor.inserter;
+package com.github.jxcel.processor.inserter;
 
-import com.github.zhanghe.jxcel.exception.JxcelException;
-import com.github.zhanghe.jxcel.enums.FileType;
-import com.github.zhanghe.jxcel.exception.ExceptionUtils;
-import com.github.zhanghe.jxcel.utils.StringUtils;
+import com.github.jxcel.exception.JxcelException;
+import com.github.jxcel.enums.FileType;
+import com.github.jxcel.exception.ExceptionUtils;
+import com.github.jxcel.utils.StringUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;

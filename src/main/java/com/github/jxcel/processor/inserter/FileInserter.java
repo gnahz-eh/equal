@@ -22,25 +22,20 @@
  * SOFTWARE.
  */
 
-package com.github.zhanghe.jxcel.exception;
+package com.github.jxcel.processor.inserter;
 
-public class JxcelException extends RuntimeException {
-    public JxcelException() { super(); }
-    public JxcelException(String exceptionMessage, Throwable cause) {
-        super(exceptionMessage, cause);
-    }
-    public JxcelException(String exceptionMessage) { super(exceptionMessage); }
-    public JxcelException(Throwable cause) { super(cause); }
+import com.github.jxcel.exception.JxcelException;
 
-    public JxcelException(int exceptionCode) {
-        super(ExceptionUtils.exceptionMap.get(exceptionCode));
-    }
+import java.io.OutputStream;
 
-    public JxcelException(int exceptionCode, String supplement) {
-        super(ExceptionUtils.exceptionMap.get(exceptionCode) + ": " + supplement);
+public class FileInserter {
+    private OutputStream outputStream;
+
+    public FileInserter(OutputStream outputStream) {
+        this.outputStream = outputStream;
     }
 
-    public JxcelException(int exceptionCode, String supplement, Throwable cause) {
-        super(ExceptionUtils.exceptionMap.get(exceptionCode) + ": " + supplement, cause);
+    public void insertTable(Inserter inserter) throws JxcelException {
+
     }
 }

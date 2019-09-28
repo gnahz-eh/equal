@@ -22,20 +22,20 @@
  * SOFTWARE.
  */
 
-package com.github.zhanghe.jxcel.processor.inserter;
+package com.github.jxcel.processor.selector;
 
-import com.github.zhanghe.jxcel.exception.JxcelException;
+import org.apache.poi.ss.usermodel.Workbook;
 
-import java.io.OutputStream;
+import java.util.stream.Stream;
 
-public class FileInserter {
-    private OutputStream outputStream;
+public class FileSelectorXLS extends FileSelector {
 
-    public FileInserter(OutputStream outputStream) {
-        this.outputStream = outputStream;
+    public FileSelectorXLS(Workbook workbook) {
+        this.workbook = workbook;
     }
 
-    public void insertTable(Inserter inserter) throws JxcelException {
-
+    @Override
+    public <T> Stream<T> selectFromFile(Selector selector) {
+        return null;
     }
 }

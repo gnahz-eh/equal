@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.github.zhanghe.jxcel.exception;
+package com.github.jxcel.exception;
 
 import java.util.HashMap;
 import java.util.Map;

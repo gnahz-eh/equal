@@ -22,20 +22,25 @@
  * SOFTWARE.
  */
 
-package com.github.zhanghe.jxcel.processor.selector;
+package com.github.jxcel.exception;
 
-import org.apache.poi.ss.usermodel.Workbook;
+public class JxcelException extends RuntimeException {
+    public JxcelException() { super(); }
+    public JxcelException(String exceptionMessage, Throwable cause) {
+        super(exceptionMessage, cause);
+    }
+    public JxcelException(String exceptionMessage) { super(exceptionMessage); }
+    public JxcelException(Throwable cause) { super(cause); }
 
-import java.util.stream.Stream;
-
-public class FileSelectorXLSX extends FileSelector {
-
-    public FileSelectorXLSX(Workbook workbook) {
-        this.workbook = workbook;
+    public JxcelException(int exceptionCode) {
+        super(ExceptionUtils.exceptionMap.get(exceptionCode));
     }
 
-    @Override
-    public <T> Stream<T> selectFromFile(Selector selector) {
-        return null;
+    public JxcelException(int exceptionCode, String supplement) {
+        super(ExceptionUtils.exceptionMap.get(exceptionCode) + ": " + supplement);
+    }
+
+    public JxcelException(int exceptionCode, String supplement, Throwable cause) {
+        super(ExceptionUtils.exceptionMap.get(exceptionCode) + ": " + supplement, cause);
     }
 }
