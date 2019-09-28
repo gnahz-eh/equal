@@ -24,18 +24,23 @@
 
 package com.github.zhanghe.jxcel.processor.selector;
 
+import com.github.zhanghe.jxcel.exception.JxcelException;
+import com.github.zhanghe.jxcel.processor.adapter.Adapter;
 import org.apache.poi.ss.usermodel.Workbook;
 
+import java.lang.reflect.Field;
+import java.util.Map;
 import java.util.stream.Stream;
 
-public class FileSelectorXLS extends FileSelector {
+public abstract class FileSelector {
 
-    public FileSelectorXLS(Workbook workbook) {
-        this.workbook = workbook;
-    }
+    protected Map<Integer, Field> fieldIndexes;
+    protected Map<Field, Adapter<String, ?>> fieldAdapters;
+    protected Workbook workbook;
 
-    @Override
-    public <T> Stream<T> selectFromFile(Selector selector) {
-        return null;
+    public abstract <T>Stream<T> selectFromFile(Selector selector);
+
+    public void init(Field[] fields) throws JxcelException {
+
     }
 }

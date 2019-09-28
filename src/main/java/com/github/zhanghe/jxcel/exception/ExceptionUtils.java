@@ -39,6 +39,8 @@ public class ExceptionUtils {
     public static final int CLAZZ_IS_NULL = 106;
     public static final int ROW_START_INDEX_IS_LESS_THAN_1 = 107;
     public static final int INSERT_DATA_IS_NULL = 108;
+    public static final int UNSUPPORTED_FILE_TYPE = 109;
+    public static final int FILE_NOT_FOUND = 110;
 
     public static final Map<Integer, String> exceptionMap = new HashMap<Integer, String>();
 
@@ -52,5 +54,7 @@ public class ExceptionUtils {
         exceptionMap.put(CLAZZ_IS_NULL, "Clazz is null");
         exceptionMap.put(ROW_START_INDEX_IS_LESS_THAN_1, "Row start row index is less than 1");
         exceptionMap.put(INSERT_DATA_IS_NULL, "Insert data is null");
+        exceptionMap.put(UNSUPPORTED_FILE_TYPE, "Unsupported file type");
+        exceptionMap.put(FILE_NOT_FOUND, "File not found");
     }
 }

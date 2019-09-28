@@ -24,7 +24,7 @@
 
 package com.github.zhanghe.jxcel.exception;
 
-public class JxcelException extends Exception {
+public class JxcelException extends RuntimeException {
     public JxcelException() { super(); }
     public JxcelException(String exceptionMessage, Throwable cause) {
         super(exceptionMessage, cause);
@@ -38,5 +38,9 @@ public class JxcelException extends Exception {
 
     public JxcelException(int exceptionCode, String supplement) {
         super(ExceptionUtils.exceptionMap.get(exceptionCode) + ": " + supplement);
+    }
+
+    public JxcelException(int exceptionCode, String supplement, Throwable cause) {
+        super(ExceptionUtils.exceptionMap.get(exceptionCode) + ": " + supplement, cause);
     }
 }

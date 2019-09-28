@@ -160,15 +160,13 @@ public class Selector<T> {
         }
 
         if (sourceFile != null) {
-            // TODO
             if (this.returnStream == null) {
                 this.returnStream = SelectorContext.selectFromFile(this);
             }
             return returnStream;
         } else {
-            // TODO
             if (this.returnStream == null) {
-                this.returnStream = null;
+                this.returnStream = SelectorContext.selectFromStream(this);
             }
             return returnStream;
         }

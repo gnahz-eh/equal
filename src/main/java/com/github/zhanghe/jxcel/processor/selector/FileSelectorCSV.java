@@ -24,14 +24,15 @@
 
 package com.github.zhanghe.jxcel.processor.selector;
 
-import org.apache.poi.ss.usermodel.Workbook;
-
+import java.io.InputStream;
 import java.util.stream.Stream;
 
-public class FileSelectorXLS extends FileSelector {
+public class FileSelectorCSV extends FileSelector {
 
-    public FileSelectorXLS(Workbook workbook) {
-        this.workbook = workbook;
+    private InputStream inputStream;
+
+    public FileSelectorCSV(InputStream inputStream) {
+        this.inputStream = inputStream;
     }
 
     @Override

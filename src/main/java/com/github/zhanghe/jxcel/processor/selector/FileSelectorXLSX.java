@@ -28,9 +28,9 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 import java.util.stream.Stream;
 
-public class FileSelectorXLS extends FileSelector {
+public class FileSelectorXLSX extends FileSelector {
 
-    public FileSelectorXLS(Workbook workbook) {
+    public FileSelectorXLSX(Workbook workbook) {
         this.workbook = workbook;
     }
 
