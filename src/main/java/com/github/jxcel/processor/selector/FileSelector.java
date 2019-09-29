@@ -29,6 +29,8 @@ import com.github.jxcel.exception.JxcelException;
 import com.github.jxcel.processor.adapter.Adapter;
 import com.github.jxcel.processor.adapter.AdapterFactory;
 import com.github.jxcel.processor.adapter.NullAdapter;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
 
 import java.lang.reflect.Field;
@@ -67,6 +69,20 @@ public abstract class FileSelector {
             if (adapter != null) {
                 fieldAdapters.put(field, adapter);
             }
+        }
+    }
+
+    public void setField(Field field, Row row, Object obj) throws JxcelException {
+        Column column = field.getAnnotation(Column.class);
+        Cell cell = row.getCell(column.index());
+        if (cell == null) {
+            return;
+        }
+        try {
+            Object value = cell.getStringCellValue();
+            field.set(obj, value);
+        } catch (Exception e) {
+            throw new JxcelException(e);
         }
     }
 }
