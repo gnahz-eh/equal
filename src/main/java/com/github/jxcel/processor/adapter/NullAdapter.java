@@ -26,14 +26,10 @@ package com.github.jxcel.processor.adapter;
 
 import com.github.jxcel.exception.JxcelException;
 
-public interface Adapter<String, T> {
+public final class NullAdapter implements Adapter<String, Object> {
 
-    public T fromString(String str) throws JxcelException;
-
-    default java.lang.String toString(T t) throws JxcelException {
-        if (t == null) {
-            return null;
-        }
-        return t.toString();
+    @Override
+    public Object fromString(String str) throws JxcelException {
+        return null;
     }
 }

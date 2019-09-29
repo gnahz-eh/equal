@@ -22,18 +22,23 @@
  * SOFTWARE.
  */
 
-package com.github.jxcel.processor.adapter;
+package com.github.jxcel.annotation;
 
-import com.github.jxcel.exception.JxcelException;
+import com.github.jxcel.processor.adapter.Adapter;
+import com.github.jxcel.processor.adapter.NullAdapter;
 
-public interface Adapter<String, T> {
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-    public T fromString(String str) throws JxcelException;
+@Target(ElementType.FIELD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Column {
 
-    default java.lang.String toString(T t) throws JxcelException {
-        if (t == null) {
-            return null;
-        }
-        return t.toString();
-    }
+    int index() default -1;
+
+    String name() default "";
+
+    Class<? extends Adapter> adapter() default NullAdapter.class;
 }
