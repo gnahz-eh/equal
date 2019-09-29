@@ -33,14 +33,14 @@ public class JxcelException extends RuntimeException {
     public JxcelException(Throwable cause) { super(cause); }
 
     public JxcelException(int exceptionCode) {
-        super(ExceptionUtils.exceptionMap.get(exceptionCode));
+        super(ExceptionUtils.EXCEPTION_MAP.get(exceptionCode));
     }
 
     public JxcelException(int exceptionCode, String supplement) {
-        super(ExceptionUtils.exceptionMap.get(exceptionCode) + ": " + supplement);
+        super(ExceptionUtils.EXCEPTION_MAP.get(exceptionCode) + ": " + supplement);
     }
 
     public JxcelException(int exceptionCode, String supplement, Throwable cause) {
-        super(ExceptionUtils.exceptionMap.get(exceptionCode) + ": " + supplement, cause);
+        super(ExceptionUtils.EXCEPTION_MAP.get(exceptionCode) + ": " + supplement, cause);
     }
 }

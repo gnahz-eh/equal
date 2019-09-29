@@ -66,7 +66,7 @@ public class Inserter {
 
     public void fromRow(int rowStartIndex) {
         if (rowStartIndex < 1) {
-            throw new IllegalArgumentException(ExceptionUtils.exceptionMap.get(ExceptionUtils.ROW_START_INDEX_IS_LESS_THAN_1));
+            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.ROW_START_INDEX_IS_LESS_THAN_1));
         }
         this.rowStartIndex = rowStartIndex;
     }
@@ -105,19 +105,19 @@ public class Inserter {
 
     private void assertNullSourceFile(File sourceFile) {
         if (sourceFile == null) {
-            throw new IllegalArgumentException(ExceptionUtils.exceptionMap.get(ExceptionUtils.SOURCE_FILE_IS_NULL));
+            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.SOURCE_FILE_IS_NULL));
         }
     }
 
     private void assertTableIndexLessThanZero(int tableIndex) {
         if (tableIndex < 0) {
-            throw new IllegalArgumentException(ExceptionUtils.exceptionMap.get(ExceptionUtils.TABLE_INDEX_IS_LESS_THAN_0));
+            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.TABLE_INDEX_IS_LESS_THAN_0));
         }
     }
 
     private void assertNullTableName(String tableName) {
         if (StringUtils.isEmpty(tableName)) {
-            throw new IllegalArgumentException(ExceptionUtils.exceptionMap.get(ExceptionUtils.TABLE_NAME_IS_NULL));
+            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.TABLE_NAME_IS_NULL));
         }
     }
 

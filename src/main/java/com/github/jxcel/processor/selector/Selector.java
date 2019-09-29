@@ -67,7 +67,7 @@ public class Selector<T> {
 
     public Selector<T> from(File sourceFile) {
         if (sourceFile == null || !sourceFile.exists()) {
-            throw new IllegalArgumentException(ExceptionUtils.exceptionMap.get(ExceptionUtils.SOURCE_FILE_IS_NULL));
+            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.SOURCE_FILE_IS_NULL));
         }
         this.sourceFile = sourceFile;
         return this;
@@ -75,10 +75,10 @@ public class Selector<T> {
 
     public Selector<T> from(File sourceFile, int tableIndex) {
         if (sourceFile == null || !sourceFile.exists()) {
-            throw new IllegalArgumentException(ExceptionUtils.exceptionMap.get(ExceptionUtils.SOURCE_FILE_IS_NULL));
+            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.SOURCE_FILE_IS_NULL));
         }
         if (tableIndex < 0) {
-            throw new IllegalArgumentException(ExceptionUtils.exceptionMap.get(ExceptionUtils.TABLE_INDEX_IS_LESS_THAN_0));
+            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.TABLE_INDEX_IS_LESS_THAN_0));
         }
         this.sourceFile = sourceFile;
         this.tableIndex = tableIndex;
@@ -87,10 +87,10 @@ public class Selector<T> {
 
     public Selector<T> from(File sourceFile, String tableName) {
         if (sourceFile == null || !sourceFile.exists()) {
-            throw new IllegalArgumentException(ExceptionUtils.exceptionMap.get(ExceptionUtils.SOURCE_FILE_IS_NULL));
+            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.SOURCE_FILE_IS_NULL));
         }
         if (StringUtils.isEmpty(tableName)) {
-            throw new IllegalArgumentException(ExceptionUtils.exceptionMap.get(ExceptionUtils.TABLE_NAME_IS_NULL));
+            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.TABLE_NAME_IS_NULL));
         }
         this.sourceFile = sourceFile;
         this.tableName = tableName;
@@ -104,7 +104,7 @@ public class Selector<T> {
 
     public Selector<T> from(InputStream inputStream, int tableIndex) {
         if (tableIndex < 0) {
-            throw new IllegalArgumentException(ExceptionUtils.exceptionMap.get(ExceptionUtils.TABLE_INDEX_IS_LESS_THAN_0));
+            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.TABLE_INDEX_IS_LESS_THAN_0));
         }
         this.inputStream = inputStream;
         return this;
@@ -112,7 +112,7 @@ public class Selector<T> {
 
     public Selector<T> from(InputStream inputStream, String tableName) {
         if (StringUtils.isEmpty(tableName)) {
-            throw new IllegalArgumentException(ExceptionUtils.exceptionMap.get(ExceptionUtils.TABLE_NAME_IS_NULL));
+            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.TABLE_NAME_IS_NULL));
         }
         this.inputStream = inputStream;
         this.tableName = tableName;
@@ -127,7 +127,7 @@ public class Selector<T> {
 
     public Selector<T> where(int rowStartIndex) {
         if (rowStartIndex < 2) {
-            throw new IllegalArgumentException(ExceptionUtils.exceptionMap.get(ExceptionUtils.ROW_START_INDEX_IS_LESS_THAN_2));
+            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.ROW_START_INDEX_IS_LESS_THAN_2));
         }
         this.rowStartIndex = rowStartIndex;
         this.rowEndIndex = -1;
@@ -136,13 +136,13 @@ public class Selector<T> {
 
     public Selector<T> where(int rowStartIndex, int rowEndIndex) {
         if (rowStartIndex < 2) {
-            throw new IllegalArgumentException(ExceptionUtils.exceptionMap.get(ExceptionUtils.ROW_START_INDEX_IS_LESS_THAN_2));
+            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.ROW_START_INDEX_IS_LESS_THAN_2));
         }
         if (rowEndIndex < 0 && rowEndIndex != -1) {
-            throw new IllegalArgumentException(ExceptionUtils.exceptionMap.get(ExceptionUtils.ROW_END_INDEX_IS_LESS_THAN_0));
+            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.ROW_END_INDEX_IS_LESS_THAN_0));
         }
         if (rowEndIndex < rowStartIndex) {
-            throw new IllegalArgumentException(ExceptionUtils.exceptionMap.get(ExceptionUtils.ROW_END_INDEX_IS_LESS_THAN_ROW_START_INDEX));
+            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.ROW_END_INDEX_IS_LESS_THAN_ROW_START_INDEX));
         }
 
         this.rowStartIndex = rowStartIndex;
@@ -152,11 +152,11 @@ public class Selector<T> {
 
     public Stream<T> toStream() {
         if (clazz == null) {
-            throw new IllegalArgumentException(ExceptionUtils.exceptionMap.get(ExceptionUtils.CLAZZ_IS_NULL));
+            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.CLAZZ_IS_NULL));
         }
 
         if (sourceFile == null && inputStream == null) {
-            throw new IllegalArgumentException(ExceptionUtils.exceptionMap.get(ExceptionUtils.SOURCE_FILE_IS_NULL));
+            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.SOURCE_FILE_IS_NULL));
         }
 
         if (sourceFile != null) {

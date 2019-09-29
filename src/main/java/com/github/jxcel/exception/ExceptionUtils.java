@@ -42,19 +42,19 @@ public class ExceptionUtils {
     public static final int UNSUPPORTED_FILE_TYPE = 109;
     public static final int FILE_NOT_FOUND = 110;
 
-    public static final Map<Integer, String> exceptionMap = new HashMap<Integer, String>();
+    public static final Map<Integer, String> EXCEPTION_MAP = new HashMap<Integer, String>();
 
     static {
-        exceptionMap.put(SOURCE_FILE_IS_NULL, "Source file is null");
-        exceptionMap.put(ROW_START_INDEX_IS_LESS_THAN_2, "Row start row index is less than 2");
-        exceptionMap.put(ROW_END_INDEX_IS_LESS_THAN_0, "Row end index is less than 0");
-        exceptionMap.put(ROW_END_INDEX_IS_LESS_THAN_ROW_START_INDEX, "Row end index is less than row start index");
-        exceptionMap.put(TABLE_INDEX_IS_LESS_THAN_0, "Table index is less than 0");
-        exceptionMap.put(TABLE_NAME_IS_NULL, "Table name is null");
-        exceptionMap.put(CLAZZ_IS_NULL, "Clazz is null");
-        exceptionMap.put(ROW_START_INDEX_IS_LESS_THAN_1, "Row start row index is less than 1");
-        exceptionMap.put(INSERT_DATA_IS_NULL, "Insert data is null");
-        exceptionMap.put(UNSUPPORTED_FILE_TYPE, "Unsupported file type");
-        exceptionMap.put(FILE_NOT_FOUND, "File not found");
+        EXCEPTION_MAP.put(SOURCE_FILE_IS_NULL, "Source file is null");
+        EXCEPTION_MAP.put(ROW_START_INDEX_IS_LESS_THAN_2, "Row start row index is less than 2");
+        EXCEPTION_MAP.put(ROW_END_INDEX_IS_LESS_THAN_0, "Row end index is less than 0");
+        EXCEPTION_MAP.put(ROW_END_INDEX_IS_LESS_THAN_ROW_START_INDEX, "Row end index is less than row start index");
+        EXCEPTION_MAP.put(TABLE_INDEX_IS_LESS_THAN_0, "Table index is less than 0");
+        EXCEPTION_MAP.put(TABLE_NAME_IS_NULL, "Table name is null");
+        EXCEPTION_MAP.put(CLAZZ_IS_NULL, "Clazz is null");
+        EXCEPTION_MAP.put(ROW_START_INDEX_IS_LESS_THAN_1, "Row start row index is less than 1");
+        EXCEPTION_MAP.put(INSERT_DATA_IS_NULL, "Insert data is null");
+        EXCEPTION_MAP.put(UNSUPPORTED_FILE_TYPE, "Unsupported file type");
+        EXCEPTION_MAP.put(FILE_NOT_FOUND, "File not found");
     }
 }
