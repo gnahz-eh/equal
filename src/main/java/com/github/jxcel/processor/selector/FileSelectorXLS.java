@@ -24,8 +24,12 @@
 
 package com.github.jxcel.processor.selector;
 
-import org.apache.poi.ss.usermodel.Workbook;
+import com.github.jxcel.exception.JxcelException;
+import com.github.jxcel.processor.adapter.Adapter;
+import com.github.jxcel.utils.StringUtils;
+import org.apache.poi.ss.usermodel.*;
 
+import java.lang.reflect.Field;
 import java.util.stream.Stream;
 
 public class FileSelectorXLS extends FileSelector {
@@ -36,6 +40,54 @@ public class FileSelectorXLS extends FileSelector {
 
     @Override
     public <T> Stream<T> selectFromFile(Selector selector) {
-        return null;
+        Stream.Builder<T> builder = Stream.builder();
+        Class clazz = selector.getClazz();
+        try {
+            init(clazz.getDeclaredFields());
+            Sheet table = getTable(selector);
+
+            int rowStartIndex = selector.getRowStartIndex();
+            int rowEndIndex = selector.getRowEndIndex();
+            int rows = table.getPhysicalNumberOfRows();
+            if (rowEndIndex != -1 && (rowEndIndex - rowStartIndex + 1) < rows) {
+                rows = rowEndIndex - rowStartIndex + 2;
+            }
+
+            for (int i = 0; i < rows; i++) {
+                if (i < rowStartIndex - 1) {
+                    continue;
+                }
+                Row row = table.getRow(i);
+                if (row == null) {
+                    continue;
+                }
+                Object obj = clazz.newInstance();
+                for (Field field : fieldIndexes.values()) {
+                    setField(field, row, obj);
+                }
+                builder.add((T) obj);
+            }
+            return builder.build();
+        } catch (Exception e) {
+            throw new JxcelException(e);
+        }
+    }
+
+    @Override
+    public Object getCellValue(Cell cell, Field field) throws JxcelException {
+        Adapter<String, ?> adapter = fieldAdapters.get(field);
+        if (adapter == null) {
+            return cell.getStringCellValue();
+        }
+        if (cell.getCellType() != CellType.NUMERIC) {
+            return adapter.fromString(cell.getStringCellValue());
+        }
+        return adapter.fromString(cell.getNumericCellValue() + "");
+    }
+
+    public Sheet getTable(Selector selector) {
+        return StringUtils.isNotEmpty(selector.getTableName()) ?
+                workbook.getSheet(selector.getTableName()) :
+                workbook.getSheetAt(selector.getTableIndex());
     }
 }

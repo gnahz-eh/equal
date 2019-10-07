@@ -44,6 +44,12 @@ public class AdapterFactory {
         ADAPTER_MAP.put(Long.class, new LongAdapter());
         ADAPTER_MAP.put(Float.class, new FloatAdapter());
         ADAPTER_MAP.put(Double.class, new DoubleAdapter());
+        ADAPTER_MAP.put(int.class, new IntegerAdapter());
+        ADAPTER_MAP.put(byte.class, new ByteAdapter());
+        ADAPTER_MAP.put(short.class, new ShortAdapter());
+        ADAPTER_MAP.put(long.class, new LongAdapter());
+        ADAPTER_MAP.put(float.class, new FloatAdapter());
+        ADAPTER_MAP.put(double.class, new DoubleAdapter());
         ADAPTER_MAP.put(BigDecimal.class, new BigDecimalAdapter());
         ADAPTER_MAP.put(BigInteger.class, new BigIntegerAdapter());
         ADAPTER_MAP.put(Boolean.class, new BooleanAdapter());
