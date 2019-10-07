@@ -27,6 +27,8 @@ package com.github.jxcel.processor.adapter;
 import com.github.jxcel.annotation.Column;
 
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,6 +38,15 @@ public class AdapterFactory {
 
     static {
         ADAPTER_MAP.put(String.class, new StringAdapter());
+        ADAPTER_MAP.put(Integer.class, new IntegerAdapter());
+        ADAPTER_MAP.put(Byte.class, new ByteAdapter());
+        ADAPTER_MAP.put(Short.class, new ShortAdapter());
+        ADAPTER_MAP.put(Long.class, new LongAdapter());
+        ADAPTER_MAP.put(Float.class, new FloatAdapter());
+        ADAPTER_MAP.put(Double.class, new DoubleAdapter());
+        ADAPTER_MAP.put(BigDecimal.class, new BigDecimalAdapter());
+        ADAPTER_MAP.put(BigInteger.class, new BigIntegerAdapter());
+        ADAPTER_MAP.put(Boolean.class, new BooleanAdapter());
     }
 
     public static Adapter getInstance(Field field) throws Exception {
