@@ -53,16 +53,8 @@ public class Selector<T> {
         this.clazz = clazz;
     }
 
-    public static <S> Selector select(Class<S> clazz) {
+    public static <T> Selector select(Class<T> clazz) {
         return new Selector<>(clazz);
-    }
-
-    public static <S> Selector<S> select(Class<S> clazz, File sourceFile) {
-        return new Selector<>(clazz).from(sourceFile);
-    }
-
-    public static <S> Selector<S> select(Class<S> clazz, InputStream inputStream) {
-        return new Selector<>(clazz).from(inputStream);
     }
 
     public Selector<T> from(File sourceFile) {
@@ -150,7 +142,7 @@ public class Selector<T> {
         return this;
     }
 
-    public Stream<T> toStream() {
+    private Stream<T> toStream() {
         if (clazz == null) {
             throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.CLAZZ_IS_NULL));
         }
@@ -172,7 +164,7 @@ public class Selector<T> {
         }
     }
 
-    public List<T> toLists() throws JxcelException {
+    public List<T> executeQuery() throws JxcelException {
         toStream();
         return this.returnStream.collect(Collectors.toList());
     }

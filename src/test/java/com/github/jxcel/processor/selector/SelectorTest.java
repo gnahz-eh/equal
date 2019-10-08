@@ -43,7 +43,7 @@ class SelectorTest {
                                 .select(Student.class)
                                 .from(new File("src/test/resources/Student.xls"))
                                 .where(rowStartIndex, rowEndIndex)
-                                .toLists();
+                                .executeQuery();
         assertEquals(students.size(), rowEndIndex - rowStartIndex + 1);
     }
 }
