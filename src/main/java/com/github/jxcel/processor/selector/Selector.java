@@ -30,6 +30,8 @@ import com.github.jxcel.utils.StringUtils;
 
 import java.io.File;
 import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -45,6 +47,7 @@ public class Selector<T> {
     private int rowStartIndex = 2;
     private int numberOfRows = 0;
     private Stream<T> returnStream;
+    private Charset charset = StandardCharsets.UTF_8;;
 
     /**
      * Construction method
@@ -198,5 +201,13 @@ public class Selector<T> {
 
     public int getNumberOfRows() {
         return numberOfRows;
+    }
+
+    public Charset getCharset() {
+        return charset;
+    }
+
+    public void setCharset(Charset charset) {
+        this.charset = charset;
     }
 }

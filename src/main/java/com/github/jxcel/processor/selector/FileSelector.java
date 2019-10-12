@@ -72,20 +72,6 @@ public abstract class FileSelector {
         }
     }
 
-    public void setField(Field field, Row row, Object obj) throws JxcelException {
-        Column column = field.getAnnotation(Column.class);
-        Cell cell = row.getCell(column.index());
-        if (cell == null) {
-            return;
-        }
-        try {
-            Object value = getCellValue(cell, field);
-            field.set(obj, value);
-        } catch (Exception e) {
-            throw new JxcelException(e);
-        }
-    }
-
     public Object getCellValue(Cell cell, Field field) throws JxcelException {
         return cell.getStringCellValue();
     }

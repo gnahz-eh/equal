@@ -24,6 +24,7 @@
 
 package com.github.jxcel.processor.selector;
 
+import com.github.jxcel.annotation.Column;
 import com.github.jxcel.exception.JxcelException;
 import com.github.jxcel.processor.adapter.Adapter;
 import com.github.jxcel.utils.StringUtils;
@@ -39,7 +40,7 @@ public class FileSelectorXLS extends FileSelector {
     }
 
     @Override
-    public <T> Stream<T> selectFromFile(Selector selector) {
+    public <T> Stream<T> selectFromFile(Selector selector) throws JxcelException {
         Stream.Builder<T> builder = Stream.builder();
         Class clazz = selector.getClazz();
         try {
@@ -88,5 +89,19 @@ public class FileSelectorXLS extends FileSelector {
         return StringUtils.isNotEmpty(selector.getTableName()) ?
                 workbook.getSheet(selector.getTableName()) :
                 workbook.getSheetAt(selector.getTableIndex());
+    }
+
+    private void setField(Field field, Row row, Object obj) throws JxcelException {
+        Column column = field.getAnnotation(Column.class);
+        Cell cell = row.getCell(column.index());
+        if (cell == null) {
+            return;
+        }
+        try {
+            Object value = getCellValue(cell, field);
+            field.set(obj, value);
+        } catch (Exception e) {
+            throw new JxcelException(e);
+        }
     }
 }
