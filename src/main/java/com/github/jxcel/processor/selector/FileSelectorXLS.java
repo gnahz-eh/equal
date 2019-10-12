@@ -47,11 +47,8 @@ public class FileSelectorXLS extends FileSelector {
             Sheet table = getTable(selector);
 
             int rowStartIndex = selector.getRowStartIndex();
-            int rowEndIndex = selector.getRowEndIndex();
+            int numberOfRows = selector.getNumberOfRows();
             int rows = table.getPhysicalNumberOfRows();
-            if (rowEndIndex != -1 && (rowEndIndex - rowStartIndex + 1) < rows) {
-                rows = rowEndIndex - rowStartIndex + 2;
-            }
 
             for (int i = 0; i < rows; i++) {
                 if (i < rowStartIndex - 1) {
@@ -66,6 +63,8 @@ public class FileSelectorXLS extends FileSelector {
                     setField(field, row, obj);
                 }
                 builder.add((T) obj);
+                numberOfRows--;
+                if (numberOfRows == 0) break;
             }
             return builder.build();
         } catch (Exception e) {

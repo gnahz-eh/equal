@@ -32,7 +32,7 @@ public class ExceptionUtils {
     // Selector
     public static final int SOURCE_FILE_IS_NULL = 100;
     public static final int ROW_START_INDEX_IS_LESS_THAN_2 = 101;
-    public static final int ROW_END_INDEX_IS_LESS_THAN_0 = 102;
+    public static final int NUMBER_OF_ROW_IS_LESS_THAN_0 = 102;
     public static final int ROW_END_INDEX_IS_LESS_THAN_ROW_START_INDEX = 103;
     public static final int TABLE_INDEX_IS_LESS_THAN_0 = 104;
     public static final int TABLE_NAME_IS_NULL = 105;
@@ -48,7 +48,7 @@ public class ExceptionUtils {
     static {
         EXCEPTION_MAP.put(SOURCE_FILE_IS_NULL, "Source file is null");
         EXCEPTION_MAP.put(ROW_START_INDEX_IS_LESS_THAN_2, "Row start row index is less than 2");
-        EXCEPTION_MAP.put(ROW_END_INDEX_IS_LESS_THAN_0, "Row end index is less than 0");
+        EXCEPTION_MAP.put(NUMBER_OF_ROW_IS_LESS_THAN_0, "Number of row is less than 0");
         EXCEPTION_MAP.put(ROW_END_INDEX_IS_LESS_THAN_ROW_START_INDEX, "Row end index is less than row start index");
         EXCEPTION_MAP.put(TABLE_INDEX_IS_LESS_THAN_0, "Table index is less than 0");
         EXCEPTION_MAP.put(TABLE_NAME_IS_NULL, "Table name is null");

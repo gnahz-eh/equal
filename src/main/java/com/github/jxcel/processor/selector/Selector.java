@@ -43,7 +43,7 @@ public class Selector<T> {
     private Class<T> clazz;
     private int tableIndex = 0;
     private int rowStartIndex = 2;
-    private int rowEndIndex = -1;
+    private int numberOfRows = 0;
     private Stream<T> returnStream;
 
     /**
@@ -113,7 +113,7 @@ public class Selector<T> {
 
     public Selector<T> where() {
         this.rowStartIndex = 2;
-        this.rowEndIndex = -1;
+        this.numberOfRows = 0;
         return this;
     }
 
@@ -122,23 +122,19 @@ public class Selector<T> {
             throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.ROW_START_INDEX_IS_LESS_THAN_2));
         }
         this.rowStartIndex = rowStartIndex;
-        this.rowEndIndex = -1;
+        this.numberOfRows = 1;
         return this;
     }
 
-    public Selector<T> where(int rowStartIndex, int rowEndIndex) {
+    public Selector<T> where(int rowStartIndex, int numberOfRows) {
         if (rowStartIndex < 2) {
             throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.ROW_START_INDEX_IS_LESS_THAN_2));
         }
-        if (rowEndIndex < 0 && rowEndIndex != -1) {
-            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.ROW_END_INDEX_IS_LESS_THAN_0));
+        if (numberOfRows < 0) {
+            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.NUMBER_OF_ROW_IS_LESS_THAN_0));
         }
-        if (rowEndIndex < rowStartIndex) {
-            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.ROW_END_INDEX_IS_LESS_THAN_ROW_START_INDEX));
-        }
-
         this.rowStartIndex = rowStartIndex;
-        this.rowEndIndex = rowEndIndex;
+        this.numberOfRows = numberOfRows;
         return this;
     }
 
@@ -200,7 +196,7 @@ public class Selector<T> {
         return rowStartIndex;
     }
 
-    public int getRowEndIndex() {
-        return rowEndIndex;
+    public int getNumberOfRows() {
+        return numberOfRows;
     }
 }

@@ -37,13 +37,13 @@ class SelectorTest {
 
     @Test
     void selectXLS() throws JxcelException {
-        int rowStartIndex = 2;
-        int rowEndIndex = 36;
+        int rowStartIndex = 4;
+        int numOfRows = 2;
         List<Student> students = Selector
                                 .select(Student.class)
                                 .from(new File("src/test/resources/Student.xls"))
-                                .where(rowStartIndex, rowEndIndex)
+                                .where(rowStartIndex, numOfRows)
                                 .executeQuery();
-        assertEquals(students.size(), rowEndIndex - rowStartIndex + 1);
+        assertEquals(students.size(), numOfRows);
     }
 }
