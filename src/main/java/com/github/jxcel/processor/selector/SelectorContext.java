@@ -42,11 +42,9 @@ public class SelectorContext {
     public static <T> Stream<T> selectFromFile(Selector selector) throws JxcelException {
         FileType fileType = getFileTypeBySourceFile(selector.getSourceFile());
         switch (fileType) {
+            case XLSX:
             case XLS:
                 fileSelector = new FileSelectorXLS(getWorkbook(selector.getSourceFile()));
-                break;
-            case XLSX:
-                fileSelector = new FileSelectorXLSX(getWorkbook(selector.getSourceFile()));
                 break;
             case CSV:
                 try {
@@ -70,11 +68,9 @@ public class SelectorContext {
         }
         FileType fileType = getFileTypeByInputStream(selector.getInputStream());
         switch (fileType) {
+            case XLSX:
             case XLS:
                 fileSelector = new FileSelectorXLS(getWorkbook(new ByteArrayInputStream(bytes)));
-                break;
-            case XLSX:
-                fileSelector = new FileSelectorXLSX(getWorkbook(new ByteArrayInputStream(bytes)));
                 break;
             case CSV:
                 fileSelector = new FileSelectorCSV(new ByteArrayInputStream(bytes));
@@ -158,6 +154,7 @@ public class SelectorContext {
             outputStream.write(buffer, 0, n);
         }
         outputStream.flush();
+        outputStream.close();
         return outputStream.toByteArray();
     }
 }

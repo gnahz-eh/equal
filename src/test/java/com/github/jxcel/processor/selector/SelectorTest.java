@@ -58,4 +58,16 @@ class SelectorTest {
                 .executeQuery();
         assertEquals(students.size(), numOfRows);
     }
+
+    @Test
+    void selectXLSX() throws JxcelException {
+        int rowStartIndex = 2;
+        int numOfRows = 2;
+        List<Student> students = Selector
+                .select(Student.class)
+                .from(new File("src/test/resources/Student.xlsx"))
+                .where(rowStartIndex, numOfRows)
+                .executeQuery();
+        assertEquals(students.size(), numOfRows);
+    }
 }

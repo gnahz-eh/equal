@@ -30,7 +30,6 @@ import com.github.jxcel.processor.adapter.Adapter;
 import com.github.jxcel.processor.adapter.AdapterFactory;
 import com.github.jxcel.processor.adapter.NullAdapter;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
 
 import java.lang.reflect.Field;
