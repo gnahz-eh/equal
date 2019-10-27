@@ -44,11 +44,11 @@ public class SelectorContext {
         switch (fileType) {
             case XLSX:
             case XLS:
-                fileSelector = new FileSelectorXLS(getWorkbook(selector.getSourceFile()));
+                fileSelector = new XLSSelector(getWorkbook(selector.getSourceFile()));
                 break;
             case CSV:
                 try {
-                    fileSelector = new FileSelectorCSV(new FileInputStream(selector.getSourceFile()));
+                    fileSelector = new CSVSelector(new FileInputStream(selector.getSourceFile()));
                 } catch (FileNotFoundException e) {
                     throw new JxcelException(ExceptionUtils.FILE_NOT_FOUND, selector.getSourceFile().getName(), e);
                 }
@@ -70,10 +70,10 @@ public class SelectorContext {
         switch (fileType) {
             case XLSX:
             case XLS:
-                fileSelector = new FileSelectorXLS(getWorkbook(new ByteArrayInputStream(bytes)));
+                fileSelector = new XLSSelector(getWorkbook(new ByteArrayInputStream(bytes)));
                 break;
             case CSV:
-                fileSelector = new FileSelectorCSV(new ByteArrayInputStream(bytes));
+                fileSelector = new CSVSelector(new ByteArrayInputStream(bytes));
                 break;
             default:
                 throw new JxcelException(ExceptionUtils.UNSUPPORTED_FILE_TYPE);

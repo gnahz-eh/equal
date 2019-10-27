@@ -27,41 +27,41 @@ package com.github.jxcel.processor.selector;
 import com.github.jxcel.annotation.Column;
 import com.github.jxcel.exception.JxcelException;
 import com.github.jxcel.processor.adapter.Adapter;
+import com.github.jxcel.utils.StringUtils;
+import org.apache.poi.ss.usermodel.*;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.util.stream.Stream;
 
-public class FileSelectorCSV extends FileSelector {
+public class XLSSelector extends FileSelector {
 
-    private InputStream inputStream;
-
-    public FileSelectorCSV(InputStream inputStream) {
-        this.inputStream = inputStream;
+    public XLSSelector(Workbook workbook) {
+        this.workbook = workbook;
     }
 
     @Override
     public <T> Stream<T> selectFromFile(Selector selector) throws JxcelException {
         Stream.Builder<T> builder = Stream.builder();
         Class clazz = selector.getClazz();
-        try (BufferedReader bufferedReader = new BufferedReader(
-                new InputStreamReader(inputStream, selector.getCharset()))) {
-
+        try {
             init(clazz.getDeclaredFields());
+            Sheet table = getTable(selector);
+
             int rowStartIndex = selector.getRowStartIndex();
             int numberOfRows = selector.getNumberOfRows();
-            String line = null;
+            int rows = table.getPhysicalNumberOfRows();
 
-            while ((line = bufferedReader.readLine()) != null) {
-                if (rowStartIndex-- > 1) {
+            for (int i = 0; i < rows; i++) {
+                if (i < rowStartIndex - 1) {
+                    continue;
+                }
+                Row row = table.getRow(i);
+                if (row == null) {
                     continue;
                 }
                 Object obj = clazz.newInstance();
-                String[] items = line.split(",");
                 for (Field field : fieldIndexes.values()) {
-                    setField(field, items, obj);
+                    setField(field, row, obj);
                 }
                 builder.add((T) obj);
                 numberOfRows--;
@@ -73,14 +73,32 @@ public class FileSelectorCSV extends FileSelector {
         }
     }
 
-    public void setField(Field field, String[] items, Object obj) throws JxcelException {
+    @Override
+    public Object getCellValue(Cell cell, Field field) throws JxcelException {
+        Adapter<String, ?> adapter = fieldAdapters.get(field);
+        if (adapter == null) {
+            return cell.getStringCellValue();
+        }
+        if (cell.getCellType() != CellType.NUMERIC) {
+            return adapter.fromString(cell.getStringCellValue());
+        }
+        return adapter.fromString(cell.getNumericCellValue() + "");
+    }
+
+    public Sheet getTable(Selector selector) {
+        return StringUtils.isNotEmpty(selector.getTableName()) ?
+                workbook.getSheet(selector.getTableName()) :
+                workbook.getSheetAt(selector.getTableIndex());
+    }
+
+    private void setField(Field field, Row row, Object obj) throws JxcelException {
         Column column = field.getAnnotation(Column.class);
+        Cell cell = row.getCell(column.index());
+        if (cell == null) {
+            return;
+        }
         try {
-            Object value = items[column.index()];
-            Adapter<String, ?> adapter = fieldAdapters.get(field);
-            if (adapter != null) {
-                value = adapter.fromString((String) value);
-            }
+            Object value = getCellValue(cell, field);
             field.set(obj, value);
         } catch (Exception e) {
             throw new JxcelException(e);
