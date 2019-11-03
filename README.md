@@ -1,2 +1,2 @@
 # Equal
-Reading **e**xcel files in a s**q**l style and ret**u**rn **a**n object **l**ist as result.
+Reading **E**xcel files in a s**Q**l style and ret**U**rn **A**n object **L**ist as result.
