@@ -28,7 +28,6 @@ import com.github.jxcel.annotation.Column;
 import com.github.jxcel.exception.JxcelException;
 import com.github.jxcel.processor.adapter.Adapter;
 import com.github.jxcel.processor.adapter.AdapterFactory;
-import com.github.jxcel.processor.adapter.NullAdapter;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Workbook;
 
@@ -60,11 +59,7 @@ public abstract class FileSelector {
             fieldIndexes.put(column.index(), field);
 
             Adapter adapter = null;
-            if (NullAdapter.class.equals(column.adapter())) {
-                adapter = AdapterFactory.getInstance(field);
-            } else {
-                adapter = column.adapter().newInstance();
-            }
+            adapter = AdapterFactory.getInstance(field);
             if (adapter != null) {
                 fieldAdapters.put(field, adapter);
             }

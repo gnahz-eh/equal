@@ -5,10 +5,10 @@
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
+ * in the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+ * of the Software, and to permit persons to whom the Software is furnished
+ *  to do so, subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
@@ -30,7 +30,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class Student {
+public class Student2 {
 
     @Column(name = "name", index = 0)
     private String name;
@@ -44,14 +44,14 @@ public class Student {
     @Column(name="hobby", index = 3)
     private String hobby;
 
-    @Column(name = "birth", index = 4)
+    @Column(name = "birth", index = 4, datePattern = "yyyy.MM.dd")
     private Date birthDate;
 
-    public Student() {
+    public Student2() {
 
     }
 
-    public Student(String name, String sex, int classNumber, String hobby) {
+    public Student2(String name, String sex, int classNumber, String hobby) {
         this.name = name;
         this.sex = sex;
         this.classNumber = classNumber;

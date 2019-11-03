@@ -25,6 +25,7 @@
 package com.github.jxcel.processor.selector;
 
 import com.github.jxcel.bean.Student;
+import com.github.jxcel.bean.Student2;
 import com.github.jxcel.exception.JxcelException;
 import org.junit.jupiter.api.Test;
 
@@ -66,6 +67,18 @@ class SelectorTest {
         List<Student> students = Selector
                 .select(Student.class)
                 .from(new File("src/test/resources/Student.xlsx"))
+                .where(rowStartIndex, numOfRows)
+                .executeQuery();
+        assertEquals(students.size(), numOfRows);
+    }
+
+    @Test
+    void selectCSVWithDatePattern() throws JxcelException {
+        int rowStartIndex = 2;
+        int numOfRows = 5;
+        List<Student2> students = Selector
+                .select(Student2.class)
+                .from(new File("src/test/resources/Student3.csv"))
                 .where(rowStartIndex, numOfRows)
                 .executeQuery();
         assertEquals(students.size(), numOfRows);

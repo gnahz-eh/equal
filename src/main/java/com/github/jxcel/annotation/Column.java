@@ -41,4 +41,6 @@ public @interface Column {
     String name() default "";
 
     Class<? extends Adapter> adapter() default NullAdapter.class;
+
+    String datePattern() default "";
 }

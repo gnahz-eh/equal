@@ -31,6 +31,7 @@ import com.github.jxcel.utils.StringUtils;
 import org.apache.poi.ss.usermodel.*;
 
 import java.lang.reflect.Field;
+import java.util.Date;
 import java.util.stream.Stream;
 
 public class XLSSelector extends FileSelector {
@@ -81,6 +82,9 @@ public class XLSSelector extends FileSelector {
         }
         if (cell.getCellType() != CellType.NUMERIC) {
             return adapter.fromString(cell.getStringCellValue());
+        }
+        if (field.getType().equals(Date.class)) {
+            return DateUtil.getJavaDate(cell.getNumericCellValue());
         }
         return adapter.fromString(cell.getNumericCellValue() + "");
     }

@@ -29,6 +29,7 @@ import com.github.jxcel.annotation.Column;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,6 +54,7 @@ public class AdapterFactory {
         ADAPTER_MAP.put(BigDecimal.class, new BigDecimalAdapter());
         ADAPTER_MAP.put(BigInteger.class, new BigIntegerAdapter());
         ADAPTER_MAP.put(Boolean.class, new BooleanAdapter());
+        ADAPTER_MAP.put(Date.class, new DateAdapter("yyyy/MM/dd"));
     }
 
     public static Adapter getInstance(Field field) throws Exception {
@@ -60,7 +62,10 @@ public class AdapterFactory {
         Class fieldType = field.getType();
         Column column = field.getAnnotation(Column.class);
 
-        if (null != column && !NullAdapter.class.equals(column.adapter())) {
+        if (fieldType.equals(Date.class)) {
+            return new DateAdapter(column.datePattern());
+        }
+        if (!NullAdapter.class.equals(column.adapter())) {
             return column.adapter().newInstance();
         }
         return ADAPTER_MAP.get(fieldType);
