@@ -26,6 +26,7 @@ package com.github.equal.processor.selector;
 
 import com.github.equal.bean.Student;
 import com.github.equal.bean.Student2;
+import com.github.equal.bean.Student3;
 import com.github.equal.exception.EqualException;
 import org.junit.jupiter.api.Test;
 
@@ -78,7 +79,67 @@ class SelectorTest {
         int numOfRows = 5;
         List<Student2> students = Selector
                 .select(Student2.class)
+                .from(new File("src/test/resources/Student2.csv"))
+                .where(rowStartIndex, numOfRows)
+                .executeQuery();
+        assertEquals(students.size(), numOfRows);
+    }
+
+    @Test
+    void selectXLSWithDatePattern() throws EqualException {
+        int rowStartIndex = 2;
+        int numOfRows = 5;
+        List<Student2> students = Selector
+                .select(Student2.class)
+                .from(new File("src/test/resources/Student2.xls"))
+                .where(rowStartIndex, numOfRows)
+                .executeQuery();
+        assertEquals(students.size(), numOfRows);
+    }
+
+    @Test
+    void selectXLSXWithDatePattern() throws EqualException {
+        int rowStartIndex = 2;
+        int numOfRows = 5;
+        List<Student2> students = Selector
+                .select(Student2.class)
+                .from(new File("src/test/resources/Student2.xlsx"))
+                .where(rowStartIndex, numOfRows)
+                .executeQuery();
+        assertEquals(students.size(), numOfRows);
+    }
+
+    @Test
+    void selectCSVWithDateAndTimePattern() throws EqualException {
+        int rowStartIndex = 2;
+        int numOfRows = 5;
+        List<Student3> students = Selector
+                .select(Student3.class)
                 .from(new File("src/test/resources/Student3.csv"))
+                .where(rowStartIndex, numOfRows)
+                .executeQuery();
+        assertEquals(students.size(), numOfRows);
+    }
+
+    @Test
+    void selectXLSWithDateAndTimePattern() throws EqualException {
+        int rowStartIndex = 2;
+        int numOfRows = 5;
+        List<Student3> students = Selector
+                .select(Student3.class)
+                .from(new File("src/test/resources/Student3.xls"))
+                .where(rowStartIndex, numOfRows)
+                .executeQuery();
+        assertEquals(students.size(), numOfRows);
+    }
+
+    @Test
+    void selectXLSXWithDateAndTimePattern() throws EqualException {
+        int rowStartIndex = 2;
+        int numOfRows = 5;
+        List<Student3> students = Selector
+                .select(Student3.class)
+                .from(new File("src/test/resources/Student3.xlsx"))
                 .where(rowStartIndex, numOfRows)
                 .executeQuery();
         assertEquals(students.size(), numOfRows);

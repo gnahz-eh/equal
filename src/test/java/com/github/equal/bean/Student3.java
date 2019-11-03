@@ -30,7 +30,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class Student2 {
+public class Student3 {
 
     @Column(name = "name", index = 0)
     private String name;
@@ -44,14 +44,14 @@ public class Student2 {
     @Column(name="hobby", index = 3)
     private String hobby;
 
-    @Column(name = "birth", index = 4, datePattern = "yyyy/MM/dd")
+    @Column(name = "birth", index = 4, datePattern = "yyyy/MM/dd HH:mm:ss")
     private Date birthDate;
 
-    public Student2() {
+    public Student3() {
 
     }
 
-    public Student2(String name, String sex, int classNumber, String hobby, Date birthDate) {
+    public Student3(String name, String sex, int classNumber, String hobby, Date birthDate) {
         this.name = name;
         this.sex = sex;
         this.classNumber = classNumber;
