@@ -25,11 +25,12 @@
 package com.github.equal.processor.adapter;
 
 import com.github.equal.annotation.Column;
+import com.github.equal.exception.EqualException;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,20 +55,24 @@ public class AdapterFactory {
         ADAPTER_MAP.put(BigDecimal.class, new BigDecimalAdapter());
         ADAPTER_MAP.put(BigInteger.class, new BigIntegerAdapter());
         ADAPTER_MAP.put(Boolean.class, new BooleanAdapter());
-        ADAPTER_MAP.put(Date.class, new DateAdapter("yyyy/MM/dd"));
+        ADAPTER_MAP.put(LocalDate.class, new DateAdapter("yyyy/MM/dd"));
     }
 
-    public static Adapter getInstance(Field field) throws Exception {
+    public static Adapter getInstance(Field field) throws EqualException {
         if (field == null) return null;
         Class fieldType = field.getType();
         Column column = field.getAnnotation(Column.class);
 
-        if (fieldType.equals(Date.class)) {
+        if (fieldType.equals(LocalDate.class)) {
             return new DateAdapter(column.datePattern());
         }
-        if (!NullAdapter.class.equals(column.adapter())) {
-            return column.adapter().newInstance();
+        try {
+            if (!NullAdapter.class.equals(column.adapter())) {
+                return column.adapter().newInstance();
+            }
+            return ADAPTER_MAP.get(fieldType);
+        } catch (Exception e) {
+            throw new EqualException(e);
         }
-        return ADAPTER_MAP.get(fieldType);
     }
 }

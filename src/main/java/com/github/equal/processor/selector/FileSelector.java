@@ -44,7 +44,7 @@ public abstract class FileSelector {
 
     public abstract <T>Stream<T> selectFromFile(Selector selector);
 
-    public void init(Field[] fields) throws Exception {
+    public void init(Field[] fields) throws EqualException {
         fieldIndexes = new HashMap<>(fields.length);
         fieldAdapters = new HashMap<>();
 
@@ -53,8 +53,6 @@ public abstract class FileSelector {
             if (column == null) {
                 continue;
             }
-            // Cancel Java language access check
-            // Turn off the security check to achieve the purpose of increasing the reflection speed
             field.setAccessible(true);
             fieldIndexes.put(column.index(), field);
 

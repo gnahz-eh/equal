@@ -42,6 +42,7 @@ public class ExceptionUtils {
     public static final int UNSUPPORTED_FILE_TYPE = 109;
     public static final int FILE_NOT_FOUND = 110;
     public static final int ADAPT_VALUE_ERROR = 111;
+    public static final int ADAPT_DATE_ERROR = 112;
 
     public static final Map<Integer, String> EXCEPTION_MAP = new HashMap<Integer, String>();
 
@@ -58,5 +59,6 @@ public class ExceptionUtils {
         EXCEPTION_MAP.put(UNSUPPORTED_FILE_TYPE, "Unsupported file type");
         EXCEPTION_MAP.put(FILE_NOT_FOUND, "File not found");
         EXCEPTION_MAP.put(ADAPT_VALUE_ERROR, "Adapt value error");
+        EXCEPTION_MAP.put(ADAPT_DATE_ERROR, "Adapt date error");
     }
 }

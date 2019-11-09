@@ -25,45 +25,57 @@
 package com.github.equal.processor.adapter;
 
 import com.github.equal.exception.EqualException;
+import com.github.equal.exception.ExceptionUtils;
 import com.github.equal.utils.StringUtils;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.Year;
+import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
-public class DateAdapter implements Adapter<String, Date> {
+public class DateAdapter implements Adapter<String, LocalDate> {
 
-    private DateFormat dateFormat;
+    private DateTimeFormatter dateTimeFormatter;
 
     public DateAdapter(String datePattern) {
         if (StringUtils.isNotEmpty(datePattern)) {
-            this.dateFormat = new SimpleDateFormat(datePattern);
+            this.dateTimeFormatter = DateTimeFormatter.ofPattern(datePattern);
         } else {
-            this.dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+            this.dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         }
     }
 
     @Override
-    public Date fromString(String str) throws EqualException {
+    public LocalDate fromString(String str) throws EqualException {
         try {
             if (str == null) {
                 return null;
             }
-            return dateFormat.parse(str);
-        } catch (Exception e) {
+            return LocalDate.parse(str, dateTimeFormatter);
+        } catch (DateTimeParseException e) {
+            try {
+                YearMonth yearMonth = YearMonth.parse(str, dateTimeFormatter);
+                return yearMonth.atDay(1);
+            } catch (DateTimeParseException e1) {
+                try {
+                    Year year = Year.parse(str, dateTimeFormatter);
+                    return year.atMonth(Month.JANUARY).atDay(1);
+                } catch (DateTimeParseException e2) {
+                    throw new EqualException(ExceptionUtils.ADAPT_DATE_ERROR, e2.getMessage());
+                }
+            }
+        } catch (EqualException e) {
             throw new EqualException(e);
         }
     }
 
     @Override
-    public String toString(Date date) throws EqualException {
-        try {
-            if (date == null) {
-                return null;
-            }
-            return dateFormat.format(date);
-        } catch (Exception e) {
-            throw new EqualException(e);
+    public String toString(LocalDate date) throws EqualException {
+        if (date == null) {
+            return null;
         }
+        return date.format(dateTimeFormatter);
     }
 }

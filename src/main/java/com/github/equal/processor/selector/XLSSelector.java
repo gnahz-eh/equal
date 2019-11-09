@@ -27,10 +27,13 @@ package com.github.equal.processor.selector;
 import com.github.equal.annotation.Column;
 import com.github.equal.exception.EqualException;
 import com.github.equal.processor.adapter.Adapter;
+import com.github.equal.utils.DateUtils;
 import com.github.equal.utils.StringUtils;
 import org.apache.poi.ss.usermodel.*;
 
 import java.lang.reflect.Field;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.stream.Stream;
 
@@ -83,8 +86,11 @@ public class XLSSelector extends FileSelector {
         if (cell.getCellType() != CellType.NUMERIC) {
             return adapter.fromString(cell.getStringCellValue());
         }
-        if (field.getType().equals(Date.class)) {
-            return DateUtil.getJavaDate(cell.getNumericCellValue());
+        if (DateUtils.isDateOrTime(field.getType())) {
+            Date date = DateUtil.getJavaDate(cell.getNumericCellValue());
+            if (field.getType().equals(LocalDate.class)) {
+                return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            }
         }
         return adapter.fromString(cell.getNumericCellValue() + "");
     }

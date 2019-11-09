@@ -22,40 +22,17 @@
  * SOFTWARE.
  */
 
-package com.github.equal.bean;
-
-import com.github.equal.annotation.Column;
-import lombok.Data;
+package com.github.equal.utils;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
-@Data
-public class Student2 {
+public class DateUtils {
 
-    @Column(name = "name", index = 0)
-    private String name;
-
-    @Column(name = "sex", index = 1)
-    private String sex;
-
-    @Column(name="classNumber", index = 2)
-    private int classNumber;
-
-    @Column(name="hobby", index = 3)
-    private String hobby;
-
-    @Column(name = "birth", index = 4, datePattern = "yyyy/MM/dd")
-    private LocalDate birthDate;
-
-    public Student2() {
-
-    }
-
-    public Student2(String name, String sex, int classNumber, String hobby, LocalDate birthDate) {
-        this.name = name;
-        this.sex = sex;
-        this.classNumber = classNumber;
-        this.hobby = hobby;
-        this.birthDate = birthDate;
+    public static boolean isDateOrTime(Class<?> clazz) {
+        return LocalDate.class.equals(clazz) ||
+                LocalDateTime.class.equals(clazz) ||
+                LocalTime.class.equals(clazz);
     }
 }
