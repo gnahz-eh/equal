@@ -40,7 +40,7 @@ public class TimeAdapter implements Adapter<String, LocalTime> {
         if (StringUtils.isNotEmpty(timePattern)) {
             this.dateTimeFormatter = DateTimeFormatter.ofPattern(timePattern);
         } else {
-            this.dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+            this.dateTimeFormatter = DateTimeFormatter.ofPattern(StringUtils.TIME_PATTERN);
         }
     }
 

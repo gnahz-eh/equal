@@ -33,6 +33,7 @@ import org.apache.poi.ss.usermodel.*;
 
 import java.lang.reflect.Field;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -93,6 +94,8 @@ public class XLSSelector extends FileSelector {
                 return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             } else if (field.getType().equals(LocalTime.class)) {
                 return date.toInstant().atZone(ZoneId.systemDefault()).toLocalTime();
+            } else if (field.getType().equals(LocalDateTime.class)) {
+                return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
             }
         }
         return adapter.fromString(cell.getNumericCellValue() + "");

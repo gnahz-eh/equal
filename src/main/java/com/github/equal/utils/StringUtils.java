@@ -33,6 +33,10 @@ public class StringUtils {
     public static final String XLSX = "XLSX";
     public static final String CSV = "CSV";
 
+    public static final String DATE_PATTERN = "yyyy/MM/dd";
+    public static final String TIME_PATTERN = "HH:mm:ss";
+    public static final String DATE_TIME_PATTERN = "yyyy/MM/dd HH:mm:ss";
+
     public static boolean isNotEmpty(String value) {
         return null != value && !value.isEmpty();
     }

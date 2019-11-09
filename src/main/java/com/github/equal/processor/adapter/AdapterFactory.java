@@ -26,11 +26,13 @@ package com.github.equal.processor.adapter;
 
 import com.github.equal.annotation.Column;
 import com.github.equal.exception.EqualException;
+import com.github.equal.utils.StringUtils;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -56,8 +58,9 @@ public class AdapterFactory {
         ADAPTER_MAP.put(BigDecimal.class, new BigDecimalAdapter());
         ADAPTER_MAP.put(BigInteger.class, new BigIntegerAdapter());
         ADAPTER_MAP.put(Boolean.class, new BooleanAdapter());
-        ADAPTER_MAP.put(LocalDate.class, new DateAdapter("yyyy/MM/dd"));
-        ADAPTER_MAP.put(LocalTime.class, new TimeAdapter("HH:mm:ss"));
+        ADAPTER_MAP.put(LocalDate.class, new DateAdapter(StringUtils.DATE_PATTERN));
+        ADAPTER_MAP.put(LocalTime.class, new TimeAdapter(StringUtils.TIME_PATTERN));
+        ADAPTER_MAP.put(LocalDateTime.class, new DateTimeAdapter(StringUtils.DATE_TIME_PATTERN));
     }
 
     public static Adapter getInstance(Field field) throws EqualException {
@@ -69,6 +72,8 @@ public class AdapterFactory {
             return new DateAdapter(column.dateTimePattern());
         } else if (fieldType.equals(LocalTime.class)) {
             return new TimeAdapter(column.dateTimePattern());
+        } else if (fieldType.equals(LocalDateTime.class)) {
+            return new DateTimeAdapter(column.dateTimePattern());
         }
         try {
             if (!NullAdapter.class.equals(column.adapter())) {

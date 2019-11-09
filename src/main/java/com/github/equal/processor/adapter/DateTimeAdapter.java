@@ -28,54 +28,39 @@ import com.github.equal.exception.EqualException;
 import com.github.equal.exception.ExceptionUtils;
 import com.github.equal.utils.StringUtils;
 
-import java.time.LocalDate;
-import java.time.Month;
-import java.time.Year;
-import java.time.YearMonth;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-public class DateAdapter implements Adapter<String, LocalDate> {
+public class DateTimeAdapter implements Adapter<String, LocalDateTime> {
 
     private DateTimeFormatter dateTimeFormatter;
 
-    public DateAdapter(String datePattern) {
-        if (StringUtils.isNotEmpty(datePattern)) {
-            this.dateTimeFormatter = DateTimeFormatter.ofPattern(datePattern);
+    public DateTimeAdapter(String dateTimePattern) {
+        if (StringUtils.isNotEmpty(dateTimePattern)) {
+            this.dateTimeFormatter = DateTimeFormatter.ofPattern(dateTimePattern);
         } else {
-            this.dateTimeFormatter = DateTimeFormatter.ofPattern(StringUtils.DATE_PATTERN);
+            this.dateTimeFormatter = DateTimeFormatter.ofPattern(StringUtils.DATE_TIME_PATTERN);
         }
     }
 
     @Override
-    public LocalDate fromString(String str) throws EqualException {
+    public LocalDateTime fromString(String str) throws EqualException {
         try {
             if (str == null) {
                 return null;
             }
-            return LocalDate.parse(str, dateTimeFormatter);
+            return LocalDateTime.parse(str, dateTimeFormatter);
         } catch (DateTimeParseException e) {
-            try {
-                YearMonth yearMonth = YearMonth.parse(str, dateTimeFormatter);
-                return yearMonth.atDay(1);
-            } catch (DateTimeParseException e1) {
-                try {
-                    Year year = Year.parse(str, dateTimeFormatter);
-                    return year.atMonth(Month.JANUARY).atDay(1);
-                } catch (DateTimeParseException e2) {
-                    throw new EqualException(ExceptionUtils.ADAPT_DATE_ERROR, e2.getMessage());
-                }
-            }
-        } catch (EqualException e) {
-            throw new EqualException(e);
+            throw new EqualException(ExceptionUtils.ADAPT_DATE_TIME_ERROR, e.getMessage());
         }
     }
 
     @Override
-    public String toString(LocalDate date) throws EqualException {
-        if (date == null) {
+    public String toString(LocalDateTime localDateTime) throws EqualException {
+        if (localDateTime == null) {
             return null;
         }
-        return date.format(dateTimeFormatter);
+        return localDateTime.format(dateTimeFormatter);
     }
 }
