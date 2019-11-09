@@ -27,6 +27,7 @@ package com.github.equal.processor.selector;
 import com.github.equal.bean.Student;
 import com.github.equal.bean.Student2;
 import com.github.equal.bean.Student3;
+import com.github.equal.bean.Student4;
 import com.github.equal.exception.EqualException;
 import org.junit.jupiter.api.Test;
 
@@ -104,6 +105,42 @@ class SelectorTest {
         List<Student2> students = Selector
                 .select(Student2.class)
                 .from(new File("src/test/resources/Student2.xlsx"))
+                .where(rowStartIndex, numOfRows)
+                .executeQuery();
+        assertEquals(students.size(), numOfRows);
+    }
+
+    @Test
+    void selectCSVWithTimePattern() throws EqualException {
+        int rowStartIndex = 2;
+        int numOfRows = 5;
+        List<Student4> students = Selector
+                .select(Student4.class)
+                .from(new File("src/test/resources/Student4.csv"))
+                .where(rowStartIndex, numOfRows)
+                .executeQuery();
+        assertEquals(students.size(), numOfRows);
+    }
+
+    @Test
+    void selectXLSWithTimePattern() throws EqualException {
+        int rowStartIndex = 2;
+        int numOfRows = 5;
+        List<Student4> students = Selector
+                .select(Student4.class)
+                .from(new File("src/test/resources/Student4.xls"))
+                .where(rowStartIndex, numOfRows)
+                .executeQuery();
+        assertEquals(students.size(), numOfRows);
+    }
+
+    @Test
+    void selectXLSXWithTimePattern() throws EqualException {
+        int rowStartIndex = 2;
+        int numOfRows = 5;
+        List<Student4> students = Selector
+                .select(Student4.class)
+                .from(new File("src/test/resources/Student4.xlsx"))
                 .where(rowStartIndex, numOfRows)
                 .executeQuery();
         assertEquals(students.size(), numOfRows);

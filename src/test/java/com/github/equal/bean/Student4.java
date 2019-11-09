@@ -27,10 +27,11 @@ package com.github.equal.bean;
 import com.github.equal.annotation.Column;
 import lombok.Data;
 
-import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.Date;
 
 @Data
-public class Student2 {
+public class Student4 {
 
     @Column(name = "name", index = 0)
     private String name;
@@ -44,18 +45,18 @@ public class Student2 {
     @Column(name="hobby", index = 3)
     private String hobby;
 
-    @Column(name = "birth", index = 4, dateTimePattern = "yyyy/MM/dd")
-    private LocalDate birthDate;
+    @Column(name = "birth", index = 4, dateTimePattern = "HH:mm:ss")
+    private LocalTime birthTime;
 
-    public Student2() {
+    public Student4() {
 
     }
 
-    public Student2(String name, String sex, int classNumber, String hobby, LocalDate birthDate) {
+    public Student4(String name, String sex, int classNumber, String hobby, LocalTime birthTime) {
         this.name = name;
         this.sex = sex;
         this.classNumber = classNumber;
         this.hobby = hobby;
-        this.birthDate = birthDate;
+        this.birthTime = birthTime;
     }
 }

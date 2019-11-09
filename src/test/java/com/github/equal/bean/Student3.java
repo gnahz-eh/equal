@@ -44,7 +44,7 @@ public class Student3 {
     @Column(name="hobby", index = 3)
     private String hobby;
 
-    @Column(name = "birth", index = 4, datePattern = "yyyy/MM/dd HH:mm:ss")
+    @Column(name = "birth", index = 4, dateTimePattern = "yyyy/MM/dd HH:mm:ss")
     private Date birthDate;
 
     public Student3() {

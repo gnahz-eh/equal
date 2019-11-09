@@ -31,6 +31,7 @@ import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,6 +57,7 @@ public class AdapterFactory {
         ADAPTER_MAP.put(BigInteger.class, new BigIntegerAdapter());
         ADAPTER_MAP.put(Boolean.class, new BooleanAdapter());
         ADAPTER_MAP.put(LocalDate.class, new DateAdapter("yyyy/MM/dd"));
+        ADAPTER_MAP.put(LocalTime.class, new TimeAdapter("HH:mm:ss"));
     }
 
     public static Adapter getInstance(Field field) throws EqualException {
@@ -64,7 +66,9 @@ public class AdapterFactory {
         Column column = field.getAnnotation(Column.class);
 
         if (fieldType.equals(LocalDate.class)) {
-            return new DateAdapter(column.datePattern());
+            return new DateAdapter(column.dateTimePattern());
+        } else if (fieldType.equals(LocalTime.class)) {
+            return new TimeAdapter(column.dateTimePattern());
         }
         try {
             if (!NullAdapter.class.equals(column.adapter())) {

@@ -43,6 +43,7 @@ public class ExceptionUtils {
     public static final int FILE_NOT_FOUND = 110;
     public static final int ADAPT_VALUE_ERROR = 111;
     public static final int ADAPT_DATE_ERROR = 112;
+    public static final int ADAPT_TIME_ERROR = 113;
 
     public static final Map<Integer, String> EXCEPTION_MAP = new HashMap<Integer, String>();
 
@@ -60,5 +61,6 @@ public class ExceptionUtils {
         EXCEPTION_MAP.put(FILE_NOT_FOUND, "File not found");
         EXCEPTION_MAP.put(ADAPT_VALUE_ERROR, "Adapt value error");
         EXCEPTION_MAP.put(ADAPT_DATE_ERROR, "Adapt date error");
+        EXCEPTION_MAP.put(ADAPT_TIME_ERROR, "Adapt time error");
     }
 }
