@@ -24,7 +24,7 @@
 
 package com.github.equal.processor.selector;
 
-import com.github.equal.exception.ExceptionUtils;
+import com.github.equal.utils.ExceptionUtils;
 import com.github.equal.exception.EqualException;
 import com.github.equal.utils.StringUtils;
 

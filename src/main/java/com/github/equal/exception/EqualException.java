@@ -24,6 +24,8 @@
 
 package com.github.equal.exception;
 
+import com.github.equal.utils.ExceptionUtils;
+
 public class EqualException extends RuntimeException {
     public EqualException() { super(); }
     public EqualException(String exceptionMessage, Throwable cause) {

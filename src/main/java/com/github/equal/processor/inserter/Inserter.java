@@ -26,7 +26,7 @@ package com.github.equal.processor.inserter;
 
 import com.github.equal.exception.EqualException;
 import com.github.equal.enums.FileType;
-import com.github.equal.exception.ExceptionUtils;
+import com.github.equal.utils.ExceptionUtils;
 import com.github.equal.utils.StringUtils;
 
 import java.io.File;

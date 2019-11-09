@@ -25,7 +25,7 @@
 package com.github.equal.processor.adapter;
 
 import com.github.equal.exception.EqualException;
-import com.github.equal.exception.ExceptionUtils;
+import com.github.equal.utils.ExceptionUtils;
 import com.github.equal.utils.StringUtils;
 
 import java.time.LocalDate;
