@@ -24,6 +24,7 @@
 
 package com.github.equal.processor.selector;
 
+import com.github.equal.utils.ConstantUtils;
 import com.github.equal.utils.ExceptionUtils;
 import com.github.equal.exception.EqualException;
 import com.github.equal.utils.StringUtils;
@@ -44,7 +45,7 @@ public class Selector<T> {
     private String tableName;
     private Class<T> clazz;
     private int tableIndex = 0;
-    private int rowStartIndex = 2;
+    private int rowStartIndex = ConstantUtils.ROW_START_INDEX;
     private int numberOfRows = 0;
     private Stream<T> returnStream;
     private Charset charset = StandardCharsets.UTF_8;;
@@ -115,13 +116,13 @@ public class Selector<T> {
     }
 
     public Selector<T> where() {
-        this.rowStartIndex = 2;
+        this.rowStartIndex = ConstantUtils.ROW_START_INDEX;
         this.numberOfRows = 0;
         return this;
     }
 
     public Selector<T> where(int rowStartIndex) {
-        if (rowStartIndex < 2) {
+        if (rowStartIndex < ConstantUtils.ROW_START_INDEX) {
             throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.ROW_START_INDEX_IS_LESS_THAN_2));
         }
         this.rowStartIndex = rowStartIndex;
@@ -130,7 +131,7 @@ public class Selector<T> {
     }
 
     public Selector<T> where(int rowStartIndex, int numberOfRows) {
-        if (rowStartIndex < 2) {
+        if (rowStartIndex < ConstantUtils.ROW_START_INDEX) {
             throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.ROW_START_INDEX_IS_LESS_THAN_2));
         }
         if (numberOfRows < 0) {
