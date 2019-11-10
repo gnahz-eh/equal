@@ -27,4 +27,7 @@ package com.github.equal.utils;
 public class ConstantUtils {
 
     public static final int ROW_START_INDEX = 2;
+    public static final int MAX_ROWS_IN_XLS = 65536;
+    public static final int MAX_ROWS_IN_XLSX = 1048576;
+
 }

@@ -46,9 +46,15 @@ public class ExceptionUtils {
     public static final int ADAPT_TIME_ERROR = 113;
     public static final int ADAPT_DATE_TIME_ERROR = 114;
 
+    // Inserter
+    public static final int SOURCE_FILE_DOES_NOT_EXIST = 200;
+    public static final int SOURCE_FILE_IS_NOT_A_FILE = 201;
+    public static final int ROWS_OVER_FLOW = 202;
+
     public static final Map<Integer, String> EXCEPTION_MAP = new HashMap<Integer, String>();
 
     static {
+        // Selector
         EXCEPTION_MAP.put(SOURCE_FILE_IS_NULL, "Source file is null");
         EXCEPTION_MAP.put(ROW_START_INDEX_IS_LESS_THAN_2, "Row start row index is less than 2");
         EXCEPTION_MAP.put(NUMBER_OF_ROW_IS_LESS_THAN_0, "Number of row is less than 0");
@@ -64,5 +70,10 @@ public class ExceptionUtils {
         EXCEPTION_MAP.put(ADAPT_DATE_ERROR, "Adapt date error");
         EXCEPTION_MAP.put(ADAPT_TIME_ERROR, "Adapt time error");
         EXCEPTION_MAP.put(ADAPT_DATE_TIME_ERROR, "Adapt date time error");
+
+        // Inserter
+        EXCEPTION_MAP.put(SOURCE_FILE_DOES_NOT_EXIST, "Source file does not exist");
+        EXCEPTION_MAP.put(SOURCE_FILE_IS_NOT_A_FILE, "Source file is not a file");
+        EXCEPTION_MAP.put(ROWS_OVER_FLOW, "Rows over flow");
     }
 }
