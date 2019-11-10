@@ -62,32 +62,22 @@ public class Selector<T> {
     }
 
     public Selector<T> from(File sourceFile) {
-        if (sourceFile == null || !sourceFile.exists()) {
-            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.SOURCE_FILE_IS_NULL));
-        }
+        ExceptionUtils.assertValidSourceFile(sourceFile);
         this.sourceFile = sourceFile;
         return this;
     }
 
     public Selector<T> from(File sourceFile, int tableIndex) {
-        if (sourceFile == null || !sourceFile.exists()) {
-            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.SOURCE_FILE_IS_NULL));
-        }
-        if (tableIndex < 0) {
-            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.TABLE_INDEX_IS_LESS_THAN_0));
-        }
+        ExceptionUtils.assertValidSourceFile(sourceFile);
+        ExceptionUtils.assertTableIndexBigThanZero(tableIndex);
         this.sourceFile = sourceFile;
         this.tableIndex = tableIndex;
         return this;
     }
 
     public Selector<T> from(File sourceFile, String tableName) {
-        if (sourceFile == null || !sourceFile.exists()) {
-            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.SOURCE_FILE_IS_NULL));
-        }
-        if (StringUtils.isEmpty(tableName)) {
-            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.TABLE_NAME_IS_NULL));
-        }
+        ExceptionUtils.assertValidSourceFile(sourceFile);
+        ExceptionUtils.assertNotNullTableName(tableName);
         this.sourceFile = sourceFile;
         this.tableName = tableName;
         return this;
@@ -99,17 +89,13 @@ public class Selector<T> {
     }
 
     public Selector<T> from(InputStream inputStream, int tableIndex) {
-        if (tableIndex < 0) {
-            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.TABLE_INDEX_IS_LESS_THAN_0));
-        }
+        ExceptionUtils.assertTableIndexBigThanZero(tableIndex);
         this.inputStream = inputStream;
         return this;
     }
 
     public Selector<T> from(InputStream inputStream, String tableName) {
-        if (StringUtils.isEmpty(tableName)) {
-            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.TABLE_NAME_IS_NULL));
-        }
+        ExceptionUtils.assertNotNullTableName(tableName);
         this.inputStream = inputStream;
         this.tableName = tableName;
         return this;
@@ -122,34 +108,23 @@ public class Selector<T> {
     }
 
     public Selector<T> where(int rowStartIndex) {
-        if (rowStartIndex < ConstantUtils.ROW_START_INDEX) {
-            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.ROW_START_INDEX_IS_LESS_THAN_2));
-        }
+        ExceptionUtils.assertRowStartIndexBigThan2(rowStartIndex);
         this.rowStartIndex = rowStartIndex;
         this.numberOfRows = 1;
         return this;
     }
 
     public Selector<T> where(int rowStartIndex, int numberOfRows) {
-        if (rowStartIndex < ConstantUtils.ROW_START_INDEX) {
-            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.ROW_START_INDEX_IS_LESS_THAN_2));
-        }
-        if (numberOfRows < 0) {
-            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.NUMBER_OF_ROW_IS_LESS_THAN_0));
-        }
+        ExceptionUtils.assertRowStartIndexBigThan2(rowStartIndex);
+        ExceptionUtils.assertNumberOfRowsIsNotLessThan0(numberOfRows);
         this.rowStartIndex = rowStartIndex;
         this.numberOfRows = numberOfRows;
         return this;
     }
 
     private Stream<T> toStream() {
-        if (clazz == null) {
-            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.CLAZZ_IS_NULL));
-        }
-
-        if (sourceFile == null && inputStream == null) {
-            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.SOURCE_FILE_IS_NULL));
-        }
+        ExceptionUtils.assertClazzIsNotNull(clazz);
+        ExceptionUtils.assertSourceIsNotNull(sourceFile, inputStream);
 
         if (sourceFile != null) {
             if (this.returnStream == null) {

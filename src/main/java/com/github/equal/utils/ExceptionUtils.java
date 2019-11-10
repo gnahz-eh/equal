@@ -28,6 +28,7 @@ import com.github.equal.enums.FileType;
 import com.github.equal.exception.EqualException;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -112,6 +113,12 @@ public class ExceptionUtils {
         }
     }
 
+    public static void assertRowStartIndexBigThan2(int rowStartIndex) {
+        if (rowStartIndex < ConstantUtils.ROW_START_INDEX) {
+            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.ROW_START_INDEX_IS_LESS_THAN_2));
+        }
+    }
+
     public static void assertNotNullTableName(String tableName) {
         if (StringUtils.isEmpty(tableName)) {
             throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.TABLE_NAME_IS_NULL));
@@ -144,6 +151,24 @@ public class ExceptionUtils {
     public static void assertValidRowStartIndex(int rowStartIndex) {
         if (rowStartIndex < 1) {
             throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.ROW_START_INDEX_IS_LESS_THAN_1));
+        }
+    }
+
+    public static void assertNumberOfRowsIsNotLessThan0(int numberOfRows) {
+        if (numberOfRows < 0) {
+            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.NUMBER_OF_ROW_IS_LESS_THAN_0));
+        }
+    }
+
+    public static void assertClazzIsNotNull(Class<?> clazz) {
+        if (clazz == null) {
+            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.CLAZZ_IS_NULL));
+        }
+    }
+
+    public static void assertSourceIsNotNull(File sourceFile, InputStream inputStream) {
+        if (sourceFile == null && inputStream == null) {
+            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.SOURCE_FILE_IS_NULL));
         }
     }
 }
