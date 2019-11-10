@@ -24,6 +24,11 @@
 
 package com.github.equal.utils;
 
+import com.github.equal.enums.FileType;
+import com.github.equal.exception.EqualException;
+
+import java.io.File;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -75,5 +80,70 @@ public class ExceptionUtils {
         EXCEPTION_MAP.put(SOURCE_FILE_DOES_NOT_EXIST, "Source file does not exist");
         EXCEPTION_MAP.put(SOURCE_FILE_IS_NOT_A_FILE, "Source file is not a file");
         EXCEPTION_MAP.put(ROWS_OVER_FLOW, "Rows over flow");
+    }
+
+    public static void assertValidSourceFile(File sourceFile) {
+        assertNotNullSourceFile(sourceFile);
+        assertSourceFileExists(sourceFile);
+        assertSourceFileIsNotDir(sourceFile);
+    }
+
+    public static void assertNotNullSourceFile(File sourceFile) {
+        if (sourceFile == null) {
+            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.SOURCE_FILE_IS_NULL));
+        }
+    }
+
+    public static void assertSourceFileIsNotDir(File sourceFile) {
+        if (!sourceFile.isFile()) {
+            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.SOURCE_FILE_IS_NOT_A_FILE));
+        }
+    }
+
+    public static void assertSourceFileExists(File sourceFile) {
+        if (!sourceFile.exists()) {
+            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.SOURCE_FILE_DOES_NOT_EXIST));
+        }
+    }
+
+    public static void assertTableIndexBigThanZero(int tableIndex) {
+        if (tableIndex < 0) {
+            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.TABLE_INDEX_IS_LESS_THAN_0));
+        }
+    }
+
+    public static void assertNotNullTableName(String tableName) {
+        if (StringUtils.isEmpty(tableName)) {
+            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.TABLE_NAME_IS_NULL));
+        }
+    }
+
+    public static void assertNumberOfRowsIsLessThan(FileType fileType, int numberOfRows) {
+        switch (fileType) {
+            case XLS:
+                if (numberOfRows > ConstantUtils.MAX_ROWS_IN_XLS) {
+                    throw new EqualException(ExceptionUtils.ROWS_OVER_FLOW, StringUtils.XLS);
+                }
+                break;
+            case XLSX:
+                if (numberOfRows > ConstantUtils.MAX_ROWS_IN_XLSX) {
+                    throw new EqualException(ExceptionUtils.ROWS_OVER_FLOW, StringUtils.XLSX);
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    public static void assertInsertDataIsNotNull(Collection<?> data) {
+        if (data == null) {
+            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.INSERT_DATA_IS_NULL));
+        }
+    }
+
+    public static void assertValidRowStartIndex(int rowStartIndex) {
+        if (rowStartIndex < 1) {
+            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.ROW_START_INDEX_IS_LESS_THAN_1));
+        }
     }
 }

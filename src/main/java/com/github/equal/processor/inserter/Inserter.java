@@ -64,7 +64,7 @@ public class Inserter {
     }
 
     public Inserter values(Collection<?> data) {
-        assertInsertDataIsNotNull(data);
+        ExceptionUtils.assertInsertDataIsNotNull(data);
         this.data = data;
         this.dataInitFlag = true;
         return this;
@@ -76,14 +76,14 @@ public class Inserter {
             throw new RuntimeException("Insert data have not been init initialized");
         }
         int n = this.data.size();
-        assertNumberOfRowsIsLessThan(this.fileType, n);
+        ExceptionUtils.assertNumberOfRowsIsLessThan(this.fileType, n);
         this.numberOfRows = n;
         this.appendFlag = true;
         return this;
     }
 
     public Inserter range(int rowStartIndex) {
-        assertValidRowStartIndex(rowStartIndex);
+        ExceptionUtils.assertValidRowStartIndex(rowStartIndex);
         range();
         this.appendFlag = false;
         this.rowStartIndex = rowStartIndex;
@@ -91,8 +91,8 @@ public class Inserter {
     }
 
     public Inserter range(int rowStartIndex, int numberOfRows) {
-        assertValidRowStartIndex(rowStartIndex);
-        range();
+        ExceptionUtils.assertValidRowStartIndex(rowStartIndex);
+        this.range();
         this.rowStartIndex = rowStartIndex;
         this.numberOfRows = Math.min(this.numberOfRows, numberOfRows);
         this.appendFlag = false;
@@ -101,9 +101,9 @@ public class Inserter {
 
     // sourceFile cannot be a dir
     public Inserter into(File sourceFile) {
-        assertNotNullSourceFile(sourceFile);
+        ExceptionUtils.assertNotNullSourceFile(sourceFile);
         if (sourceFile.exists()) {
-            assertSourceFileIsNotDir(sourceFile);
+            ExceptionUtils.assertSourceFileIsNotDir(sourceFile);
         } else {
             try {
                 sourceFile.createNewFile();
@@ -117,94 +117,29 @@ public class Inserter {
 
     // sourceFile must be exist
     public Inserter into(File sourceFile, int tableIndex) {
-        assertValidSourceFile(sourceFile);
-        assertTableIndexBigThanZero(tableIndex);
+        ExceptionUtils.assertValidSourceFile(sourceFile);
+        ExceptionUtils.assertTableIndexBigThanZero(tableIndex);
         this.sourceFile = sourceFile;
         this.tableIndex = tableIndex;
         return this;
     }
 
     public Inserter into(File sourceFile, String tableName) {
-        assertValidSourceFile(sourceFile);
-        assertNotNullTableName(tableName);
+        ExceptionUtils.assertValidSourceFile(sourceFile);
+        ExceptionUtils.assertNotNullTableName(tableName);
         this.sourceFile = sourceFile;
         this.tableName = tableName;
         return this;
     }
 
     public Inserter into(File sourceFile, int tableIndex, String tableName) {
-        assertValidSourceFile(sourceFile);
-        assertTableIndexBigThanZero(tableIndex);
-        assertNotNullTableName(tableName);
+        ExceptionUtils.assertValidSourceFile(sourceFile);
+        ExceptionUtils.assertTableIndexBigThanZero(tableIndex);
+        ExceptionUtils.assertNotNullTableName(tableName);
         this.sourceFile = sourceFile;
         this.tableIndex = tableIndex;
         this.tableName = tableName;
         return this;
-    }
-
-    private void assertValidSourceFile(File sourceFile) {
-        assertNotNullSourceFile(sourceFile);
-        assertSourceFileExists(sourceFile);
-        assertSourceFileIsNotDir(sourceFile);
-    }
-
-    private void assertNotNullSourceFile(File sourceFile) {
-        if (sourceFile == null) {
-            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.SOURCE_FILE_IS_NULL));
-        }
-    }
-
-    private void assertSourceFileIsNotDir(File sourceFile) {
-        if (!sourceFile.isFile()) {
-            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.SOURCE_FILE_IS_NOT_A_FILE));
-        }
-    }
-
-    private void assertSourceFileExists(File sourceFile) {
-        if (!sourceFile.exists()) {
-            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.SOURCE_FILE_DOES_NOT_EXIST));
-        }
-    }
-
-    private void assertTableIndexBigThanZero(int tableIndex) {
-        if (tableIndex < 0) {
-            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.TABLE_INDEX_IS_LESS_THAN_0));
-        }
-    }
-
-    private void assertNotNullTableName(String tableName) {
-        if (StringUtils.isEmpty(tableName)) {
-            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.TABLE_NAME_IS_NULL));
-        }
-    }
-
-    private void assertNumberOfRowsIsLessThan(FileType fileType, int numberOfRows) {
-        switch (fileType) {
-            case XLS:
-                if (numberOfRows > ConstantUtils.MAX_ROWS_IN_XLS) {
-                    throw new EqualException(ExceptionUtils.ROWS_OVER_FLOW, StringUtils.XLS);
-                }
-                break;
-            case XLSX:
-                if (numberOfRows > ConstantUtils.MAX_ROWS_IN_XLSX) {
-                    throw new EqualException(ExceptionUtils.ROWS_OVER_FLOW, StringUtils.XLSX);
-                }
-                break;
-            default:
-                break;
-        }
-    }
-
-    public void assertInsertDataIsNotNull(Collection<?> data) {
-        if (data == null) {
-            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.INSERT_DATA_IS_NULL));
-        }
-    }
-
-    public void assertValidRowStartIndex(int rowStartIndex) {
-        if (rowStartIndex < 1) {
-            throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.ROW_START_INDEX_IS_LESS_THAN_1));
-        }
     }
 
     public void flush() throws EqualException {
