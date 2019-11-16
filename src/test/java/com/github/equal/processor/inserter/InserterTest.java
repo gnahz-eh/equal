@@ -57,6 +57,8 @@ class InserterTest {
 
             students.add(student);
         }
+        File file = new File(pkgName);
+        file.mkdir();
     }
 
     @Test
