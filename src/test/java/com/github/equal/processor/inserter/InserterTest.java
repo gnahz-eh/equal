@@ -28,7 +28,6 @@ import com.github.equal.FunctionUtils;
 import com.github.equal.bean.Student;
 import com.github.equal.enums.FileType;
 import com.github.equal.exception.EqualException;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -43,7 +42,7 @@ class InserterTest {
 
     List<Student> students;
     int numOfRows = 10;
-    String pkgName = "src/test/resources/insert_pkg";
+    public static String pkgName = "src/test/resources/insert_pkg";
 
     @BeforeEach
     void init() {
@@ -70,9 +69,7 @@ class InserterTest {
                 .flush();
     }
 
-    @Test
-    void clearPkg() {
-        boolean res = FunctionUtils.delFile(new File(pkgName));
-        assertEquals(res, true);
+    public static void main(String[] args) {
+        FunctionUtils.delFile(new File(pkgName));
     }
 }
