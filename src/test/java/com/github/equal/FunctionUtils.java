@@ -22,30 +22,23 @@
  * SOFTWARE.
  */
 
-package com.github.equal.processor.inserter;
+package com.github.equal;
 
-import com.github.equal.enums.FileType;
-import com.github.equal.exception.EqualException;
-import com.github.equal.utils.ExceptionUtils;
+import java.io.File;
 
-public class InserterContext {
+public class FunctionUtils {
 
-    private static FileInserter fileInserter;
-
-    public static void insertIntoFile(Inserter inserter) throws EqualException {
-        FileType fileType = inserter.getFileType();
-        switch (fileType) {
-            case XLSX:
-                break;
-            case XLS:
-                fileInserter = new XLSInserter(inserter.getFileOutputStream());
-                break;
-            case CSV:
-                break;
-            default:
-                throw new EqualException(ExceptionUtils.UNSUPPORTED_FILE_TYPE);
-
+    public static boolean delFile(File file) {
+        if (!file.exists()) {
+            return false;
         }
-        fileInserter.insertIntoFile(inserter);
+
+        if (file.isDirectory()) {
+            File[] files = file.listFiles();
+            for (File f : files) {
+                f.delete();
+            }
+        }
+        return true;
     }
 }

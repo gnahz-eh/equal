@@ -24,28 +24,20 @@
 
 package com.github.equal.processor.inserter;
 
-import com.github.equal.enums.FileType;
 import com.github.equal.exception.EqualException;
-import com.github.equal.utils.ExceptionUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
-public class InserterContext {
+import java.io.OutputStream;
 
-    private static FileInserter fileInserter;
+public class XLSInserter extends FileInserter {
 
-    public static void insertIntoFile(Inserter inserter) throws EqualException {
-        FileType fileType = inserter.getFileType();
-        switch (fileType) {
-            case XLSX:
-                break;
-            case XLS:
-                fileInserter = new XLSInserter(inserter.getFileOutputStream());
-                break;
-            case CSV:
-                break;
-            default:
-                throw new EqualException(ExceptionUtils.UNSUPPORTED_FILE_TYPE);
+    public XLSInserter(OutputStream outputStream) {
+        super(outputStream);
+    }
 
-        }
-        fileInserter.insertIntoFile(inserter);
+    @Override
+    public void insertIntoFile(Inserter inserter) throws EqualException {
+        this.workbook = new HSSFWorkbook();
+        super.insertData(inserter);
     }
 }

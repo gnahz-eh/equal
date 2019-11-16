@@ -46,7 +46,7 @@ public abstract class FileInserter {
     protected OutputStream outputStream;
     protected List<Column> columns;
     protected Sheet table;
-    private Workbook workbook;
+    protected Workbook workbook;
 
     public FileInserter(OutputStream outputStream) {
         this.outputStream = outputStream;
@@ -54,7 +54,7 @@ public abstract class FileInserter {
 
     public abstract void insertIntoFile(Inserter inserter);
 
-    public void insertData(Inserter inserter) throws EqualException {
+    protected void insertData(Inserter inserter) throws EqualException {
 
         int tableIndex = inserter.getTableIndex();
         String tableName = inserter.getTableName();
@@ -80,6 +80,7 @@ public abstract class FileInserter {
         Field[] fields = data.iterator().next().getClass().getDeclaredFields();
 
         this.fieldIndexes = new HashMap<>(fields.length);
+        this.fieldAdapters = new HashMap<>();
         this.columns = new ArrayList<>();
 
         for (Field field : fields) {
@@ -99,17 +100,19 @@ public abstract class FileInserter {
             }
         }
 
+        int rowIndex = inserter.getRowStartIndex() - 1;
+
         if (insertColumnNames) {
-            this.insertColumnNames(inserter.getRowStartIndex() - 1);
+            this.insertColumnNames(rowIndex - 1);
         }
 
-        int rowIndex = inserter.getRowStartIndex();
         int numberOfRows = inserter.getNumberOfRows();
+        Iterator<?> iterator = data.iterator();
         int i = 0;
-        try {
 
+        try {
             for (; i < numberOfRows; i++) {
-                this.insertRow(data.iterator().next(), rowIndex++);
+                this.insertRow(iterator.next(), rowIndex++);
             }
         } catch (Exception e) {
             throw new EqualException(ExceptionUtils.INSERT_DATA_ERROR, String.valueOf(i));
