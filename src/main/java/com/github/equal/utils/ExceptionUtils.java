@@ -56,6 +56,8 @@ public class ExceptionUtils {
     public static final int SOURCE_FILE_DOES_NOT_EXIST = 200;
     public static final int SOURCE_FILE_IS_NOT_A_FILE = 201;
     public static final int ROWS_OVER_FLOW = 202;
+    public static final int INVALID_TABLE_INDEX = 203;
+    public static final int INSERT_DATA_ERROR = 204;
 
     public static final Map<Integer, String> EXCEPTION_MAP = new HashMap<Integer, String>();
 
@@ -81,6 +83,8 @@ public class ExceptionUtils {
         EXCEPTION_MAP.put(SOURCE_FILE_DOES_NOT_EXIST, "Source file does not exist");
         EXCEPTION_MAP.put(SOURCE_FILE_IS_NOT_A_FILE, "Source file is not a file");
         EXCEPTION_MAP.put(ROWS_OVER_FLOW, "Rows over flow");
+        EXCEPTION_MAP.put(INVALID_TABLE_INDEX, "Invalid table index");
+        EXCEPTION_MAP.put(INSERT_DATA_ERROR, "Insert data error");
     }
 
     public static void assertValidSourceFile(File sourceFile) {

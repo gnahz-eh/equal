@@ -45,10 +45,11 @@ public class Inserter {
     private int rowStartIndex = ConstantUtils.ROW_START_INDEX; // first row is title
     private int numberOfRows;
     private File sourceFile;
-    private int tableIndex = 0;
+    private int tableIndex = -1;
     private String tableName = StringUtils.DEFAULT;
     private boolean dataInitFlag = false;
     private boolean appendFlag = false;
+    private FileOutputStream fileOutputStream;
     private Charset charset = StandardCharsets.UTF_8;
 
     public Inserter(FileType fileType) {
@@ -78,14 +79,14 @@ public class Inserter {
         int n = this.data.size();
         ExceptionUtils.assertNumberOfRowsIsLessThan(this.fileType, n);
         this.numberOfRows = n;
-        this.appendFlag = true;
+        this.appendFlag = false;
         return this;
     }
 
     public Inserter range(int rowStartIndex) {
         ExceptionUtils.assertValidRowStartIndex(rowStartIndex);
         range();
-        this.appendFlag = false;
+        this.appendFlag = true;
         this.rowStartIndex = rowStartIndex;
         return this;
     }
@@ -95,7 +96,7 @@ public class Inserter {
         this.range();
         this.rowStartIndex = rowStartIndex;
         this.numberOfRows = Math.min(this.numberOfRows, numberOfRows);
-        this.appendFlag = false;
+        this.appendFlag = true;
         return this;
     }
 
@@ -132,26 +133,43 @@ public class Inserter {
         return this;
     }
 
-    public Inserter into(File sourceFile, int tableIndex, String tableName) {
-        ExceptionUtils.assertValidSourceFile(sourceFile);
-        ExceptionUtils.assertTableIndexBigThanZero(tableIndex);
-        ExceptionUtils.assertNotNullTableName(tableName);
-        this.sourceFile = sourceFile;
-        this.tableIndex = tableIndex;
-        this.tableName = tableName;
-        return this;
-    }
-
     public void flush() throws EqualException {
         if (data == null || data.isEmpty()) {
             throw new EqualException(ExceptionUtils.INSERT_DATA_IS_NULL);
         }
-        FileOutputStream fileOutputStream = null;
         try {
-            fileOutputStream = new FileOutputStream(this.sourceFile);
+            this.fileOutputStream = new FileOutputStream(this.sourceFile);
         } catch (FileNotFoundException e) {
             throw new EqualException(e);
         }
-        new FileInserter(fileOutputStream).insertTable(this);
+        InserterContext.insertIntoFile(this);
+    }
+
+    public FileType getFileType() {
+        return fileType;
+    }
+
+    public FileOutputStream getFileOutputStream() {
+        return fileOutputStream;
+    }
+
+    public String getTableName() {
+        return tableName;
+    }
+
+    public int getTableIndex() {
+        return tableIndex;
+    }
+
+    public Collection<?> getData() {
+        return data;
+    }
+
+    public int getRowStartIndex() {
+        return rowStartIndex;
+    }
+
+    public int getNumberOfRows() {
+        return numberOfRows;
     }
 }

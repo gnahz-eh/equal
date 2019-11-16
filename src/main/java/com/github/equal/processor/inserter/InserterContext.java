@@ -22,13 +22,29 @@
  * SOFTWARE.
  */
 
-package com.github.equal.utils;
+package com.github.equal.processor.inserter;
 
-public class ConstantUtils {
+import com.github.equal.enums.FileType;
+import com.github.equal.exception.EqualException;
+import com.github.equal.utils.ExceptionUtils;
 
-    public static final int ROW_START_INDEX = 2;
-    public static final int MAX_ROWS_IN_XLS = 65536;
-    public static final int MAX_ROWS_IN_XLSX = 1048576;
-    public static final int DEFAULT_COLUMN_WIDTH = 20 * 256;
+public class InserterContext {
 
+    private static FileInserter fileInserter;
+
+    public static void insertIntoFile(Inserter inserter) throws EqualException {
+        FileType fileType = inserter.getFileType();
+        switch (fileType) {
+            case XLSX:
+                break;
+            case XLS:
+                break;
+            case CSV:
+                break;
+            default:
+                throw new EqualException(ExceptionUtils.UNSUPPORTED_FILE_TYPE);
+
+        }
+        fileInserter.insertIntoFile(inserter);
+    }
 }

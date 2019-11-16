@@ -42,7 +42,7 @@ public abstract class FileSelector {
     protected Map<Field, Adapter<String, ?>> fieldAdapters;
     protected Workbook workbook;
 
-    public abstract <T>Stream<T> selectFromFile(Selector selector);
+    public abstract <T> Stream<T> selectFromFile(Selector selector);
 
     public void init(Field[] fields) throws EqualException {
         fieldIndexes = new HashMap<>(fields.length);
