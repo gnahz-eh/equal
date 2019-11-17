@@ -38,13 +38,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SelectorTest {
 
+    public static String pkgName = "src/test/resources/select_pkg";
+
     @Test
     void selectXLS() throws EqualException {
         int rowStartIndex = 4;
         int numOfRows = 2;
         List<Student> students = Selector
                                 .select(Student.class)
-                                .from(new File("src/test/resources/Student.xls"))
+                                .from(new File(pkgName + "/Student.xls"))
                                 .where(rowStartIndex, numOfRows)
                                 .executeQuery();
         assertEquals(students.size(), numOfRows);
@@ -56,7 +58,7 @@ class SelectorTest {
         int numOfRows = 5;
         List<Student> students = Selector
                 .select(Student.class)
-                .from(new File("src/test/resources/Student2.csv"))
+                .from(new File(pkgName + "/Student2.csv"))
                 .where(rowStartIndex, numOfRows)
                 .executeQuery();
         assertEquals(students.size(), numOfRows);
@@ -68,7 +70,7 @@ class SelectorTest {
         int numOfRows = 2;
         List<Student> students = Selector
                 .select(Student.class)
-                .from(new File("src/test/resources/Student.xlsx"))
+                .from(new File(pkgName + "/Student.xlsx"))
                 .where(rowStartIndex, numOfRows)
                 .executeQuery();
         assertEquals(students.size(), numOfRows);
@@ -80,7 +82,7 @@ class SelectorTest {
         int numOfRows = 5;
         List<Student2> students = Selector
                 .select(Student2.class)
-                .from(new File("src/test/resources/Student2.csv"))
+                .from(new File(pkgName + "/Student2.csv"))
                 .where(rowStartIndex, numOfRows)
                 .executeQuery();
         assertEquals(students.size(), numOfRows);
@@ -92,7 +94,7 @@ class SelectorTest {
         int numOfRows = 5;
         List<Student2> students = Selector
                 .select(Student2.class)
-                .from(new File("src/test/resources/Student2.xls"))
+                .from(new File(pkgName + "/Student2.xls"))
                 .where(rowStartIndex, numOfRows)
                 .executeQuery();
         assertEquals(students.size(), numOfRows);
@@ -104,7 +106,7 @@ class SelectorTest {
         int numOfRows = 5;
         List<Student2> students = Selector
                 .select(Student2.class)
-                .from(new File("src/test/resources/Student2.xlsx"))
+                .from(new File(pkgName + "/Student2.xlsx"))
                 .where(rowStartIndex, numOfRows)
                 .executeQuery();
         assertEquals(students.size(), numOfRows);
@@ -116,7 +118,7 @@ class SelectorTest {
         int numOfRows = 5;
         List<Student4> students = Selector
                 .select(Student4.class)
-                .from(new File("src/test/resources/Student4.csv"))
+                .from(new File(pkgName + "/Student4.csv"))
                 .where(rowStartIndex, numOfRows)
                 .executeQuery();
         assertEquals(students.size(), numOfRows);
@@ -128,7 +130,7 @@ class SelectorTest {
         int numOfRows = 5;
         List<Student4> students = Selector
                 .select(Student4.class)
-                .from(new File("src/test/resources/Student4.xls"))
+                .from(new File(pkgName + "/Student4.xls"))
                 .where(rowStartIndex, numOfRows)
                 .executeQuery();
         assertEquals(students.size(), numOfRows);
@@ -140,7 +142,7 @@ class SelectorTest {
         int numOfRows = 5;
         List<Student4> students = Selector
                 .select(Student4.class)
-                .from(new File("src/test/resources/Student4.xlsx"))
+                .from(new File(pkgName + "/Student4.xlsx"))
                 .where(rowStartIndex, numOfRows)
                 .executeQuery();
         assertEquals(students.size(), numOfRows);
@@ -152,7 +154,7 @@ class SelectorTest {
         int numOfRows = 5;
         List<Student3> students = Selector
                 .select(Student3.class)
-                .from(new File("src/test/resources/Student3.csv"))
+                .from(new File(pkgName + "/Student3.csv"))
                 .where(rowStartIndex, numOfRows)
                 .executeQuery();
         assertEquals(students.size(), numOfRows);
@@ -164,7 +166,7 @@ class SelectorTest {
         int numOfRows = 5;
         List<Student3> students = Selector
                 .select(Student3.class)
-                .from(new File("src/test/resources/Student3.xls"))
+                .from(new File(pkgName + "/Student3.xls"))
                 .where(rowStartIndex, numOfRows)
                 .executeQuery();
         assertEquals(students.size(), numOfRows);
@@ -176,7 +178,7 @@ class SelectorTest {
         int numOfRows = 5;
         List<Student3> students = Selector
                 .select(Student3.class)
-                .from(new File("src/test/resources/Student3.xlsx"))
+                .from(new File(pkgName + "/Student3.xlsx"))
                 .where(rowStartIndex, numOfRows)
                 .executeQuery();
         assertEquals(students.size(), numOfRows);
