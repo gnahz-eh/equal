@@ -25,19 +25,19 @@
 package com.github.equal.processor.inserter;
 
 import com.github.equal.exception.EqualException;
+import com.github.equal.utils.FileUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-
-import java.io.OutputStream;
 
 public class XLSInserter extends FileInserter {
 
-    public XLSInserter(OutputStream outputStream) {
-        super(outputStream);
-    }
-
     @Override
     public void insertIntoFile(Inserter inserter) throws EqualException {
-        this.workbook = new HSSFWorkbook();
+
+        if (inserter.isSourceFileExist()) {
+            this.workbook = FileUtils.getWorkbook(inserter.getSourceFile());
+        } else {
+            this.workbook = new HSSFWorkbook();
+        }
         super.insertData(inserter);
     }
 }

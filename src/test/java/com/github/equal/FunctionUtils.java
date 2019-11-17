@@ -32,13 +32,12 @@ public class FunctionUtils {
         if (!file.exists()) {
             return false;
         }
-
         if (file.isDirectory()) {
             File[] files = file.listFiles();
             for (File f : files) {
-                f.delete();
+                delFile(f);
             }
         }
-        return true;
+        return file.delete();
     }
 }

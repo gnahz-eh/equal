@@ -38,7 +38,7 @@ public class InserterContext {
             case XLSX:
                 break;
             case XLS:
-                fileInserter = new XLSInserter(inserter.getFileOutputStream());
+                fileInserter = new XLSInserter();
                 break;
             case CSV:
                 break;

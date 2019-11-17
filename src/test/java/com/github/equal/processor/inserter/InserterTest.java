@@ -49,8 +49,8 @@ class InserterTest {
         students = new ArrayList<>();
         for (int i = 0; i < numOfRows; i++) {
             Student student = new Student();
-            student.setName("joe" + i);
-            student.setHobby("hobby" + i);
+            student.setName("joe:" + System.currentTimeMillis());
+            student.setHobby("hobby");
             student.setSex("man");
             student.setClassNumber(i);
             student.setBirthDate(LocalDate.now());
@@ -61,8 +61,74 @@ class InserterTest {
         file.mkdir();
     }
 
+    // todo
     @Test
-    void insertXLS() throws EqualException {
+    void insertXLS_NON_EXIST_PKG() throws EqualException {
+        int rowStartIndex = 2;
+        Inserter.insert(FileType.XLS)
+                .into(new File(pkgName + "/new/Student.xls"))
+                .values(students)
+                .range(rowStartIndex)
+                .flush();
+    }
+
+    // todo
+    @Test
+    void insertXLS_NON_EXIST_PKG2() throws EqualException {
+        int rowStartIndex = 4;
+        Inserter.insert(FileType.XLS)
+                .into(new File(pkgName + "/new/Student2.xls"))
+                .values(students)
+                .range(rowStartIndex)
+                .flush();
+    }
+
+    // todo
+    @Test
+    void insertXLS_NON_EXIST_PKG3() throws EqualException {
+        Inserter.insert(FileType.XLS)
+                .into(new File(pkgName + "/new/Student3.xls"))
+                .values(students)
+                .range()
+                .flush();
+    }
+
+    // todo
+    @Test
+    void insertXLS_NON_EXIST_PKG4() throws EqualException {
+        int rowStartIndex = 2;
+        Inserter.insert(FileType.XLS)
+                .into(new File(pkgName + "/new/Student4.xls"))
+                .values(students)
+                .range(rowStartIndex, 2)
+                .flush();
+    }
+
+    // todo
+    @Test
+    void insertXLS_NON_EXIST_PKG5() throws EqualException {
+        int rowStartIndex = 1;
+        Inserter.insert(FileType.XLS)
+                .into(new File(pkgName + "/new/Student5.xls"))
+                .values(students)
+                .range(rowStartIndex, 2)
+                .flush();
+    }
+
+    // todo
+    @Test
+    void insertXLS_NON_EXIST_PKG6() throws EqualException {
+        int rowStartIndex = 2;
+        Inserter.insert(FileType.XLS)
+                .into(new File(pkgName + "/new/Student6.xls"), "table1")
+                .values(students)
+                .range(rowStartIndex, 4)
+                .flush();
+    }
+
+    // todo
+    @Test
+    void insertXLS_EXIST_FILE() throws EqualException {
         int rowStartIndex = 2;
         Inserter.insert(FileType.XLS)
                 .into(new File(pkgName + "/Student.xls"))
@@ -71,7 +137,29 @@ class InserterTest {
                 .flush();
     }
 
+    // todo
+    @Test
+    void insertXLS_EXIST_FILE2() throws EqualException {
+        int rowStartIndex = 13;
+        Inserter.insert(FileType.XLS)
+                .into(new File(pkgName + "/Student.xls"))
+                .values(students)
+                .range(rowStartIndex)
+                .flush();
+    }
+
+//    @Test
+//    void insertXLS_EXIST_FILE_WITH_TABLE_IDX() throws EqualException {
+//        int rowStartIndex = 2;
+//        Inserter.insert(FileType.XLS)
+//                .into(new File(pkgName + "/new/Student2.xls"), 0)
+//                .values(students)
+//                .range(rowStartIndex)
+//                .flush();
+//    }
+
+
     public static void main(String[] args) {
-        FunctionUtils.delFile(new File(pkgName));
+        FunctionUtils.delFile(new File(pkgName + "/new"));
     }
 }

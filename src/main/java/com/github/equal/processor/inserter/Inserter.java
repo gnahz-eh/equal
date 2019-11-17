@@ -31,8 +31,6 @@ import com.github.equal.utils.ExceptionUtils;
 import com.github.equal.utils.StringUtils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -49,7 +47,7 @@ public class Inserter {
     private String tableName = StringUtils.DEFAULT;
     private boolean dataInitFlag = false;
     private boolean appendFlag = false;
-    private FileOutputStream fileOutputStream;
+    private boolean isSourceFileExist = false;
     private Charset charset = StandardCharsets.UTF_8;
 
     public Inserter(FileType fileType) {
@@ -105,6 +103,7 @@ public class Inserter {
         ExceptionUtils.assertNotNullSourceFile(sourceFile);
         if (sourceFile.exists()) {
             ExceptionUtils.assertSourceFileIsNotDir(sourceFile);
+            this.isSourceFileExist = true;
         } else {
             try {
                 File parentDir = sourceFile.getParentFile();
@@ -112,6 +111,7 @@ public class Inserter {
                     parentDir.mkdirs();
                 }
                 sourceFile.createNewFile();
+                this.isSourceFileExist = false;
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -126,13 +126,12 @@ public class Inserter {
         ExceptionUtils.assertTableIndexBigThanZero(tableIndex);
         this.sourceFile = sourceFile;
         this.tableIndex = tableIndex;
+        this.isSourceFileExist = true;
         return this;
     }
 
     public Inserter into(File sourceFile, String tableName) {
-        ExceptionUtils.assertValidSourceFile(sourceFile);
-        ExceptionUtils.assertNotNullTableName(tableName);
-        this.sourceFile = sourceFile;
+        this.into(sourceFile);
         this.tableName = tableName;
         return this;
     }
@@ -141,20 +140,11 @@ public class Inserter {
         if (data == null || data.isEmpty()) {
             throw new EqualException(ExceptionUtils.INSERT_DATA_IS_NULL);
         }
-        try {
-            this.fileOutputStream = new FileOutputStream(this.sourceFile);
-        } catch (FileNotFoundException e) {
-            throw new EqualException(e);
-        }
         InserterContext.insertIntoFile(this);
     }
 
     public FileType getFileType() {
         return fileType;
-    }
-
-    public FileOutputStream getFileOutputStream() {
-        return fileOutputStream;
     }
 
     public String getTableName() {
@@ -175,5 +165,13 @@ public class Inserter {
 
     public int getNumberOfRows() {
         return numberOfRows;
+    }
+
+    public boolean isSourceFileExist() {
+        return isSourceFileExist;
+    }
+
+    public File getSourceFile() {
+        return sourceFile;
     }
 }
