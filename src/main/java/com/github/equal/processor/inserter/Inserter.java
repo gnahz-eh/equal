@@ -107,6 +107,10 @@ public class Inserter {
             ExceptionUtils.assertSourceFileIsNotDir(sourceFile);
         } else {
             try {
+                File parentDir = sourceFile.getParentFile();
+                if (!parentDir.exists()) {
+                    parentDir.mkdirs();
+                }
                 sourceFile.createNewFile();
             } catch (IOException e) {
                 throw new RuntimeException(e);
