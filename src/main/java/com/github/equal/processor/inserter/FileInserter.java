@@ -81,26 +81,7 @@ public abstract class FileInserter {
         Collection<?> data = inserter.getData();
         Field[] fields = data.iterator().next().getClass().getDeclaredFields();
 
-        this.fieldIndexes = new HashMap<>(fields.length);
-        this.fieldAdapters = new HashMap<>();
-        this.columns = new ArrayList<>();
-
-        for (Field field : fields) {
-            Column column = field.getAnnotation(Column.class);
-
-            if (column != null) {
-                field.setAccessible(true);
-                fieldIndexes.put(column.index(), field);
-
-                columns.add(column);
-
-                Adapter adapter = null;
-                adapter = AdapterFactory.getInstance(field);
-                if (adapter != null) {
-                    fieldAdapters.put(field, adapter);
-                }
-            }
-        }
+        init(fields);
 
         int rowIndex = inserter.getRowStartIndex() - 1;
 
@@ -120,14 +101,7 @@ public abstract class FileInserter {
             throw new EqualException(ExceptionUtils.INSERT_DATA_ERROR, String.valueOf(i));
         }
 
-        try {
-            this.outputStream = new FileOutputStream(inserter.getSourceFile());
-            workbook.write(this.outputStream);
-        } catch (FileNotFoundException e) {
-            throw new EqualException(e);
-        } catch (IOException e) {
-            throw new EqualException(ExceptionUtils.INSERT_DATA_ERROR);
-        }
+        flushData(inserter);
     }
 
     private void insertColumnNames(int rowIndex) {
@@ -158,6 +132,40 @@ public abstract class FileInserter {
             Adapter adapter = fieldAdapters.get(field);
             String formatedValue = adapter.toString(val);
             cell.setCellValue(formatedValue);
+        }
+    }
+
+    private void init(Field[] fields) {
+        this.fieldIndexes = new HashMap<>(fields.length);
+        this.fieldAdapters = new HashMap<>();
+        this.columns = new ArrayList<>();
+
+        for (Field field : fields) {
+            Column column = field.getAnnotation(Column.class);
+
+            if (column != null) {
+                field.setAccessible(true);
+                fieldIndexes.put(column.index(), field);
+
+                columns.add(column);
+
+                Adapter adapter = null;
+                adapter = AdapterFactory.getInstance(field);
+                if (adapter != null) {
+                    fieldAdapters.put(field, adapter);
+                }
+            }
+        }
+    }
+
+    private void flushData(Inserter inserter) throws EqualException {
+        try {
+            this.outputStream = new FileOutputStream(inserter.getSourceFile());
+            workbook.write(this.outputStream);
+        } catch (FileNotFoundException e) {
+            throw new EqualException(e);
+        } catch (IOException e) {
+            throw new EqualException(ExceptionUtils.INSERT_DATA_ERROR);
         }
     }
 }
