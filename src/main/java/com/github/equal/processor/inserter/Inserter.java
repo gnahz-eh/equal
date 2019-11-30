@@ -46,7 +46,6 @@ public class Inserter {
     private int tableIndex = -1;
     private String tableName = StringUtils.DEFAULT;
     private boolean dataInitFlag = false;
-    private boolean appendFlag = false;
     private boolean isSourceFileExist = false;
     private Charset charset = StandardCharsets.UTF_8;
 
@@ -77,14 +76,12 @@ public class Inserter {
         int n = this.data.size();
         ExceptionUtils.assertNumberOfRowsIsLessThan(this.fileType, n);
         this.numberOfRows = n;
-        this.appendFlag = false;
         return this;
     }
 
     public Inserter range(int rowStartIndex) {
         ExceptionUtils.assertValidRowStartIndex(rowStartIndex);
         range();
-        this.appendFlag = true;
         this.rowStartIndex = rowStartIndex;
         return this;
     }
@@ -94,7 +91,6 @@ public class Inserter {
         this.range();
         this.rowStartIndex = rowStartIndex;
         this.numberOfRows = Math.min(this.numberOfRows, numberOfRows);
-        this.appendFlag = true;
         return this;
     }
 
