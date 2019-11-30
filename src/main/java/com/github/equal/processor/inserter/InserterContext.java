@@ -27,6 +27,7 @@ package com.github.equal.processor.inserter;
 import com.github.equal.enums.FileType;
 import com.github.equal.exception.EqualException;
 import com.github.equal.utils.ExceptionUtils;
+import com.github.equal.utils.FileUtils;
 
 public class InserterContext {
 
@@ -34,6 +35,8 @@ public class InserterContext {
 
     public static void insertIntoFile(Inserter inserter) throws EqualException {
         FileType fileType = inserter.getFileType();
+        FileType realType = FileUtils.getFileTypeBySourceFile(inserter.getSourceFile());
+        ExceptionUtils.assertIsTargetFileType(realType, fileType);
         switch (fileType) {
             case XLSX:
                 break;

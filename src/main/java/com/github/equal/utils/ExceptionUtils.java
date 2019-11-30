@@ -58,6 +58,7 @@ public class ExceptionUtils {
     public static final int ROWS_OVER_FLOW = 202;
     public static final int INVALID_TABLE_INDEX = 203;
     public static final int INSERT_DATA_ERROR = 204;
+    public static final int FILE_TYPES_ARE_INCONSISTENT = 205;
 
     public static final Map<Integer, String> EXCEPTION_MAP = new HashMap<Integer, String>();
 
@@ -85,6 +86,7 @@ public class ExceptionUtils {
         EXCEPTION_MAP.put(ROWS_OVER_FLOW, "Rows over flow");
         EXCEPTION_MAP.put(INVALID_TABLE_INDEX, "Invalid table index");
         EXCEPTION_MAP.put(INSERT_DATA_ERROR, "Insert data error");
+        EXCEPTION_MAP.put(FILE_TYPES_ARE_INCONSISTENT, "File types are inconsistent");
     }
 
     public static void assertValidSourceFile(File sourceFile) {
@@ -173,6 +175,12 @@ public class ExceptionUtils {
     public static void assertSourceIsNotNull(File sourceFile, InputStream inputStream) {
         if (sourceFile == null && inputStream == null) {
             throw new IllegalArgumentException(ExceptionUtils.EXCEPTION_MAP.get(ExceptionUtils.SOURCE_FILE_IS_NULL));
+        }
+    }
+
+    public static void assertIsTargetFileType(FileType actual, FileType expect) {
+        if (actual != expect) {
+            throw new EqualException(ExceptionUtils.FILE_TYPES_ARE_INCONSISTENT);
         }
     }
 }
