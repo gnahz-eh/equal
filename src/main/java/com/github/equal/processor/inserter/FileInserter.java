@@ -35,7 +35,10 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
-import java.io.*;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.util.*;
 
@@ -78,8 +81,7 @@ public abstract class FileInserter {
         } catch (Exception e) {
             throw new EqualException(ExceptionUtils.INSERT_DATA_ERROR, String.valueOf(i));
         }
-
-        flushData(inserter.getSourceFile());
+        flushData();
     }
 
     private void insertColumnNames(int rowIndex) {
@@ -158,15 +160,17 @@ public abstract class FileInserter {
                 }
             }
         }
-    }
-
-    private void flushData(File file) throws EqualException {
         try {
-            this.outputStream = new FileOutputStream(file);
-            workbook.write(this.outputStream);
-            this.outputStream.close();
+            this.outputStream = new FileOutputStream(inserter.getSourceFile());
         } catch (FileNotFoundException e) {
             throw new EqualException(e);
+        }
+    }
+
+    private void flushData() throws EqualException {
+        try {
+            workbook.write(this.outputStream);
+            this.outputStream.close();
         } catch (IOException e) {
             throw new EqualException(ExceptionUtils.INSERT_DATA_ERROR);
         }
