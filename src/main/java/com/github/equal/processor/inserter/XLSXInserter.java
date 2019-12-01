@@ -33,8 +33,12 @@ import java.io.IOException;
 
 public class XLSXInserter extends FileInserter {
 
+    public XLSXInserter(Inserter inserter) {
+        super(inserter);
+    }
+
     @Override
-    public void insertIntoFile(Inserter inserter) throws EqualException {
+    public void insertIntoFile() throws EqualException {
 
         if (inserter.isSourceFileExist()) {
             try {
@@ -45,6 +49,6 @@ public class XLSXInserter extends FileInserter {
         } else {
             this.workbook = new SXSSFWorkbook(inserter.getRowAccessWindowSize());
         }
-        super.insertData(inserter);
+        super.insertData();
     }
 }

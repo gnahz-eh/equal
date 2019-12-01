@@ -35,14 +35,13 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.lang.reflect.Field;
 import java.util.*;
 
 public abstract class FileInserter {
+
+    protected Inserter inserter;
 
     protected Map<Integer, Field> fieldIndexes;
     protected Map<Field, Adapter<String, ?>> fieldAdapters;
@@ -51,9 +50,13 @@ public abstract class FileInserter {
     protected Sheet table;
     protected Workbook workbook;
 
-    public abstract void insertIntoFile(Inserter inserter);
+    public FileInserter(Inserter inserter) {
+        this.inserter = inserter;
+    }
 
-    protected void insertData(Inserter inserter) throws EqualException {
+    public abstract void insertIntoFile();
+
+    protected void insertData() throws EqualException {
 
         int tableIndex = inserter.getTableIndex();
         String tableName = inserter.getTableName();
@@ -101,7 +104,7 @@ public abstract class FileInserter {
             throw new EqualException(ExceptionUtils.INSERT_DATA_ERROR, String.valueOf(i));
         }
 
-        flushData(inserter);
+        flushData(inserter.getSourceFile());
     }
 
     private void insertColumnNames(int rowIndex) {
@@ -158,9 +161,9 @@ public abstract class FileInserter {
         }
     }
 
-    private void flushData(Inserter inserter) throws EqualException {
+    private void flushData(File file) throws EqualException {
         try {
-            this.outputStream = new FileOutputStream(inserter.getSourceFile());
+            this.outputStream = new FileOutputStream(file);
             workbook.write(this.outputStream);
             this.outputStream.close();
         } catch (FileNotFoundException e) {

@@ -30,14 +30,18 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 public class XLSInserter extends FileInserter {
 
+    public XLSInserter(Inserter inserter) {
+        super(inserter);
+    }
+
     @Override
-    public void insertIntoFile(Inserter inserter) throws EqualException {
+    public void insertIntoFile() throws EqualException {
 
         if (inserter.isSourceFileExist()) {
             this.workbook = FileUtils.getWorkbook(inserter.getSourceFile());
         } else {
             this.workbook = new HSSFWorkbook();
         }
-        super.insertData(inserter);
+        super.insertData();
     }
 }
