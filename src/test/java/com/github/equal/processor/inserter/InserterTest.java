@@ -36,8 +36,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class InserterTest {
 
     List<Student> students;
@@ -162,9 +160,120 @@ class InserterTest {
 
     @Test
     void insertXLS_EXIST_FILE_WITH_TABLE_NAME2() throws EqualException {
-        int rowStartIndex = 4;
+        int rowStartIndex = 1;
         Inserter.insert(FileType.XLS)
-                .into(new File(pkgName + "/Student.xls"), "Table3")
+                .into(new File(pkgName + "/Student.xls"), "Table4")
+                .values(students)
+                .range(rowStartIndex)
+                .flush();
+    }
+
+//|------------------------------------------------------------------------------------------------------------|
+
+    @Test
+    void insertXLSX_NON_EXIST_PKG() throws EqualException {
+        int rowStartIndex = 2;
+        Inserter.insert(FileType.XLSX)
+                .into(new File(pkgName + "/new/Student.xlsx"))
+                .values(students)
+                .range(rowStartIndex)
+                .flush();
+    }
+
+    @Test
+    void insertXLSX_NON_EXIST_PKG2() throws EqualException {
+        int rowStartIndex = 4;
+        Inserter.insert(FileType.XLSX)
+                .into(new File(pkgName + "/new/Student2.xlsx"))
+                .values(students)
+                .range(rowStartIndex)
+                .flush();
+    }
+
+    @Test
+    void insertXLSX_NON_EXIST_PKG3() throws EqualException {
+        Inserter.insert(FileType.XLSX)
+                .into(new File(pkgName + "/new/Student3.xlsx"))
+                .values(students)
+                .range()
+                .flush();
+    }
+
+    @Test
+    void insertXLSX_NON_EXIST_PKG4() throws EqualException {
+        int rowStartIndex = 2;
+        Inserter.insert(FileType.XLSX)
+                .into(new File(pkgName + "/new/Student4.xlsx"))
+                .values(students)
+                .range(rowStartIndex, 2)
+                .flush();
+    }
+
+    @Test
+    void insertXLSX_NON_EXIST_PKG5() throws EqualException {
+        int rowStartIndex = 1;
+        Inserter.insert(FileType.XLSX)
+                .into(new File(pkgName + "/new/Student5.xlsx"))
+                .values(students)
+                .range(rowStartIndex, 2)
+                .flush();
+    }
+
+    @Test
+    void insertXLSX_NON_EXIST_PKG6() throws EqualException {
+        int rowStartIndex = 2;
+        Inserter.insert(FileType.XLSX)
+                .into(new File(pkgName + "/new/Student6.xlsx"), "table1")
+                .values(students)
+                .range(rowStartIndex, 4)
+                .flush();
+    }
+
+    @Test
+    void insertXLSX_EXIST_FILE() throws EqualException {
+        int rowStartIndex = 2;
+        Inserter.insert(FileType.XLSX)
+                .into(new File(pkgName + "/Student.xlsx"))
+                .values(students)
+                .range(rowStartIndex)
+                .flush();
+    }
+
+    @Test
+    void insertXLSX_EXIST_FILE2() throws EqualException {
+        int rowStartIndex = 13;
+        Inserter.insert(FileType.XLSX)
+                .into(new File(pkgName + "/Student.xlsx"))
+                .values(students)
+                .range(rowStartIndex)
+                .flush();
+    }
+
+    @Test
+    void insertXLSX_EXIST_FILE_WITH_TABLE_IDX() throws EqualException {
+        int rowStartIndex = 36;
+        Inserter.insert(FileType.XLSX)
+                .into(new File(pkgName + "/Student.xlsx"), 0)
+                .values(students)
+                .range(rowStartIndex)
+                .flush();
+    }
+
+    @Test
+    void insertXLSX_EXIST_FILE_WITH_TABLE_NAME() throws EqualException {
+        int rowStartIndex = 2;
+        Inserter.insert(FileType.XLSX)
+                .into(new File(pkgName + "/Student.xlsx"), "Table2")
+                .values(students)
+                .range(rowStartIndex)
+                .flush();
+    }
+
+    @Test
+    void insertXLSX_EXIST_FILE_WITH_TABLE_NAME2() throws EqualException {
+        int rowStartIndex = 1;
+        Inserter.insert(FileType.XLSX)
+                .into(new File(pkgName + "/Student.xlsx"), "Table4")
                 .values(students)
                 .range(rowStartIndex)
                 .flush();

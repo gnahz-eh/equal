@@ -24,32 +24,27 @@
 
 package com.github.equal.processor.inserter;
 
-import com.github.equal.enums.FileType;
 import com.github.equal.exception.EqualException;
-import com.github.equal.utils.ExceptionUtils;
-import com.github.equal.utils.FileUtils;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-public class InserterContext {
+import java.io.FileInputStream;
+import java.io.IOException;
 
-    private static FileInserter fileInserter;
+public class XLSXInserter extends FileInserter {
 
-    public static void insertIntoFile(Inserter inserter) throws EqualException {
-        FileType fileType = inserter.getFileType();
-        FileType realType = FileUtils.getFileTypeBySourceFile(inserter.getSourceFile());
-        ExceptionUtils.assertIsTargetFileType(realType, fileType);
-        switch (fileType) {
-            case XLSX:
-                fileInserter = new XLSXInserter();
-                break;
-            case XLS:
-                fileInserter = new XLSInserter();
-                break;
-            case CSV:
-                break;
-            default:
-                throw new EqualException(ExceptionUtils.UNSUPPORTED_FILE_TYPE);
+    @Override
+    public void insertIntoFile(Inserter inserter) throws EqualException {
 
+        if (inserter.isSourceFileExist()) {
+            try {
+                this.workbook = new XSSFWorkbook(new FileInputStream(inserter.getSourceFile()));
+            } catch (IOException e) {
+                throw new EqualException(e);
+            }
+        } else {
+            this.workbook = new SXSSFWorkbook(inserter.getRowAccessWindowSize());
         }
-        fileInserter.insertIntoFile(inserter);
+        super.insertData(inserter);
     }
 }

@@ -48,6 +48,7 @@ public class Inserter {
     private boolean dataInitFlag = false;
     private boolean isSourceFileExist = false;
     private Charset charset = StandardCharsets.UTF_8;
+    private int rowAccessWindowSize = 100;
 
     public Inserter(FileType fileType) {
         this.fileType = fileType;
@@ -169,5 +170,9 @@ public class Inserter {
 
     public File getSourceFile() {
         return sourceFile;
+    }
+
+    public int getRowAccessWindowSize() {
+        return rowAccessWindowSize;
     }
 }

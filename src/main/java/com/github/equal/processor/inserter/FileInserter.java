@@ -72,7 +72,7 @@ public abstract class FileInserter {
         if (table == null) {
             table = workbook.createSheet(inserter.getTableName());
             insertColumnNames = true;
-            if (!inserter.isSourceFileExist() && inserter.getRowStartIndex() == 1) {
+            if (inserter.getRowStartIndex() == 1) {
                 insertColumnNames = false;
             }
         }
@@ -162,6 +162,7 @@ public abstract class FileInserter {
         try {
             this.outputStream = new FileOutputStream(inserter.getSourceFile());
             workbook.write(this.outputStream);
+            this.outputStream.close();
         } catch (FileNotFoundException e) {
             throw new EqualException(e);
         } catch (IOException e) {
