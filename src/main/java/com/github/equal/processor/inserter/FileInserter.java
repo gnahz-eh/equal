@@ -49,6 +49,7 @@ public abstract class FileInserter {
     protected List<Column> columns;
     protected Sheet table;
     protected Workbook workbook;
+    private boolean insertColumnNames;
 
     public FileInserter(Inserter inserter) {
         this.inserter = inserter;
@@ -58,34 +59,8 @@ public abstract class FileInserter {
 
     protected void insertData() throws EqualException {
 
-        int tableIndex = inserter.getTableIndex();
-        String tableName = inserter.getTableName();
-        boolean insertColumnNames = false;
-        Sheet table = null;
-        if (tableIndex != -1) {
-            try {
-                table = workbook.getSheetAt(tableIndex);
-            } catch (Exception e) {
-                throw new EqualException(ExceptionUtils.INVALID_TABLE_INDEX, String.valueOf(tableIndex));
-            }
-        } else {
-            table = workbook.getSheet(tableName);
-        }
-
-        if (table == null) {
-            table = workbook.createSheet(inserter.getTableName());
-            insertColumnNames = true;
-            if (inserter.getRowStartIndex() == 1) {
-                insertColumnNames = false;
-            }
-        }
-        this.table = table;
-
+        init();
         Collection<?> data = inserter.getData();
-        Field[] fields = data.iterator().next().getClass().getDeclaredFields();
-
-        init(fields);
-
         int rowIndex = inserter.getRowStartIndex() - 1;
 
         if (insertColumnNames) {
@@ -138,7 +113,31 @@ public abstract class FileInserter {
         }
     }
 
-    private void init(Field[] fields) {
+    private void init() {
+
+        Field[] fields = inserter.getData().iterator().next().getClass().getDeclaredFields();
+        int tableIndex = inserter.getTableIndex();
+        String tableName = inserter.getTableName();
+        this.insertColumnNames = false;
+        Sheet table = null;
+        if (tableIndex != -1) {
+            try {
+                table = workbook.getSheetAt(tableIndex);
+            } catch (Exception e) {
+                throw new EqualException(ExceptionUtils.INVALID_TABLE_INDEX, String.valueOf(tableIndex));
+            }
+        } else {
+            table = workbook.getSheet(tableName);
+        }
+
+        if (table == null) {
+            table = workbook.createSheet(inserter.getTableName());
+            this.insertColumnNames = true;
+            if (inserter.getRowStartIndex() == 1) {
+                this.insertColumnNames = false;
+            }
+        }
+        this.table = table;
         this.fieldIndexes = new HashMap<>(fields.length);
         this.fieldAdapters = new HashMap<>();
         this.columns = new ArrayList<>();
