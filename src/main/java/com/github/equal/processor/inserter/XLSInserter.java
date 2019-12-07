@@ -28,7 +28,7 @@ import com.github.equal.exception.EqualException;
 import com.github.equal.utils.FileUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
-public class XLSInserter extends FileInserter {
+public class XLSInserter extends ExcelFileInserter {
 
     public XLSInserter(Inserter inserter) {
         super(inserter);

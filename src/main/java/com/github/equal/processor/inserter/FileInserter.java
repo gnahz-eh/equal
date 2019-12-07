@@ -28,118 +28,32 @@ import com.github.equal.annotation.Column;
 import com.github.equal.exception.EqualException;
 import com.github.equal.processor.adapter.Adapter;
 import com.github.equal.processor.adapter.AdapterFactory;
-import com.github.equal.utils.ConstantUtils;
-import com.github.equal.utils.ExceptionUtils;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public abstract class FileInserter {
 
-    protected Inserter inserter;
-
-    protected Map<Integer, Field> fieldIndexes;
-    protected Map<Field, Adapter<String, ?>> fieldAdapters;
-    protected OutputStream outputStream;
-    protected List<Column> columns;
-    protected Sheet table;
-    protected Workbook workbook;
-    private boolean insertColumnNames;
+    Inserter inserter;
+    Map<Integer, Field> fieldIndexes;
+    Map<Field, Adapter<String, ?>> fieldAdapters;
+    OutputStream outputStream;
+    List<Column> columns;
+    boolean insertColumnNames;
 
     public FileInserter(Inserter inserter) {
         this.inserter = inserter;
     }
 
-    public abstract void insertIntoFile();
-
-    protected void insertData() throws EqualException {
-
-        init();
-        Collection<?> data = inserter.getData();
-        int rowIndex = inserter.getRowStartIndex() - 1;
-
-        if (insertColumnNames) {
-            this.insertColumnNames(rowIndex - 1);
-        }
-
-        int numberOfRows = inserter.getNumberOfRows();
-        Iterator<?> iterator = data.iterator();
-        int i = 0;
-
-        try {
-            for (; i < numberOfRows; i++) {
-                this.insertRow(iterator.next(), rowIndex++);
-            }
-        } catch (Exception e) {
-            throw new EqualException(ExceptionUtils.INSERT_DATA_ERROR, String.valueOf(i));
-        }
-        flushData();
-    }
-
-    private void insertColumnNames(int rowIndex) {
-        Row head = table.createRow(rowIndex);
-        for (Column column : columns) {
-            Cell cell = head.createCell(column.index());
-            cell.setCellValue(column.name());
-            table.setColumnWidth(column.index(), ConstantUtils.DEFAULT_COLUMN_WIDTH);
-        }
-    }
-
-    private void insertRow(Object obj, int index) throws Exception {
-        Row row = table.createRow(index);
-
-        for (Integer colIndex : fieldIndexes.keySet()) {
-            Field field = fieldIndexes.get(colIndex);
-
-            if (field == null) {
-                continue;
-            }
-            Object val = field.get(obj);
-
-            if (val == null) {
-                continue;
-            }
-
-            Cell cell = row.createCell(colIndex);
-            Adapter adapter = fieldAdapters.get(field);
-            String formatedValue = adapter.toString(val);
-            cell.setCellValue(formatedValue);
-        }
-    }
-
-    private void init() {
+    void init() {
 
         Field[] fields = inserter.getData().iterator().next().getClass().getDeclaredFields();
-        int tableIndex = inserter.getTableIndex();
-        String tableName = inserter.getTableName();
-        this.insertColumnNames = false;
-        Sheet table = null;
-        if (tableIndex != -1) {
-            try {
-                table = workbook.getSheetAt(tableIndex);
-            } catch (Exception e) {
-                throw new EqualException(ExceptionUtils.INVALID_TABLE_INDEX, String.valueOf(tableIndex));
-            }
-        } else {
-            table = workbook.getSheet(tableName);
-        }
-
-        if (table == null) {
-            table = workbook.createSheet(inserter.getTableName());
-            this.insertColumnNames = true;
-            if (inserter.getRowStartIndex() == 1) {
-                this.insertColumnNames = false;
-            }
-        }
-        this.table = table;
         this.fieldIndexes = new HashMap<>(fields.length);
         this.fieldAdapters = new HashMap<>();
         this.columns = new ArrayList<>();
@@ -167,12 +81,5 @@ public abstract class FileInserter {
         }
     }
 
-    private void flushData() throws EqualException {
-        try {
-            workbook.write(this.outputStream);
-            this.outputStream.close();
-        } catch (IOException e) {
-            throw new EqualException(ExceptionUtils.INSERT_DATA_ERROR);
-        }
-    }
+    public abstract void insertIntoFile();
 }

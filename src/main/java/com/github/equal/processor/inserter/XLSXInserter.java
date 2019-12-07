@@ -31,7 +31,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-public class XLSXInserter extends FileInserter {
+public class XLSXInserter extends ExcelFileInserter {
 
     public XLSXInserter(Inserter inserter) {
         super(inserter);
