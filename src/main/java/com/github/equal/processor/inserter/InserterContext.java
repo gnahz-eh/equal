@@ -45,6 +45,7 @@ public class InserterContext {
                 fileInserter = new XLSInserter(inserter);
                 break;
             case CSV:
+                fileInserter = new CSVInserter(inserter);
                 break;
             default:
                 throw new EqualException(ExceptionUtils.UNSUPPORTED_FILE_TYPE);

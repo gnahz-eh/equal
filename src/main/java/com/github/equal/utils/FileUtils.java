@@ -113,4 +113,11 @@ public class FileUtils {
         outputStream.close();
         return outputStream.toByteArray();
     }
+
+    public static boolean isExcelFile(FileType fileType) {
+        if (fileType == FileType.XLS || fileType == FileType.XLSX) {
+            return true;
+        }
+        return false;
+    }
 }

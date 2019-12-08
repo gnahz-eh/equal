@@ -279,6 +279,18 @@ class InserterTest {
                 .flush();
     }
 
+    //|------------------------------------------------------------------------------------------------------------|
+
+    @Test
+    void insertCSV_NON_EXIST_PKG() throws EqualException {
+        int rowStartIndex = 2;
+        Inserter.insert(FileType.CSV)
+                .into(new File(pkgName + "/new/Student.csv"))
+                .values(students)
+                .range(rowStartIndex)
+                .flush();
+    }
+
     public static void main(String[] args) {
         FunctionUtils.delFile(new File(pkgName + "/new"));
     }

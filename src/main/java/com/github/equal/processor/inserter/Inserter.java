@@ -24,8 +24,8 @@
 
 package com.github.equal.processor.inserter;
 
-import com.github.equal.exception.EqualException;
 import com.github.equal.enums.FileType;
+import com.github.equal.exception.EqualException;
 import com.github.equal.utils.ConstantUtils;
 import com.github.equal.utils.ExceptionUtils;
 import com.github.equal.utils.StringUtils;
@@ -174,5 +174,9 @@ public class Inserter {
 
     public int getRowAccessWindowSize() {
         return rowAccessWindowSize;
+    }
+
+    public Charset getCharset() {
+        return charset;
     }
 }

@@ -131,10 +131,7 @@ public abstract class ExcelFileInserter extends FileInserter {
 
         if (table == null) {
             table = workbook.createSheet(inserter.getTableName());
-            this.insertColumnNames = true;
-            if (inserter.getRowStartIndex() == 1) {
-                this.insertColumnNames = false;
-            }
+            this.insertColumnNames = inserter.getRowStartIndex() > 1;
         }
         this.table = table;
     }
