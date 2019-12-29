@@ -25,13 +25,9 @@
 package com.github.equal.processor.inserter;
 
 import com.github.equal.annotation.Column;
-import com.github.equal.exception.EqualException;
 import com.github.equal.processor.adapter.Adapter;
 import com.github.equal.processor.adapter.AdapterFactory;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,7 +39,6 @@ public abstract class FileInserter {
     Inserter inserter;
     Map<Integer, Field> fieldIndexes;
     Map<Field, Adapter<String, ?>> fieldAdapters;
-    OutputStream outputStream;
     List<Column> columns;
     boolean insertColumnNames;
 
@@ -73,11 +68,6 @@ public abstract class FileInserter {
                     fieldAdapters.put(field, adapter);
                 }
             }
-        }
-        try {
-            this.outputStream = new FileOutputStream(inserter.getSourceFile());
-        } catch (FileNotFoundException e) {
-            throw new EqualException(e);
         }
     }
 

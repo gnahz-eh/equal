@@ -41,6 +41,7 @@ public class CSVInserter extends FileInserter {
 
     private List<Field> fields;
     private InputStream inputStream;
+    private OutputStream outputStream;
 
     public CSVInserter(Inserter inserter) {
         super(inserter);

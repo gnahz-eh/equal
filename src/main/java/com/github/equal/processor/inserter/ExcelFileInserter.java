@@ -34,7 +34,10 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.Iterator;
@@ -43,13 +46,13 @@ public abstract class ExcelFileInserter extends FileInserter {
 
     protected Sheet table;
     protected Workbook workbook;
+    protected OutputStream outputStream;
 
     public ExcelFileInserter(Inserter inserter) {
         super(inserter);
     }
 
     protected void insertData() throws EqualException {
-        init();
         initExcelFile();
 
         Collection<?> data = inserter.getData();
@@ -114,7 +117,7 @@ public abstract class ExcelFileInserter extends FileInserter {
     }
 
     private void initExcelFile() {
-
+        init();
         int tableIndex = inserter.getTableIndex();
         String tableName = inserter.getTableName();
         this.insertColumnNames = false;
@@ -134,5 +137,11 @@ public abstract class ExcelFileInserter extends FileInserter {
             this.insertColumnNames = inserter.getRowStartIndex() > 1;
         }
         this.table = table;
+
+        try {
+            this.outputStream = new FileOutputStream(inserter.getSourceFile());
+        } catch (FileNotFoundException e) {
+            throw new EqualException(e);
+        }
     }
 }
