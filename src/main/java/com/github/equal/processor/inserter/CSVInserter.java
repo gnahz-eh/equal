@@ -27,9 +27,10 @@ package com.github.equal.processor.inserter;
 import com.github.equal.annotation.Column;
 import com.github.equal.exception.EqualException;
 import com.github.equal.processor.adapter.Adapter;
-import com.github.equal.utils.ExceptionUtils;
 
-import java.io.*;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -40,16 +41,11 @@ import static java.util.stream.Collectors.toList;
 public class CSVInserter extends FileInserter {
 
     private List<Field> fields;
+    private FileWriter fileWriter;
     private InputStream inputStream;
-    private OutputStream outputStream;
 
     public CSVInserter(Inserter inserter) {
         super(inserter);
-        try {
-            this.outputStream = new FileOutputStream(this.inserter.getSourceFile());
-        } catch (FileNotFoundException e) {
-            throw new EqualException(e);
-        }
     }
 
     @Override
@@ -57,34 +53,37 @@ public class CSVInserter extends FileInserter {
         initCSVFile();
 
         Collection<?> data = inserter.getData();
-        List<String> csvRowData = this.parseData(data);
+        int numberOfRows = inserter.getNumberOfRows();
+        List<String> csvRowData = this.parseData(data, numberOfRows);
 
-        try (OutputStreamWriter osw = new OutputStreamWriter(this.outputStream, inserter.getCharset())) {
-            osw.write('\ufeff');
+        try (FileWriter fw = this.fileWriter) {
+            fw.write('\ufeff');
 
             int rowIndex = inserter.getRowStartIndex() - 1;
 
             // insert blank line
-            while (rowIndex-- > 1) osw.write("\n");
+            while (rowIndex-- > 1) fw.write("\n");
 
             // insert columns names
             if (insertColumnNames) {
-                osw.write(parseColumnNames());
+                fw.write(parseColumnNames());
             }
 
             // insert row
             for (String row : csvRowData) {
-                osw.write(row);
+                fw.write(row);
             }
-        } catch (Exception e) {
+            fw.flush();
+        } catch (IOException e) {
             throw new EqualException(e);
         }
     }
 
-    private List<String> parseData(Collection<?> data) {
-        List<String> csvRowData = new ArrayList<>(data.size());
+    private List<String> parseData(Collection<?> data, int numberOfRows) {
+        List<String> csvRowData = new ArrayList<>(numberOfRows);
 
         for (Object obj : data) {
+            if (0 == numberOfRows--) break;
             try {
                 String row = parseRow(obj);
                 csvRowData.add(row);
@@ -139,11 +138,12 @@ public class CSVInserter extends FileInserter {
         if (!inserter.isSourceFileExist()) {
             this.insertColumnNames = inserter.getRowStartIndex() > 1;
         } else {
-            try {
-                this.inputStream = new FileInputStream(inserter.getSourceFile());
-            } catch (FileNotFoundException e) {
-                throw new EqualException(ExceptionUtils.FILE_NOT_FOUND, inserter.getSourceFile().getName(), e);
-            }
+            // source file exist, need to read the source file data.
+        }
+        try {
+            fileWriter = new FileWriter(inserter.getSourceFile(), inserter.isSourceFileExist());
+        } catch (IOException e) {
+            throw new EqualException(e);
         }
     }
 }
