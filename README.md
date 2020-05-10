@@ -6,3 +6,11 @@ Source File              | ColumnName            |
 -------------------------|-----------------------|
 Source File Exist        | Not Insert ColumnName |
 Source File Do Not Exist | Insert ColumnName     |
+
+Emoji |          |
+------|----------|
+🐞    | Bug Fix  |
+🛠️    | Optimize |
+🧩    | Develop  |
+❌    | Delete   |
+🧪    | Test     | 
