@@ -34,7 +34,7 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SelectorTest {
 
@@ -179,6 +179,18 @@ class SelectorTest {
         List<Student3> students = Selector
                 .select(Student3.class)
                 .from(new File(pkgName + "/Student3.xlsx"))
+                .where(rowStartIndex, numOfRows)
+                .executeQuery();
+        assertEquals(students.size(), numOfRows);
+    }
+
+    @Test
+    void selectCSVWithBlankLine() throws EqualException {
+        int rowStartIndex = 2;
+        int numOfRows = 8;
+        List<Student3> students = Selector
+                .select(Student4.class)
+                .from(new File(pkgName + "/Student5.csv"))
                 .where(rowStartIndex, numOfRows)
                 .executeQuery();
         assertEquals(students.size(), numOfRows);

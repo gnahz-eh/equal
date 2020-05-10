@@ -24,8 +24,8 @@
 
 package com.github.equal.processor.adapter;
 
-import com.github.equal.utils.ExceptionUtils;
 import com.github.equal.exception.EqualException;
+import com.github.equal.utils.ExceptionUtils;
 import com.github.equal.utils.StringUtils;
 
 public class LongAdapter extends NumberAdapter<Long> {
@@ -38,7 +38,7 @@ public class LongAdapter extends NumberAdapter<Long> {
         try {
             str = super.cleanComma(str);
             return Long.parseLong(str);
-        } catch (EqualException e) {
+        } catch (Exception e) {
             throw new EqualException(ExceptionUtils.ADAPT_VALUE_ERROR, str + " -> Long");
         }
     }
