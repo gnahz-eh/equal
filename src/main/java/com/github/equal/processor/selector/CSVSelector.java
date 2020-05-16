@@ -27,6 +27,7 @@ package com.github.equal.processor.selector;
 import com.github.equal.annotation.Column;
 import com.github.equal.exception.EqualException;
 import com.github.equal.processor.adapter.Adapter;
+import com.github.equal.utils.ConstantUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -59,7 +60,7 @@ public class CSVSelector extends FileSelector {
                 if (rowStartIndex-- > 1) {
                     continue;
                 }
-                if (line.equals("")) {
+                if (line.equals(ConstantUtils.BLINK_STRING)) {
                     builder.add(null);
                 } else {
                     Object obj = clazz.newInstance();
