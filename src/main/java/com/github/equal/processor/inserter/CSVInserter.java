@@ -27,10 +27,10 @@ package com.github.equal.processor.inserter;
 import com.github.equal.annotation.Column;
 import com.github.equal.exception.EqualException;
 import com.github.equal.processor.adapter.Adapter;
+import com.github.equal.utils.ConstantUtils;
+import com.github.equal.utils.ExceptionUtils;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -54,20 +54,12 @@ public class CSVInserter extends FileInserter {
 
         Collection<?> data = inserter.getData();
         int numberOfRows = inserter.getNumberOfRows();
-        List<String> csvRowData = this.parseData(data, numberOfRows);
+        int rowStartIndex = inserter.getRowStartIndex();
+        boolean isSourceFileExist = inserter.isSourceFileExist();
+        List<String> csvRowData = this.parseData(data, numberOfRows, rowStartIndex, isSourceFileExist);
 
         try (FileWriter fw = this.fileWriter) {
             fw.write('\ufeff');
-
-            int rowIndex = inserter.getRowStartIndex() - 1;
-
-            // insert blank line
-            while (rowIndex-- > 1) fw.write("\n");
-
-            // insert columns names
-            if (insertColumnNames) {
-                fw.write(parseColumnNames());
-            }
 
             // insert row
             for (String row : csvRowData) {
@@ -79,16 +71,75 @@ public class CSVInserter extends FileInserter {
         }
     }
 
-    private List<String> parseData(Collection<?> data, int numberOfRows) {
-        List<String> csvRowData = new ArrayList<>(numberOfRows);
+    private List<String> parseData(Collection<?> data, int numberOfRows, int rowStartIndex, boolean isSourceFileExist) {
+        List<String> csvRowData = null;
 
-        for (Object obj : data) {
-            if (0 == numberOfRows--) break;
+        // source exist not exist
+        if (!isSourceFileExist) {
+            csvRowData = new ArrayList<>(rowStartIndex + numberOfRows - 1);
+            int rowIndex = rowStartIndex - 1;
+
+            // insert blank line
+            while (rowIndex-- > 1) csvRowData.add("\n");
+            // insert columns names
+            if (this.insertColumnNames) {
+                csvRowData.add(parseColumnNames());
+            }
+
+            for (Object obj : data) {
+                if (0 == numberOfRows--) break;
+                try {
+                    String row = parseRow(obj);
+                    csvRowData.add(row);
+                } catch (Exception e) {
+                    throw new EqualException(e);
+                }
+            }
+        }
+        // source exist, not insert column names
+        else {
+
+            BufferedReader bufferedReader = new BufferedReader(
+                    new InputStreamReader(inputStream, inserter.getCharset()));
+            csvRowData = new ArrayList<>();
+            String line = null;
             try {
-                String row = parseRow(obj);
-                csvRowData.add(row);
-            } catch (Exception e) {
+                while ((line = bufferedReader.readLine()) != null) {
+                    csvRowData.add(line + "\n");
+                }
+            } catch (IOException e) {
                 throw new EqualException(e);
+            }
+
+            // create a new file
+            try {
+                fileWriter = new FileWriter(inserter.getSourceFile(), false);
+            } catch (IOException e) {
+                throw new EqualException(e);
+            }
+
+            int numberOfInitialData = csvRowData.size();
+
+            // add blank column if rowStartIndex > csvRowData.size()
+            int numberOfBlankLine = rowStartIndex - (numberOfInitialData + 1);
+            while (numberOfBlankLine > 0) {
+                csvRowData.add(ConstantUtils.BLINK_STRING + "\n");
+                numberOfBlankLine--;
+            }
+
+            for (Object obj : data) {
+                if (0 == numberOfRows--) break;
+                try {
+                    String row = parseRow(obj);
+                    if (rowStartIndex > numberOfInitialData) {
+                        csvRowData.add(row);
+                    } else {
+                        csvRowData.set(rowStartIndex - 1, row);
+                    }
+                    rowStartIndex++;
+                } catch (Exception e) {
+                    throw new EqualException(e);
+                }
             }
         }
         return csvRowData;
@@ -102,7 +153,7 @@ public class CSVInserter extends FileInserter {
             Field field = fields.get(i);
             Object val = field.get(obj);
             Adapter adapter = fieldAdapters.get(field);
-            sb.append(val == null ? "" : adapter.toString(val));
+            sb.append(val == null ? ConstantUtils.BLINK_STRING : adapter.toString(val));
             if (i < fields.size() - 1) {
                 sb.append(",");
             }
@@ -111,7 +162,7 @@ public class CSVInserter extends FileInserter {
         return sb.toString();
     }
 
-    private String parseColumnNames() throws IOException {
+    private String parseColumnNames() {
 
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < fields.size(); i++) {
@@ -137,13 +188,18 @@ public class CSVInserter extends FileInserter {
         this.insertColumnNames = false;
         if (!inserter.isSourceFileExist()) {
             this.insertColumnNames = inserter.getRowStartIndex() > 1;
+            try {
+                fileWriter = new FileWriter(inserter.getSourceFile(), inserter.isSourceFileExist());
+            } catch (IOException e) {
+                throw new EqualException(e);
+            }
         } else {
-            // source file exist, need to read the source file data.
-        }
-        try {
-            fileWriter = new FileWriter(inserter.getSourceFile(), inserter.isSourceFileExist());
-        } catch (IOException e) {
-            throw new EqualException(e);
+            // source file exist, need to read the source file data, do not insert columns names
+            try {
+                this.inputStream = new FileInputStream(inserter.getSourceFile());
+            } catch (FileNotFoundException e) {
+                throw new EqualException(ExceptionUtils.FILE_OPEN_ERROR, inserter.getSourceFile().getName(), e);
+            }
         }
     }
 }

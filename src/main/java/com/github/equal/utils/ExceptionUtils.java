@@ -51,6 +51,7 @@ public class ExceptionUtils {
     public static final int ADAPT_DATE_ERROR = 112;
     public static final int ADAPT_TIME_ERROR = 113;
     public static final int ADAPT_DATE_TIME_ERROR = 114;
+    public static final int FILE_OPEN_ERROR = 115;
 
     // Inserter
     public static final int SOURCE_FILE_DOES_NOT_EXIST = 200;
@@ -60,7 +61,7 @@ public class ExceptionUtils {
     public static final int INSERT_DATA_ERROR = 204;
     public static final int FILE_TYPES_ARE_INCONSISTENT = 205;
 
-    public static final Map<Integer, String> EXCEPTION_MAP = new HashMap<Integer, String>();
+    public static final Map<Integer, String> EXCEPTION_MAP = new HashMap<>();
 
     static {
         // Selector
@@ -79,6 +80,7 @@ public class ExceptionUtils {
         EXCEPTION_MAP.put(ADAPT_DATE_ERROR, "Adapt date error");
         EXCEPTION_MAP.put(ADAPT_TIME_ERROR, "Adapt time error");
         EXCEPTION_MAP.put(ADAPT_DATE_TIME_ERROR, "Adapt date time error");
+        EXCEPTION_MAP.put(FILE_OPEN_ERROR, "File open error");
 
         // Inserter
         EXCEPTION_MAP.put(SOURCE_FILE_DOES_NOT_EXIST, "Source file does not exist");
