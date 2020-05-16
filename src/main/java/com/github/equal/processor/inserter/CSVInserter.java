@@ -80,7 +80,7 @@ public class CSVInserter extends FileInserter {
             int rowIndex = rowStartIndex - 1;
 
             // insert blank line
-            while (rowIndex-- > 1) csvRowData.add("\n");
+            while (rowIndex-- > 1) csvRowData.add(ConstantUtils.NEW_LINE);
             // insert columns names
             if (this.insertColumnNames) {
                 csvRowData.add(parseColumnNames());
@@ -105,7 +105,7 @@ public class CSVInserter extends FileInserter {
             String line = null;
             try {
                 while ((line = bufferedReader.readLine()) != null) {
-                    csvRowData.add(line + "\n");
+                    csvRowData.add(line + ConstantUtils.NEW_LINE);
                 }
             } catch (IOException e) {
                 throw new EqualException(e);
@@ -123,7 +123,7 @@ public class CSVInserter extends FileInserter {
             // add blank column if rowStartIndex > csvRowData.size()
             int numberOfBlankLine = rowStartIndex - (numberOfInitialData + 1);
             while (numberOfBlankLine > 0) {
-                csvRowData.add(ConstantUtils.BLINK_STRING + "\n");
+                csvRowData.add(ConstantUtils.NEW_LINE);
                 numberOfBlankLine--;
             }
 
@@ -158,7 +158,7 @@ public class CSVInserter extends FileInserter {
                 sb.append(",");
             }
         }
-        sb.append("\n");
+        sb.append(ConstantUtils.NEW_LINE);
         return sb.toString();
     }
 
@@ -172,7 +172,7 @@ public class CSVInserter extends FileInserter {
                 sb.append(",");
             }
         }
-        sb.append("\n");
+        sb.append(ConstantUtils.NEW_LINE);
         return sb.toString();
     }
 

@@ -31,5 +31,5 @@ public class ConstantUtils {
     public static final int MAX_ROWS_IN_XLSX = 1048576;
     public static final int DEFAULT_COLUMN_WIDTH = 20 * 256;
     public static final String BLINK_STRING = "";
-
+    public static final String NEW_LINE = "\n";
 }
