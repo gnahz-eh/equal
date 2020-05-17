@@ -75,8 +75,12 @@ public class XLSSelector extends FileSelector {
                 numberOfRows--;
                 if (numberOfRows == 0) break;
             }
-            while (0 != numberOfRows--) {
-                builder.add(null);
+
+            // if numberRows > rows, use null
+            if (numberOfRows > 0) {
+                while (0 != numberOfRows--) {
+                    builder.add(null);
+                }
             }
             return builder.build();
         } catch (InstantiationException e) {

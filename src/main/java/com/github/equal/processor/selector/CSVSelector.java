@@ -73,6 +73,13 @@ public class CSVSelector extends FileSelector {
                 numberOfRows--;
                 if (numberOfRows == 0) break;
             }
+
+            // if numberRows > rows, use null
+            if (numberOfRows > 0) {
+                while (0 != numberOfRows--) {
+                    builder.add(null);
+                }
+            }
             return builder.build();
         } catch (IOException e) {
             throw new EqualException(e);
