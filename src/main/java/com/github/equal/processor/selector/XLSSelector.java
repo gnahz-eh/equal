@@ -75,13 +75,15 @@ public class XLSSelector extends FileSelector {
                 if (numberOfRows == 0) break;
             }
             return builder.build();
-        } catch (Exception e) {
+        } catch (InstantiationException e) {
             throw new EqualException(e);
+        } catch (IllegalAccessException e1) {
+            throw new EqualException(e1);
         }
     }
 
     @Override
-    public Object getCellValue(Cell cell, Field field) throws EqualException {
+    public Object getCellValue(Cell cell, Field field) {
         Adapter<String, ?> adapter = fieldAdapters.get(field);
         if (adapter == null) {
             return cell.getStringCellValue();
@@ -108,14 +110,14 @@ public class XLSSelector extends FileSelector {
                 workbook.getSheetAt(selector.getTableIndex());
     }
 
-    private void setField(Field field, Row row, Object obj) throws EqualException {
+    private void setField(Field field, Row row, Object obj) {
         Column column = field.getAnnotation(Column.class);
         Cell cell = row.getCell(column.index());
         if (cell == null) {
             return;
         }
+        Object value = getCellValue(cell, field);
         try {
-            Object value = getCellValue(cell, field);
             field.set(obj, value);
         } catch (Exception e) {
             throw new EqualException(e);
