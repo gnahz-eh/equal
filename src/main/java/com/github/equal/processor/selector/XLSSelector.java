@@ -56,7 +56,7 @@ public class XLSSelector extends FileSelector {
 
             int rowStartIndex = selector.getRowStartIndex();
             int numberOfRows = selector.getNumberOfRows();
-            int rows = table.getPhysicalNumberOfRows();
+            int rows = table.getLastRowNum() + 1;
 
             for (int i = 0; i < rows; i++) {
                 if (i < rowStartIndex - 1) {
@@ -64,15 +64,19 @@ public class XLSSelector extends FileSelector {
                 }
                 Row row = table.getRow(i);
                 if (row == null) {
-                    continue;
+                    builder.add(null);
+                } else {
+                    Object obj = clazz.newInstance();
+                    for (Field field : fieldIndexes.values()) {
+                        setField(field, row, obj);
+                    }
+                    builder.add((T) obj);
                 }
-                Object obj = clazz.newInstance();
-                for (Field field : fieldIndexes.values()) {
-                    setField(field, row, obj);
-                }
-                builder.add((T) obj);
                 numberOfRows--;
                 if (numberOfRows == 0) break;
+            }
+            while (0 != numberOfRows--) {
+                builder.add(null);
             }
             return builder.build();
         } catch (InstantiationException e) {

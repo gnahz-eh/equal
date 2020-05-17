@@ -42,27 +42,77 @@ class SelectorTest {
 
     @Test
     void selectXLS() throws EqualException {
-        int rowStartIndex = 4;
-        int numOfRows = 2;
+        int rowStartIndex = 2;
+        int numOfRows = 4;
         List<Student> students = Selector
                                 .select(Student.class)
-                                .from(new File(pkgName + "/Student.xls"))
+                                .from(new File(pkgName + "/Student6.xls"))
                                 .where(rowStartIndex, numOfRows)
                                 .executeQuery();
         assertEquals(students.size(), numOfRows);
     }
 
     @Test
-    void selectCSV() throws EqualException {
-        int rowStartIndex = 2;
-        int numOfRows = 5;
+    void selectXLS2() throws EqualException {
+        int rowStartIndex = 5;
+        int numOfRows = 3;
         List<Student> students = Selector
                 .select(Student.class)
-                .from(new File(pkgName + "/Student2.csv"))
+                .from(new File(pkgName + "/Student6.xls"))
                 .where(rowStartIndex, numOfRows)
                 .executeQuery();
         assertEquals(students.size(), numOfRows);
     }
+
+    @Test
+    void selectXLS3() throws EqualException {
+        int rowStartIndex = 7;
+        int numOfRows = 3;
+        List<Student> students = Selector
+                .select(Student.class)
+                .from(new File(pkgName + "/Student6.xls"))
+                .where(rowStartIndex, numOfRows)
+                .executeQuery();
+        assertEquals(students.size(), numOfRows);
+    }
+
+    @Test
+    void selectXLS4() throws EqualException {
+        int rowStartIndex = 9;
+        int numOfRows = 4;
+        List<Student> students = Selector
+                .select(Student.class)
+                .from(new File(pkgName + "/Student6.xls"))
+                .where(rowStartIndex, numOfRows)
+                .executeQuery();
+        assertEquals(students.size(), numOfRows);
+    }
+
+    @Test
+    void selectXLS5() throws EqualException {
+        int rowStartIndex = 12;
+        int numOfRows = 4;
+        List<Student> students = Selector
+                .select(Student.class)
+                .from(new File(pkgName + "/Student6.xls"))
+                .where(rowStartIndex, numOfRows)
+                .executeQuery();
+        assertEquals(students.size(), numOfRows);
+    }
+
+    @Test
+    void selectXLS6() throws EqualException {
+        int rowStartIndex = 6;
+        int numOfRows = 6;
+        List<Student> students = Selector
+                .select(Student.class)
+                .from(new File(pkgName + "/Student6.xls"))
+                .where(rowStartIndex, numOfRows)
+                .executeQuery();
+        assertEquals(students.size(), numOfRows);
+    }
+
+//---------------------------------------------------------------------------
 
     @Test
     void selectXLSX() throws EqualException {
@@ -71,6 +121,91 @@ class SelectorTest {
         List<Student> students = Selector
                 .select(Student.class)
                 .from(new File(pkgName + "/Student.xlsx"))
+                .where(rowStartIndex, numOfRows)
+                .executeQuery();
+        assertEquals(students.size(), numOfRows);
+    }
+
+    @Test
+    void selectXLSX2() throws EqualException {
+        int rowStartIndex = 5;
+        int numOfRows = 3;
+        List<Student> students = Selector
+                .select(Student.class)
+                .from(new File(pkgName + "/Student6.xlsx"))
+                .where(rowStartIndex, numOfRows)
+                .executeQuery();
+        assertEquals(students.size(), numOfRows);
+    }
+
+    @Test
+    void selectXLSX3() throws EqualException {
+        int rowStartIndex = 7;
+        int numOfRows = 3;
+        List<Student> students = Selector
+                .select(Student.class)
+                .from(new File(pkgName + "/Student6.xlsx"))
+                .where(rowStartIndex, numOfRows)
+                .executeQuery();
+        assertEquals(students.size(), numOfRows);
+    }
+
+    @Test
+    void selectXLSX4() throws EqualException {
+        int rowStartIndex = 9;
+        int numOfRows = 4;
+        List<Student> students = Selector
+                .select(Student.class)
+                .from(new File(pkgName + "/Student6.xlsx"))
+                .where(rowStartIndex, numOfRows)
+                .executeQuery();
+        assertEquals(students.size(), numOfRows);
+    }
+
+    @Test
+    void selectXLSX5() throws EqualException {
+        int rowStartIndex = 12;
+        int numOfRows = 4;
+        List<Student> students = Selector
+                .select(Student.class)
+                .from(new File(pkgName + "/Student6.xlsx"))
+                .where(rowStartIndex, numOfRows)
+                .executeQuery();
+        assertEquals(students.size(), numOfRows);
+    }
+
+    @Test
+    void selectXLSX6() throws EqualException {
+        int rowStartIndex = 6;
+        int numOfRows = 6;
+        List<Student> students = Selector
+                .select(Student.class)
+                .from(new File(pkgName + "/Student6.xlsx"))
+                .where(rowStartIndex, numOfRows)
+                .executeQuery();
+        assertEquals(students.size(), numOfRows);
+    }
+
+    @Test
+    void selectXLSX7() throws EqualException {
+        int rowStartIndex = 2;
+        int numOfRows = 4;
+        List<Student> students = Selector
+                .select(Student.class)
+                .from(new File(pkgName + "/Student6.xlsx"))
+                .where(rowStartIndex, numOfRows)
+                .executeQuery();
+        assertEquals(students.size(), numOfRows);
+    }
+//---------------------------------------------------------------------------
+
+    @Test
+    void selectCSV() throws EqualException {
+        int rowStartIndex = 2;
+        int numOfRows = 5;
+        List<Student> students = Selector
+                .select(Student.class)
+                .from(new File(pkgName + "/Student2.csv"))
                 .where(rowStartIndex, numOfRows)
                 .executeQuery();
         assertEquals(students.size(), numOfRows);
