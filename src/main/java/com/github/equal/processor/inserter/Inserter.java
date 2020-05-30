@@ -24,8 +24,8 @@
 
 package com.github.equal.processor.inserter;
 
-import com.github.equal.exception.EqualException;
 import com.github.equal.enums.FileType;
+import com.github.equal.exception.EqualException;
 import com.github.equal.utils.ConstantUtils;
 import com.github.equal.utils.ExceptionUtils;
 import com.github.equal.utils.StringUtils;
@@ -48,6 +48,7 @@ public class Inserter {
     private boolean dataInitFlag = false;
     private boolean isSourceFileExist = false;
     private Charset charset = StandardCharsets.UTF_8;
+    private int rowAccessWindowSize = 100;
 
     public Inserter(FileType fileType) {
         this.fileType = fileType;
@@ -65,6 +66,7 @@ public class Inserter {
         ExceptionUtils.assertInsertDataIsNotNull(data);
         this.data = data;
         this.dataInitFlag = true;
+        this.range();
         return this;
     }
 
@@ -81,7 +83,7 @@ public class Inserter {
 
     public Inserter range(int rowStartIndex) {
         ExceptionUtils.assertValidRowStartIndex(rowStartIndex);
-        range();
+        this.range();
         this.rowStartIndex = rowStartIndex;
         return this;
     }
@@ -169,5 +171,13 @@ public class Inserter {
 
     public File getSourceFile() {
         return sourceFile;
+    }
+
+    public int getRowAccessWindowSize() {
+        return rowAccessWindowSize;
+    }
+
+    public Charset getCharset() {
+        return charset;
     }
 }

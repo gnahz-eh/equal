@@ -24,8 +24,8 @@
 
 package com.github.equal.processor.adapter;
 
-import com.github.equal.utils.ExceptionUtils;
 import com.github.equal.exception.EqualException;
+import com.github.equal.utils.ExceptionUtils;
 import com.github.equal.utils.StringUtils;
 
 public class DoubleAdapter extends NumberAdapter<Double> {
@@ -38,7 +38,7 @@ public class DoubleAdapter extends NumberAdapter<Double> {
         try {
             str = super.cleanComma(str);
             return Double.parseDouble(str);
-        } catch (EqualException e) {
+        } catch (Exception e) {
             throw new EqualException(ExceptionUtils.ADAPT_VALUE_ERROR, str + " -> Double");
         }
     }

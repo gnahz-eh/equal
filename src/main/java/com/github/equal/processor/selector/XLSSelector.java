@@ -27,6 +27,7 @@ package com.github.equal.processor.selector;
 import com.github.equal.annotation.Column;
 import com.github.equal.exception.EqualException;
 import com.github.equal.processor.adapter.Adapter;
+import com.github.equal.utils.ConstantUtils;
 import com.github.equal.utils.DateUtils;
 import com.github.equal.utils.StringUtils;
 import org.apache.poi.ss.usermodel.*;
@@ -55,32 +56,41 @@ public class XLSSelector extends FileSelector {
 
             int rowStartIndex = selector.getRowStartIndex();
             int numberOfRows = selector.getNumberOfRows();
-            int rows = table.getPhysicalNumberOfRows();
+            int rows = table.getLastRowNum() + 1;
 
             for (int i = 0; i < rows; i++) {
-                if (i < rowStartIndex - 1) {
-                    continue;
-                }
+                if (numberOfRows == 0) break;
+                if (i < rowStartIndex - 1) continue;
+
                 Row row = table.getRow(i);
                 if (row == null) {
-                    continue;
+                    builder.add(null);
+                } else {
+                    Object obj = clazz.newInstance();
+                    for (Field field : fieldIndexes.values()) {
+                        setField(field, row, obj);
+                    }
+                    builder.add((T) obj);
                 }
-                Object obj = clazz.newInstance();
-                for (Field field : fieldIndexes.values()) {
-                    setField(field, row, obj);
-                }
-                builder.add((T) obj);
                 numberOfRows--;
-                if (numberOfRows == 0) break;
+            }
+
+            // if numberRows > rows, use null
+            if (numberOfRows > 0) {
+                while (0 != numberOfRows--) {
+                    builder.add(null);
+                }
             }
             return builder.build();
-        } catch (Exception e) {
+        } catch (InstantiationException e) {
             throw new EqualException(e);
+        } catch (IllegalAccessException e1) {
+            throw new EqualException(e1);
         }
     }
 
     @Override
-    public Object getCellValue(Cell cell, Field field) throws EqualException {
+    public Object getCellValue(Cell cell, Field field) {
         Adapter<String, ?> adapter = fieldAdapters.get(field);
         if (adapter == null) {
             return cell.getStringCellValue();
@@ -98,7 +108,7 @@ public class XLSSelector extends FileSelector {
                 return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
             }
         }
-        return adapter.fromString(cell.getNumericCellValue() + "");
+        return adapter.fromString(cell.getNumericCellValue() + ConstantUtils.BLINK_STRING);
     }
 
     public Sheet getTable(Selector selector) {
@@ -107,14 +117,14 @@ public class XLSSelector extends FileSelector {
                 workbook.getSheetAt(selector.getTableIndex());
     }
 
-    private void setField(Field field, Row row, Object obj) throws EqualException {
+    private void setField(Field field, Row row, Object obj) {
         Column column = field.getAnnotation(Column.class);
         Cell cell = row.getCell(column.index());
         if (cell == null) {
             return;
         }
+        Object value = getCellValue(cell, field);
         try {
-            Object value = getCellValue(cell, field);
             field.set(obj, value);
         } catch (Exception e) {
             throw new EqualException(e);

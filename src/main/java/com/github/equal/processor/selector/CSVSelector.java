@@ -27,8 +27,10 @@ package com.github.equal.processor.selector;
 import com.github.equal.annotation.Column;
 import com.github.equal.exception.EqualException;
 import com.github.equal.processor.adapter.Adapter;
+import com.github.equal.utils.ConstantUtils;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
@@ -46,41 +48,55 @@ public class CSVSelector extends FileSelector {
     public <T> Stream<T> selectFromFile(Selector selector) throws EqualException {
         Stream.Builder<T> builder = Stream.builder();
         Class clazz = selector.getClazz();
-        try (BufferedReader bufferedReader = new BufferedReader(
-                new InputStreamReader(inputStream, selector.getCharset()))) {
-
+        try {
+            BufferedReader bufferedReader = new BufferedReader(
+                    new InputStreamReader(inputStream, selector.getCharset()));
             init(clazz.getDeclaredFields());
             int rowStartIndex = selector.getRowStartIndex();
             int numberOfRows = selector.getNumberOfRows();
             String line = null;
 
             while ((line = bufferedReader.readLine()) != null) {
-                if (rowStartIndex-- > 1) {
-                    continue;
-                }
-                Object obj = clazz.newInstance();
-                String[] items = line.split(",");
-                for (Field field : fieldIndexes.values()) {
-                    setField(field, items, obj);
-                }
-                builder.add((T) obj);
-                numberOfRows--;
                 if (numberOfRows == 0) break;
+                if (rowStartIndex-- > 1) continue;
+
+                if (line.equals(ConstantUtils.BLINK_STRING)) {
+                    builder.add(null);
+                } else {
+                    Object obj = clazz.newInstance();
+                    String[] items = line.split(",");
+                    for (Field field : fieldIndexes.values()) {
+                        setField(field, items, obj);
+                    }
+                    builder.add((T) obj);
+                }
+                numberOfRows--;
+            }
+
+            // if numberRows > rows, use null
+            if (numberOfRows > 0) {
+                while (0 != numberOfRows--) {
+                    builder.add(null);
+                }
             }
             return builder.build();
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new EqualException(e);
+        } catch (InstantiationException e1) {
+            throw new EqualException(e1);
+        } catch (IllegalAccessException e2) {
+            throw new EqualException(e2);
         }
     }
 
-    public void setField(Field field, String[] items, Object obj) throws EqualException {
+    public void setField(Field field, String[] items, Object obj) {
         Column column = field.getAnnotation(Column.class);
+        Object value = items[column.index()];
+        Adapter<String, ?> adapter = fieldAdapters.get(field);
+        if (adapter != null) {
+            value = adapter.fromString((String) value);
+        }
         try {
-            Object value = items[column.index()];
-            Adapter<String, ?> adapter = fieldAdapters.get(field);
-            if (adapter != null) {
-                value = adapter.fromString((String) value);
-            }
             field.set(obj, value);
         } catch (Exception e) {
             throw new EqualException(e);

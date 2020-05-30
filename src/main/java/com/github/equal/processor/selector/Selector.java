@@ -24,10 +24,9 @@
 
 package com.github.equal.processor.selector;
 
+import com.github.equal.exception.EqualException;
 import com.github.equal.utils.ConstantUtils;
 import com.github.equal.utils.ExceptionUtils;
-import com.github.equal.exception.EqualException;
-import com.github.equal.utils.StringUtils;
 
 import java.io.File;
 import java.io.InputStream;
@@ -46,7 +45,7 @@ public class Selector<T> {
     private Class<T> clazz;
     private int tableIndex = 0;
     private int rowStartIndex = ConstantUtils.ROW_START_INDEX;
-    private int numberOfRows = 0;
+    private int numberOfRows = ConstantUtils.DEFAULT_NUMBER_OF_ROW;
     private Stream<T> returnStream;
     private Charset charset = StandardCharsets.UTF_8;;
 
@@ -103,14 +102,14 @@ public class Selector<T> {
 
     public Selector<T> where() {
         this.rowStartIndex = ConstantUtils.ROW_START_INDEX;
-        this.numberOfRows = 0;
+        this.numberOfRows = ConstantUtils.DEFAULT_NUMBER_OF_ROW;
         return this;
     }
 
     public Selector<T> where(int rowStartIndex) {
         ExceptionUtils.assertRowStartIndexBigThan2(rowStartIndex);
         this.rowStartIndex = rowStartIndex;
-        this.numberOfRows = 1;
+        this.numberOfRows = ConstantUtils.DEFAULT_NUMBER_OF_ROW;
         return this;
     }
 

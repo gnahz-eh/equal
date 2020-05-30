@@ -36,8 +36,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class InserterTest {
 
     List<Student> students;
@@ -162,11 +160,359 @@ class InserterTest {
 
     @Test
     void insertXLS_EXIST_FILE_WITH_TABLE_NAME2() throws EqualException {
-        int rowStartIndex = 4;
+        int rowStartIndex = 1;
         Inserter.insert(FileType.XLS)
-                .into(new File(pkgName + "/Student.xls"), "Table3")
+                .into(new File(pkgName + "/Student.xls"), "Table4")
                 .values(students)
                 .range(rowStartIndex)
+                .flush();
+    }
+
+//|------------------------------------------------------------------------------------------------------------|
+
+    @Test
+    void insertXLSX_NON_EXIST_PKG() throws EqualException {
+        int rowStartIndex = 2;
+        Inserter.insert(FileType.XLSX)
+                .into(new File(pkgName + "/new/Student.xlsx"))
+                .values(students)
+                .range(rowStartIndex)
+                .flush();
+    }
+
+    @Test
+    void insertXLSX_NON_EXIST_PKG2() throws EqualException {
+        int rowStartIndex = 4;
+        Inserter.insert(FileType.XLSX)
+                .into(new File(pkgName + "/new/Student2.xlsx"))
+                .values(students)
+                .range(rowStartIndex)
+                .flush();
+    }
+
+    @Test
+    void insertXLSX_NON_EXIST_PKG3() throws EqualException {
+        Inserter.insert(FileType.XLSX)
+                .into(new File(pkgName + "/new/Student3.xlsx"))
+                .values(students)
+                .range()
+                .flush();
+    }
+
+    @Test
+    void insertXLSX_NON_EXIST_PKG4() throws EqualException {
+        int rowStartIndex = 2;
+        Inserter.insert(FileType.XLSX)
+                .into(new File(pkgName + "/new/Student4.xlsx"))
+                .values(students)
+                .range(rowStartIndex, 2)
+                .flush();
+    }
+
+    @Test
+    void insertXLSX_NON_EXIST_PKG5() throws EqualException {
+        int rowStartIndex = 1;
+        Inserter.insert(FileType.XLSX)
+                .into(new File(pkgName + "/new/Student5.xlsx"))
+                .values(students)
+                .range(rowStartIndex, 2)
+                .flush();
+    }
+
+    @Test
+    void insertXLSX_NON_EXIST_PKG6() throws EqualException {
+        int rowStartIndex = 2;
+        Inserter.insert(FileType.XLSX)
+                .into(new File(pkgName + "/new/Student6.xlsx"), "table1")
+                .values(students)
+                .range(rowStartIndex, 4)
+                .flush();
+    }
+
+    @Test
+    void insertXLSX_EXIST_FILE() throws EqualException {
+        int rowStartIndex = 2;
+        Inserter.insert(FileType.XLSX)
+                .into(new File(pkgName + "/Student.xlsx"))
+                .values(students)
+                .range(rowStartIndex)
+                .flush();
+    }
+
+    @Test
+    void insertXLSX_EXIST_FILE2() throws EqualException {
+        int rowStartIndex = 13;
+        Inserter.insert(FileType.XLSX)
+                .into(new File(pkgName + "/Student.xlsx"))
+                .values(students)
+                .range(rowStartIndex)
+                .flush();
+    }
+
+    @Test
+    void insertXLSX_EXIST_FILE_WITH_TABLE_IDX() throws EqualException {
+        int rowStartIndex = 36;
+        Inserter.insert(FileType.XLSX)
+                .into(new File(pkgName + "/Student.xlsx"), 0)
+                .values(students)
+                .range(rowStartIndex)
+                .flush();
+    }
+
+    @Test
+    void insertXLSX_EXIST_FILE_WITH_TABLE_NAME() throws EqualException {
+        int rowStartIndex = 2;
+        Inserter.insert(FileType.XLSX)
+                .into(new File(pkgName + "/Student.xlsx"), "Table2")
+                .values(students)
+                .range(rowStartIndex)
+                .flush();
+    }
+
+    @Test
+    void insertXLSX_EXIST_FILE_WITH_TABLE_NAME2() throws EqualException {
+        int rowStartIndex = 1;
+        Inserter.insert(FileType.XLSX)
+                .into(new File(pkgName + "/Student.xlsx"), "Table4")
+                .values(students)
+                .range(rowStartIndex)
+                .flush();
+    }
+
+//|------------------------------------------------------------------------------------------------------------|
+
+    @Test
+    void insertCSV_NON_EXIST_PKG() throws EqualException {
+        int rowStartIndex = 2;
+        Inserter.insert(FileType.CSV)
+                .into(new File(pkgName + "/new/Student.csv"))
+                .values(students)
+                .range(rowStartIndex)
+                .flush();
+
+        Inserter.insert(FileType.CSV)
+                .into(new File(pkgName + "/new/Student_1.csv"))
+                .values(students)
+                .range()
+                .flush();
+
+        Inserter.insert(FileType.CSV)
+                .into(new File(pkgName + "/new/Student_2.csv"))
+                .values(students)
+                .range(rowStartIndex, 2)
+                .flush();
+
+        Inserter.insert(FileType.CSV)
+                .into(new File(pkgName + "/new/Student_3.csv"))
+                .values(students)
+                .flush();
+    }
+
+
+    @Test
+    void insertCSV_NON_EXIST_PKG2() throws EqualException {
+        int rowStartIndex = 4;
+        Inserter.insert(FileType.CSV)
+                .into(new File(pkgName + "/new/Student2.csv"))
+                .values(students)
+                .range(rowStartIndex)
+                .flush();
+    }
+
+    @Test
+    void insertCSV_NON_EXIST_PKG3() throws EqualException {
+        Inserter.insert(FileType.CSV)
+                .into(new File(pkgName + "/new/Student3.csv"))
+                .values(students)
+                .range()
+                .flush();
+    }
+
+    @Test
+    void insertCSV_NON_EXIST_PKG4() throws EqualException {
+        int rowStartIndex = 2;
+        Inserter.insert(FileType.CSV)
+                .into(new File(pkgName + "/new/Student4.csv"))
+                .values(students)
+                .range(rowStartIndex, 3)
+                .flush();
+    }
+
+    @Test
+    void insertCSV_NON_EXIST_PKG5() throws EqualException {
+        int rowStartIndex = 1;
+        Inserter.insert(FileType.CSV)
+                .into(new File(pkgName + "/new/Student5.csv"))
+                .values(students)
+                .range(rowStartIndex, 2)
+                .flush();
+    }
+
+    @Test
+    void insertCSV_NON_EXIST_PKG6() throws EqualException {
+        int rowStartIndex = 2;
+        Inserter.insert(FileType.CSV)
+                .into(new File(pkgName + "/new/Student6.csv"))
+                .values(students)
+                .range(rowStartIndex, 4)
+                .flush();
+    }
+
+    @Test
+    void insertCSV_NON_EXIST_PKG7() throws EqualException {
+        Inserter.insert(FileType.CSV)
+                .into(new File(pkgName + "/new/Student7.csv"))
+                .values(students)
+                .flush();
+    }
+
+    @Test
+    void insertCSV_NON_EXIST_PKG8() throws EqualException {
+        int rowStartIndex = 2;
+        Inserter.insert(FileType.CSV)
+                .into(new File(pkgName + "/new/Student8.csv"))
+                .values(students)
+                .range(rowStartIndex, 0)
+                .flush();
+    }
+
+    @Test
+    void insertCSV_NON_EXIST_PKG9() throws EqualException {
+        int rowStartIndex = 2;
+        Inserter.insert(FileType.CSV)
+                .into(new File(pkgName + "/new/Student9.csv"))
+                .values(students)
+                .range(rowStartIndex, 100)
+                .flush();
+    }
+
+//------------------------------------------------------------------------------
+
+    @Test
+    void insertCSV_EXIST_FILE() throws EqualException {
+        int rowStartIndex = 2;
+        Inserter.insert(FileType.CSV)
+                .into(new File(pkgName + "/Student.csv"))
+                .values(students)
+                .range(rowStartIndex)
+                .flush();
+    }
+
+    @Test
+    void insertCSV_EXIST_FILE2() throws EqualException {
+        int rowStartIndex = 3;
+        Inserter.insert(FileType.CSV)
+                .into(new File(pkgName + "/Student.csv"))
+                .values(students)
+                .range(rowStartIndex)
+                .flush();
+    }
+
+    @Test
+    void insertCSV_EXIST_FILE3() throws EqualException {
+        int rowStartIndex = 5;
+        Inserter.insert(FileType.CSV)
+                .into(new File(pkgName + "/Student.csv"))
+                .values(students)
+                .range(rowStartIndex)
+                .flush();
+    }
+
+    @Test
+    void insertCSV_EXIST_FILE4() throws EqualException {
+        int rowStartIndex = 6;
+        Inserter.insert(FileType.CSV)
+                .into(new File(pkgName + "/Student.csv"))
+                .values(students)
+                .range(rowStartIndex)
+                .flush();
+    }
+
+    @Test
+    void insertCSV_EXIST_FILE7() throws EqualException {
+        int rowStartIndex = 2;
+        Inserter.insert(FileType.CSV)
+                .into(new File(pkgName + "/Student2.csv"))
+                .values(students)
+                .range(rowStartIndex, 2)
+                .flush();
+    }
+
+    @Test
+    void insertCSV_EXIST_FILE8() throws EqualException {
+        int rowStartIndex = 2;
+        Inserter.insert(FileType.CSV)
+                .into(new File(pkgName + "/Student2.csv"))
+                .values(students)
+                .range(rowStartIndex, 3)
+                .flush();
+    }
+
+    @Test
+    void insertCSV_EXIST_FILE9() throws EqualException {
+        int rowStartIndex = 2;
+        Inserter.insert(FileType.CSV)
+                .into(new File(pkgName + "/Student2.csv"))
+                .values(students)
+                .range(rowStartIndex, 5)
+                .flush();
+    }
+
+    @Test
+    void insertCSV_EXIST_FILE10() throws EqualException {
+        int rowStartIndex = 2;
+        Inserter.insert(FileType.CSV)
+                .into(new File(pkgName + "/Student2.csv"))
+                .values(students)
+                .range(rowStartIndex, 8)
+                .flush();
+    }
+
+    @Test
+    void insertCSV_EXIST_FILE11() throws EqualException {
+        int rowStartIndex = 9;
+        Inserter.insert(FileType.CSV)
+                .into(new File(pkgName + "/Student2.csv"))
+                .values(students)
+                .range(rowStartIndex, 2)
+                .flush();
+    }
+
+    @Test
+    void insertCSV_EXIST_FILE12() throws EqualException {
+        int rowStartIndex = 11;
+        Inserter.insert(FileType.CSV)
+                .into(new File(pkgName + "/Student2.csv"))
+                .values(students)
+                .range(rowStartIndex, 2)
+                .flush();
+    }
+
+    @Test
+    void insertCSV_EXIST_FILE13() throws EqualException {
+        int rowStartIndex = 15;
+        Inserter.insert(FileType.CSV)
+                .into(new File(pkgName + "/Student2.csv"))
+                .values(students)
+                .range(rowStartIndex)
+                .flush();
+    }
+
+    @Test
+    void insertCSV_EXIST_FILE14() throws EqualException {
+        Inserter.insert(FileType.CSV)
+                .into(new File(pkgName + "/Student2.csv"))
+                .values(students)
+                .flush();
+    }
+
+    @Test
+    void insertCSV_EXIST_FILE15() throws EqualException {
+        int rowStartIndex = 9;
+        Inserter.insert(FileType.CSV)
+                .into(new File(pkgName + "/Student2.csv"))
+                .values(students)
+                .range(rowStartIndex, 0)
                 .flush();
     }
 

@@ -39,16 +39,18 @@ public class InserterContext {
         ExceptionUtils.assertIsTargetFileType(realType, fileType);
         switch (fileType) {
             case XLSX:
+                fileInserter = new XLSXInserter(inserter);
                 break;
             case XLS:
-                fileInserter = new XLSInserter();
+                fileInserter = new XLSInserter(inserter);
                 break;
             case CSV:
+                fileInserter = new CSVInserter(inserter);
                 break;
             default:
                 throw new EqualException(ExceptionUtils.UNSUPPORTED_FILE_TYPE);
 
         }
-        fileInserter.insertIntoFile(inserter);
+        fileInserter.insertIntoFile();
     }
 }

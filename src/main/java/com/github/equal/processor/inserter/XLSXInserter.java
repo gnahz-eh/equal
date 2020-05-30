@@ -22,16 +22,33 @@
  * SOFTWARE.
  */
 
-package com.github.equal.utils;
+package com.github.equal.processor.inserter;
 
-public class ConstantUtils {
+import com.github.equal.exception.EqualException;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-    public static final int ROW_START_INDEX = 2;
-    public static final int MAX_ROWS_IN_XLS = 65536;
-    public static final int MAX_ROWS_IN_XLSX = 1048576;
-    public static final int DEFAULT_COLUMN_WIDTH = 20 * 256;
-    public static final int DEFAULT_NUMBER_OF_ROW = -1;
+import java.io.FileInputStream;
+import java.io.IOException;
 
-    public static final String BLINK_STRING = "";
-    public static final String NEW_LINE = "\n";
+public class XLSXInserter extends ExcelFileInserter {
+
+    public XLSXInserter(Inserter inserter) {
+        super(inserter);
+    }
+
+    @Override
+    public void insertIntoFile() throws EqualException {
+
+        if (inserter.isSourceFileExist()) {
+            try {
+                this.workbook = new XSSFWorkbook(new FileInputStream(inserter.getSourceFile()));
+            } catch (IOException e) {
+                throw new EqualException(e);
+            }
+        } else {
+            this.workbook = new SXSSFWorkbook(inserter.getRowAccessWindowSize());
+        }
+        super.insertData();
+    }
 }

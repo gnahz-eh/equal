@@ -55,7 +55,7 @@ public class FileUtils {
     public static String getFileExtension(String fileName) {
         int lastIndexOf = fileName.lastIndexOf(".");
         if (lastIndexOf == -1) {
-            return "";
+            return ConstantUtils.BLINK_STRING;
         }
         return fileName.substring(lastIndexOf + 1);
     }
@@ -112,5 +112,12 @@ public class FileUtils {
         outputStream.flush();
         outputStream.close();
         return outputStream.toByteArray();
+    }
+
+    public static boolean isExcelFile(FileType fileType) {
+        if (fileType == FileType.XLS || fileType == FileType.XLSX) {
+            return true;
+        }
+        return false;
     }
 }

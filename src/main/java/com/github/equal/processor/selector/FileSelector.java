@@ -64,7 +64,7 @@ public abstract class FileSelector {
         }
     }
 
-    public Object getCellValue(Cell cell, Field field) throws EqualException {
+    public Object getCellValue(Cell cell, Field field) {
         return cell.getStringCellValue();
     }
 }
