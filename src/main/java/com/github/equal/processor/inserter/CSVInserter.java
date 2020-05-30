@@ -89,8 +89,12 @@ public class CSVInserter extends FileInserter {
             for (Object obj : data) {
                 if (0 == numberOfRows--) break;
                 try {
-                    String row = parseRow(obj);
-                    csvRowData.add(row);
+                    if (obj == null) {
+                        csvRowData.add(ConstantUtils.NEW_LINE);
+                    } else {
+                        String row = parseRow(obj);
+                        csvRowData.add(row);
+                    }
                 } catch (Exception e) {
                     throw new EqualException(e);
                 }
@@ -130,7 +134,12 @@ public class CSVInserter extends FileInserter {
             for (Object obj : data) {
                 if (0 == numberOfRows--) break;
                 try {
-                    String row = parseRow(obj);
+                    String row = null;
+                    if (obj != null) {
+                        row = parseRow(obj);
+                    } else {
+                        row = ConstantUtils.NEW_LINE;
+                    }
                     if (rowStartIndex > numberOfInitialData) {
                         csvRowData.add(row);
                     } else {
