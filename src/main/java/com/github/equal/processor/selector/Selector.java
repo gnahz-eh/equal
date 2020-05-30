@@ -45,7 +45,7 @@ public class Selector<T> {
     private Class<T> clazz;
     private int tableIndex = 0;
     private int rowStartIndex = ConstantUtils.ROW_START_INDEX;
-    private int numberOfRows = 0;
+    private int numberOfRows = ConstantUtils.DEFAULT_NUMBER_OF_ROW;
     private Stream<T> returnStream;
     private Charset charset = StandardCharsets.UTF_8;;
 

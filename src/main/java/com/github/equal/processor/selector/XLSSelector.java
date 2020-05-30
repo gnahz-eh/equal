@@ -59,9 +59,9 @@ public class XLSSelector extends FileSelector {
             int rows = table.getLastRowNum() + 1;
 
             for (int i = 0; i < rows; i++) {
-                if (i < rowStartIndex - 1) {
-                    continue;
-                }
+                if (numberOfRows == 0) break;
+                if (i < rowStartIndex - 1) continue;
+
                 Row row = table.getRow(i);
                 if (row == null) {
                     builder.add(null);
@@ -73,7 +73,6 @@ public class XLSSelector extends FileSelector {
                     builder.add((T) obj);
                 }
                 numberOfRows--;
-                if (numberOfRows == 0) break;
             }
 
             // if numberRows > rows, use null

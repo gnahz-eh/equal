@@ -57,9 +57,9 @@ public class CSVSelector extends FileSelector {
             String line = null;
 
             while ((line = bufferedReader.readLine()) != null) {
-                if (rowStartIndex-- > 1) {
-                    continue;
-                }
+                if (numberOfRows == 0) break;
+                if (rowStartIndex-- > 1) continue;
+
                 if (line.equals(ConstantUtils.BLINK_STRING)) {
                     builder.add(null);
                 } else {
@@ -71,7 +71,6 @@ public class CSVSelector extends FileSelector {
                     builder.add((T) obj);
                 }
                 numberOfRows--;
-                if (numberOfRows == 0) break;
             }
 
             // if numberRows > rows, use null
