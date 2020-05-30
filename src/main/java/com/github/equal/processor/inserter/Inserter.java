@@ -66,6 +66,7 @@ public class Inserter {
         ExceptionUtils.assertInsertDataIsNotNull(data);
         this.data = data;
         this.dataInitFlag = true;
+        this.range();
         return this;
     }
 
@@ -82,7 +83,7 @@ public class Inserter {
 
     public Inserter range(int rowStartIndex) {
         ExceptionUtils.assertValidRowStartIndex(rowStartIndex);
-        range();
+        this.range();
         this.rowStartIndex = rowStartIndex;
         return this;
     }

@@ -187,7 +187,7 @@ public class CSVInserter extends FileInserter {
 
         this.insertColumnNames = false;
         if (!inserter.isSourceFileExist()) {
-            this.insertColumnNames = inserter.getRowStartIndex() > 1;
+            this.insertColumnNames = inserter.getRowStartIndex() > 1 && inserter.getNumberOfRows() > 0;
             try {
                 fileWriter = new FileWriter(inserter.getSourceFile(), inserter.isSourceFileExist());
             } catch (IOException e) {
