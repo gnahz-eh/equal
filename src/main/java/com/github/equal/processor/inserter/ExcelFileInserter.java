@@ -80,6 +80,8 @@ public abstract class ExcelFileInserter extends FileInserter {
     private void insertRow(Object obj, int index) throws Exception {
         Row row = table.createRow(index);
 
+        if (obj == null) return;
+
         for (Integer colIndex : fieldIndexes.keySet()) {
             Field field = fieldIndexes.get(colIndex);
 
