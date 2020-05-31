@@ -29,6 +29,7 @@ import com.github.equal.exception.EqualException;
 import com.github.equal.processor.adapter.Adapter;
 import com.github.equal.utils.ConstantUtils;
 import com.github.equal.utils.ExceptionUtils;
+import com.github.equal.utils.InserterUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -78,6 +79,8 @@ public abstract class ExcelFileInserter extends FileInserter {
 
     private void insertRow(Object obj, int index) throws Exception {
         Row row = table.createRow(index);
+
+        if (obj == null) return;
 
         for (Integer colIndex : fieldIndexes.keySet()) {
             Field field = fieldIndexes.get(colIndex);
@@ -134,7 +137,7 @@ public abstract class ExcelFileInserter extends FileInserter {
 
         if (table == null) {
             table = workbook.createSheet(inserter.getTableName());
-            this.insertColumnNames = inserter.getRowStartIndex() > 1;
+            this.insertColumnNames = InserterUtils.doesInsertColumnNames(inserter.getRowStartIndex(), inserter.getNumberOfRows());
         }
         this.table = table;
 
