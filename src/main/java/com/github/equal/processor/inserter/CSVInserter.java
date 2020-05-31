@@ -29,6 +29,7 @@ import com.github.equal.exception.EqualException;
 import com.github.equal.processor.adapter.Adapter;
 import com.github.equal.utils.ConstantUtils;
 import com.github.equal.utils.ExceptionUtils;
+import com.github.equal.utils.InserterUtils;
 
 import java.io.*;
 import java.lang.reflect.Field;
@@ -196,7 +197,7 @@ public class CSVInserter extends FileInserter {
 
         this.insertColumnNames = false;
         if (!inserter.isSourceFileExist()) {
-            this.insertColumnNames = inserter.getRowStartIndex() > 1 && inserter.getNumberOfRows() > 0;
+            this.insertColumnNames = InserterUtils.doesInsertColumnNames(inserter.getRowStartIndex(), inserter.getNumberOfRows());
             try {
                 fileWriter = new FileWriter(inserter.getSourceFile(), inserter.isSourceFileExist());
             } catch (IOException e) {
