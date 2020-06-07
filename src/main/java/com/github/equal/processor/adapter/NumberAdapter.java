@@ -24,7 +24,6 @@
 
 package com.github.equal.processor.adapter;
 
-import com.github.equal.utils.ConstantUtils;
 import com.github.equal.utils.StringUtils;
 
 public abstract class NumberAdapter<T> implements Adapter<String, T> {
@@ -33,7 +32,7 @@ public abstract class NumberAdapter<T> implements Adapter<String, T> {
         if (StringUtils.isEmpty(str)) {
             return null;
         }
-        str = str.replaceAll(",", ConstantUtils.BLINK_STRING);
+        str = str.replaceAll(StringUtils.COMMA, StringUtils.BLINK_STRING);
         if (str.endsWith(".0")) {
             return str.substring(0, str.length() - 2);
         }

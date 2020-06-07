@@ -27,7 +27,7 @@ package com.github.equal.processor.selector;
 import com.github.equal.annotation.Column;
 import com.github.equal.exception.SelectorException;
 import com.github.equal.processor.adapter.Adapter;
-import com.github.equal.utils.ConstantUtils;
+import com.github.equal.utils.StringUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -60,11 +60,11 @@ public class CSVSelector extends FileSelector {
                 if (numberOfRows == 0) break;
                 if (rowStartIndex-- > 1) continue;
 
-                if (line.equals(ConstantUtils.BLINK_STRING)) {
+                if (line.equals(StringUtils.BLINK_STRING)) {
                     builder.add(null);
                 } else {
                     Object obj = clazz.newInstance();
-                    String[] items = line.split(",");
+                    String[] items = line.split(StringUtils.COMMA);
                     for (Field field : fieldIndexes.values()) {
                         setField(field, items, obj);
                     }

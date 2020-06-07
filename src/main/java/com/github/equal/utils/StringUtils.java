@@ -33,12 +33,18 @@ public class StringUtils {
     public static final String XLSX = "XLSX";
     public static final String CSV = "CSV";
 
+    public static final String BLINK_STRING = "";
+    public static final String NEW_LINE = "\n";
+    public static final String COMMA = ",";
+
     public static final String DATE_PATTERN = "yyyy/MM/dd";
     public static final String TIME_PATTERN = "HH:mm:ss";
     public static final String DATE_TIME_PATTERN = "yyyy/MM/dd HH:mm:ss";
 
     public static final String DEFAULT = "Default";
     public static final String UNTITLED = "Untitled";
+
+    public static final Character BOM_HEAD = '\ufeff';
 
     public static boolean isNotEmpty(String value) {
         return null != value && !value.isEmpty();

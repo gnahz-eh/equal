@@ -27,7 +27,6 @@ package com.github.equal.processor.selector;
 import com.github.equal.annotation.Column;
 import com.github.equal.exception.SelectorException;
 import com.github.equal.processor.adapter.Adapter;
-import com.github.equal.utils.ConstantUtils;
 import com.github.equal.utils.DateUtils;
 import com.github.equal.utils.FileUtils;
 import com.github.equal.utils.StringUtils;
@@ -113,7 +112,7 @@ public class XLSSelector extends FileSelector {
                 return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
             }
         }
-        return adapter.fromString(cell.getNumericCellValue() + ConstantUtils.BLINK_STRING);
+        return adapter.fromString(cell.getNumericCellValue() + StringUtils.BLINK_STRING);
     }
 
     public Sheet getTable(Selector selector) {

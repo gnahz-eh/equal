@@ -44,12 +44,12 @@ public class Inserter {
     private int rowStartIndex = ConstantUtils.ROW_START_INDEX; // first row is title
     private int numberOfRows;
     private File sourceFile;
-    private int tableIndex = -1;
+    private int tableIndex = ConstantUtils.DEFAULT_TABLE_INDEX;
     private String tableName = StringUtils.DEFAULT;
     private boolean dataInitFlag = false;
     private boolean isSourceFileExist = false;
     private Charset charset = StandardCharsets.UTF_8;
-    private int rowAccessWindowSize = 100;
+    private int rowAccessWindowSize = ConstantUtils.ROW_ACCESS_WS;
 
     public Inserter(FileType fileType) {
         this.fileType = fileType;

@@ -53,7 +53,7 @@ public class FileUtils {
     public static String getFileExtension(String fileName) {
         int lastIndexOf = fileName.lastIndexOf(".");
         if (lastIndexOf == -1) {
-            return ConstantUtils.BLINK_STRING;
+            return StringUtils.BLINK_STRING;
         }
         return fileName.substring(lastIndexOf + 1);
     }

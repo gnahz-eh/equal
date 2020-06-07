@@ -28,9 +28,9 @@ import com.github.equal.annotation.Column;
 import com.github.equal.enums.ExceptionType;
 import com.github.equal.exception.InserterException;
 import com.github.equal.processor.adapter.Adapter;
-import com.github.equal.utils.ConstantUtils;
 import com.github.equal.utils.FileUtils;
 import com.github.equal.utils.InserterUtils;
+import com.github.equal.utils.StringUtils;
 
 import java.io.*;
 import java.lang.reflect.Field;
@@ -61,7 +61,7 @@ public class CSVInserter extends FileInserter {
         List<String> csvRowData = this.parseData(data, numberOfRows, rowStartIndex, isSourceFileExist);
 
         try (FileWriter fw = this.fileWriter) {
-            fw.write('\ufeff');
+            fw.write(StringUtils.BOM_HEAD);
 
             // insert row
             for (String row : csvRowData) {
@@ -82,7 +82,7 @@ public class CSVInserter extends FileInserter {
             int rowIndex = rowStartIndex - 1;
 
             // insert blank line
-            while (rowIndex-- > 1) csvRowData.add(ConstantUtils.NEW_LINE);
+            while (rowIndex-- > 1) csvRowData.add(StringUtils.NEW_LINE);
             // insert columns names
             if (this.insertColumnNames) {
                 csvRowData.add(parseColumnNames());
@@ -92,7 +92,7 @@ public class CSVInserter extends FileInserter {
                 if (0 == numberOfRows--) break;
                 try {
                     if (obj == null) {
-                        csvRowData.add(ConstantUtils.NEW_LINE);
+                        csvRowData.add(StringUtils.NEW_LINE);
                     } else {
                         String row = parseRow(obj);
                         csvRowData.add(row);
@@ -111,7 +111,7 @@ public class CSVInserter extends FileInserter {
             String line = null;
             try {
                 while ((line = bufferedReader.readLine()) != null) {
-                    csvRowData.add(line + ConstantUtils.NEW_LINE);
+                    csvRowData.add(line + StringUtils.NEW_LINE);
                 }
             } catch (IOException e) {
                 throw new InserterException(e);
@@ -132,7 +132,7 @@ public class CSVInserter extends FileInserter {
             // add blank column if rowStartIndex > csvRowData.size()
             int numberOfBlankLine = rowStartIndex - (numberOfInitialData + 1);
             while (numberOfBlankLine > 0) {
-                csvRowData.add(ConstantUtils.NEW_LINE);
+                csvRowData.add(StringUtils.NEW_LINE);
                 numberOfBlankLine--;
             }
 
@@ -143,7 +143,7 @@ public class CSVInserter extends FileInserter {
                     if (obj != null) {
                         row = parseRow(obj);
                     } else {
-                        row = ConstantUtils.NEW_LINE;
+                        row = StringUtils.NEW_LINE;
                     }
                     if (rowStartIndex > numberOfInitialData) {
                         csvRowData.add(row);
@@ -167,12 +167,12 @@ public class CSVInserter extends FileInserter {
             Field field = fields.get(i);
             Object val = field.get(obj);
             Adapter adapter = fieldAdapters.get(field);
-            sb.append(val == null ? ConstantUtils.BLINK_STRING : adapter.toString(val));
+            sb.append(val == null ? StringUtils.BLINK_STRING : adapter.toString(val));
             if (i < fields.size() - 1) {
-                sb.append(",");
+                sb.append(StringUtils.COMMA);
             }
         }
-        sb.append(ConstantUtils.NEW_LINE);
+        sb.append(StringUtils.NEW_LINE);
         return sb.toString();
     }
 
@@ -183,10 +183,10 @@ public class CSVInserter extends FileInserter {
             Column column = fields.get(i).getAnnotation(Column.class);
             sb.append(column.name());
             if (i < fields.size() - 1) {
-                sb.append(",");
+                sb.append(StringUtils.COMMA);
             }
         }
-        sb.append(ConstantUtils.NEW_LINE);
+        sb.append(StringUtils.NEW_LINE);
         return sb.toString();
     }
 

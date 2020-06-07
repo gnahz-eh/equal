@@ -128,7 +128,7 @@ public abstract class ExcelFileInserter extends FileInserter {
         String tableName = inserter.getTableName();
         this.insertColumnNames = false;
         Sheet table = null;
-        if (tableIndex != -1) {
+        if (tableIndex != ConstantUtils.DEFAULT_TABLE_INDEX) {
             try {
                 table = workbook.getSheetAt(tableIndex);
             } catch (Exception e) {
