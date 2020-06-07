@@ -25,9 +25,9 @@
 package com.github.equal.processor.selector;
 
 import com.github.equal.annotation.Column;
-import com.github.equal.exception.EqualException;
+import com.github.equal.exception.SelectorException;
 import com.github.equal.processor.adapter.Adapter;
-import com.github.equal.utils.ConstantUtils;
+import com.github.equal.utils.StringUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -45,12 +45,12 @@ public class CSVSelector extends FileSelector {
     }
 
     @Override
-    public <T> Stream<T> selectFromFile(Selector selector) throws EqualException {
+    public <T> Stream<T> selectFromFile(Selector selector) throws SelectorException {
         Stream.Builder<T> builder = Stream.builder();
         Class clazz = selector.getClazz();
-        try {
-            BufferedReader bufferedReader = new BufferedReader(
-                    new InputStreamReader(inputStream, selector.getCharset()));
+        try (BufferedReader bufferedReader = new BufferedReader(
+                new InputStreamReader(inputStream, selector.getCharset()))) {
+            
             init(clazz.getDeclaredFields());
             int rowStartIndex = selector.getRowStartIndex();
             int numberOfRows = selector.getNumberOfRows();
@@ -60,11 +60,11 @@ public class CSVSelector extends FileSelector {
                 if (numberOfRows == 0) break;
                 if (rowStartIndex-- > 1) continue;
 
-                if (line.equals(ConstantUtils.BLINK_STRING)) {
+                if (line.equals(StringUtils.BLINK_STRING)) {
                     builder.add(null);
                 } else {
                     Object obj = clazz.newInstance();
-                    String[] items = line.split(",");
+                    String[] items = line.split(StringUtils.COMMA);
                     for (Field field : fieldIndexes.values()) {
                         setField(field, items, obj);
                     }
@@ -81,11 +81,11 @@ public class CSVSelector extends FileSelector {
             }
             return builder.build();
         } catch (IOException e) {
-            throw new EqualException(e);
+            throw new SelectorException(e);
         } catch (InstantiationException e1) {
-            throw new EqualException(e1);
+            throw new SelectorException(e1);
         } catch (IllegalAccessException e2) {
-            throw new EqualException(e2);
+            throw new SelectorException(e2);
         }
     }
 
@@ -99,7 +99,7 @@ public class CSVSelector extends FileSelector {
         try {
             field.set(obj, value);
         } catch (Exception e) {
-            throw new EqualException(e);
+            throw new SelectorException(e);
         }
     }
 }

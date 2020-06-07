@@ -24,12 +24,12 @@
 
 package com.github.equal.processor.adapter;
 
-import com.github.equal.exception.EqualException;
+import com.github.equal.exception.AdapterException;
 
 public class StringAdapter implements Adapter<String, String> {
 
     @Override
-    public String fromString(String str) throws EqualException {
+    public String fromString(String str) throws AdapterException {
         return str;
     }
 }

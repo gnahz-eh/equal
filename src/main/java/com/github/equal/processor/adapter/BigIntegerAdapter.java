@@ -24,8 +24,8 @@
 
 package com.github.equal.processor.adapter;
 
-import com.github.equal.exception.EqualException;
-import com.github.equal.utils.ExceptionUtils;
+import com.github.equal.enums.ExceptionType;
+import com.github.equal.exception.AdapterException;
 import com.github.equal.utils.StringUtils;
 
 import java.math.BigInteger;
@@ -33,7 +33,7 @@ import java.math.BigInteger;
 public class BigIntegerAdapter extends NumberAdapter<BigInteger> {
 
     @Override
-    public BigInteger fromString(String str) throws EqualException {
+    public BigInteger fromString(String str) throws AdapterException {
         if (StringUtils.isEmpty(str)) {
             return null;
         }
@@ -41,7 +41,7 @@ public class BigIntegerAdapter extends NumberAdapter<BigInteger> {
             str = super.cleanComma(str);
             return new BigInteger(str);
         } catch (Exception e) {
-            throw new EqualException(ExceptionUtils.ADAPT_VALUE_ERROR, str + " -> BigInteger");
+            throw new AdapterException(ExceptionType.ADAPT_VALUE_ERROR, str + " -> BigInteger");
         }
     }
 }

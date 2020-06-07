@@ -25,11 +25,10 @@
 package com.github.equal.processor.selector;
 
 import com.github.equal.annotation.Column;
-import com.github.equal.exception.EqualException;
+import com.github.equal.exception.SelectorException;
 import com.github.equal.processor.adapter.Adapter;
 import com.github.equal.processor.adapter.AdapterFactory;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Workbook;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -40,11 +39,10 @@ public abstract class FileSelector {
 
     protected Map<Integer, Field> fieldIndexes;
     protected Map<Field, Adapter<String, ?>> fieldAdapters;
-    protected Workbook workbook;
 
     public abstract <T> Stream<T> selectFromFile(Selector selector);
 
-    public void init(Field[] fields) throws EqualException {
+    public void init(Field[] fields) throws SelectorException {
         fieldIndexes = new HashMap<>(fields.length);
         fieldAdapters = new HashMap<>();
 

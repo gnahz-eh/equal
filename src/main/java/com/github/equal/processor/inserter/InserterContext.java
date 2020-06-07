@@ -24,8 +24,9 @@
 
 package com.github.equal.processor.inserter;
 
+import com.github.equal.enums.ExceptionType;
 import com.github.equal.enums.FileType;
-import com.github.equal.exception.EqualException;
+import com.github.equal.exception.InserterException;
 import com.github.equal.utils.ExceptionUtils;
 import com.github.equal.utils.FileUtils;
 
@@ -33,7 +34,7 @@ public class InserterContext {
 
     private static FileInserter fileInserter;
 
-    public static void insertIntoFile(Inserter inserter) throws EqualException {
+    public static void insertIntoFile(Inserter inserter) throws InserterException {
         FileType fileType = inserter.getFileType();
         FileType realType = FileUtils.getFileTypeBySourceFile(inserter.getSourceFile());
         ExceptionUtils.assertIsTargetFileType(realType, fileType);
@@ -48,7 +49,7 @@ public class InserterContext {
                 fileInserter = new CSVInserter(inserter);
                 break;
             default:
-                throw new EqualException(ExceptionUtils.UNSUPPORTED_FILE_TYPE);
+                throw new InserterException(ExceptionType.UNSUPPORTED_FILE_TYPE);
 
         }
         fileInserter.insertIntoFile();

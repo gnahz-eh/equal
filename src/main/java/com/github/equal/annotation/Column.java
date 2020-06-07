@@ -26,7 +26,7 @@ package com.github.equal.annotation;
 
 import com.github.equal.processor.adapter.Adapter;
 import com.github.equal.processor.adapter.NullAdapter;
-import com.github.equal.utils.ConstantUtils;
+import com.github.equal.utils.StringUtils;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -39,9 +39,9 @@ public @interface Column {
 
     int index() default -1;
 
-    String name() default ConstantUtils.BLINK_STRING;
+    String name() default StringUtils.BLINK_STRING;
 
     Class<? extends Adapter> adapter() default NullAdapter.class;
 
-    String dateTimePattern() default ConstantUtils.BLINK_STRING;
+    String dateTimePattern() default StringUtils.BLINK_STRING;
 }

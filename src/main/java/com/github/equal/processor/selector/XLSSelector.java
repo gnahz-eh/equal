@@ -25,10 +25,10 @@
 package com.github.equal.processor.selector;
 
 import com.github.equal.annotation.Column;
-import com.github.equal.exception.EqualException;
+import com.github.equal.exception.SelectorException;
 import com.github.equal.processor.adapter.Adapter;
-import com.github.equal.utils.ConstantUtils;
 import com.github.equal.utils.DateUtils;
+import com.github.equal.utils.FileUtils;
 import com.github.equal.utils.StringUtils;
 import org.apache.poi.ss.usermodel.*;
 
@@ -42,12 +42,14 @@ import java.util.stream.Stream;
 
 public class XLSSelector extends FileSelector {
 
+    private Workbook workbook;
+
     public XLSSelector(Workbook workbook) {
         this.workbook = workbook;
     }
 
     @Override
-    public <T> Stream<T> selectFromFile(Selector selector) throws EqualException {
+    public <T> Stream<T> selectFromFile(Selector selector) throws SelectorException {
         Stream.Builder<T> builder = Stream.builder();
         Class clazz = selector.getClazz();
         try {
@@ -83,9 +85,11 @@ public class XLSSelector extends FileSelector {
             }
             return builder.build();
         } catch (InstantiationException e) {
-            throw new EqualException(e);
+            throw new SelectorException(e);
         } catch (IllegalAccessException e1) {
-            throw new EqualException(e1);
+            throw new SelectorException(e1);
+        } finally {
+            FileUtils.closeIO(workbook);
         }
     }
 
@@ -108,7 +112,7 @@ public class XLSSelector extends FileSelector {
                 return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
             }
         }
-        return adapter.fromString(cell.getNumericCellValue() + ConstantUtils.BLINK_STRING);
+        return adapter.fromString(cell.getNumericCellValue() + StringUtils.BLINK_STRING);
     }
 
     public Sheet getTable(Selector selector) {
@@ -127,7 +131,7 @@ public class XLSSelector extends FileSelector {
         try {
             field.set(obj, value);
         } catch (Exception e) {
-            throw new EqualException(e);
+            throw new SelectorException(e);
         }
     }
 }

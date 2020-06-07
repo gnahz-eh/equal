@@ -24,13 +24,13 @@
 
 package com.github.equal.processor.adapter;
 
-import com.github.equal.exception.EqualException;
+import com.github.equal.exception.AdapterException;
 import com.github.equal.utils.StringUtils;
 
 public class BooleanAdapter implements Adapter<String, Boolean> {
 
     @Override
-    public Boolean fromString(String str) throws EqualException {
+    public Boolean fromString(String str) throws AdapterException {
         if (StringUtils.isEmpty(str)) {
             return null;
         }
