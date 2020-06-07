@@ -24,7 +24,7 @@
 
 package com.github.equal.processor.inserter;
 
-import com.github.equal.exception.EqualException;
+import com.github.equal.exception.InserterException;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -38,13 +38,13 @@ public class XLSXInserter extends ExcelFileInserter {
     }
 
     @Override
-    public void insertIntoFile() throws EqualException {
+    public void insertIntoFile() throws InserterException {
 
         if (inserter.isSourceFileExist()) {
             try {
                 this.workbook = new XSSFWorkbook(new FileInputStream(inserter.getSourceFile()));
             } catch (IOException e) {
-                throw new EqualException(e);
+                throw new InserterException(e);
             }
         } else {
             this.workbook = new SXSSFWorkbook(inserter.getRowAccessWindowSize());

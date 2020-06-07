@@ -24,7 +24,7 @@
 
 package com.github.equal.processor.inserter;
 
-import com.github.equal.exception.EqualException;
+import com.github.equal.exception.InserterException;
 import com.github.equal.utils.FileUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
@@ -35,7 +35,7 @@ public class XLSInserter extends ExcelFileInserter {
     }
 
     @Override
-    public void insertIntoFile() throws EqualException {
+    public void insertIntoFile() throws InserterException {
 
         if (inserter.isSourceFileExist()) {
             this.workbook = FileUtils.getWorkbook(inserter.getSourceFile());

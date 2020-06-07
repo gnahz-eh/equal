@@ -25,10 +25,10 @@
 package com.github.equal.processor.inserter;
 
 import com.github.equal.annotation.Column;
-import com.github.equal.exception.EqualException;
+import com.github.equal.enums.ExceptionType;
+import com.github.equal.exception.InserterException;
 import com.github.equal.processor.adapter.Adapter;
 import com.github.equal.utils.ConstantUtils;
-import com.github.equal.utils.ExceptionUtils;
 import com.github.equal.utils.InserterUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -53,7 +53,7 @@ public abstract class ExcelFileInserter extends FileInserter {
         super(inserter);
     }
 
-    protected void insertData() throws EqualException {
+    protected void insertData() throws InserterException {
         initExcelFile();
 
         Collection<?> data = inserter.getData();
@@ -72,7 +72,7 @@ public abstract class ExcelFileInserter extends FileInserter {
                 this.insertRow(iterator.next(), rowIndex++);
             }
         } catch (Exception e) {
-            throw new EqualException(ExceptionUtils.INSERT_DATA_ERROR, String.valueOf(i));
+            throw new InserterException(ExceptionType.INSERT_DATA_ERROR, String.valueOf(i));
         }
         flushData();
     }
@@ -110,12 +110,12 @@ public abstract class ExcelFileInserter extends FileInserter {
         }
     }
 
-    private void flushData() throws EqualException {
+    private void flushData() throws InserterException {
         try {
             workbook.write(this.outputStream);
             this.outputStream.close();
         } catch (IOException e) {
-            throw new EqualException(ExceptionUtils.INSERT_DATA_ERROR);
+            throw new InserterException(ExceptionType.INSERT_DATA_ERROR);
         }
     }
 
@@ -129,7 +129,7 @@ public abstract class ExcelFileInserter extends FileInserter {
             try {
                 table = workbook.getSheetAt(tableIndex);
             } catch (Exception e) {
-                throw new EqualException(ExceptionUtils.INVALID_TABLE_INDEX, String.valueOf(tableIndex));
+                throw new InserterException(ExceptionType.INVALID_TABLE_INDEX, String.valueOf(tableIndex));
             }
         } else {
             table = workbook.getSheet(tableName);
@@ -144,7 +144,7 @@ public abstract class ExcelFileInserter extends FileInserter {
         try {
             this.outputStream = new FileOutputStream(inserter.getSourceFile());
         } catch (FileNotFoundException e) {
-            throw new EqualException(e);
+            throw new InserterException(e);
         }
     }
 }

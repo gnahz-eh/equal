@@ -24,13 +24,13 @@
 
 package com.github.equal.processor.adapter;
 
-import com.github.equal.exception.EqualException;
+import com.github.equal.exception.AdapterException;
 
 public interface Adapter<String, T> {
 
-    public T fromString(String str) throws EqualException;
+    public T fromString(String str) throws AdapterException;
 
-    default java.lang.String toString(T t) throws EqualException {
+    default java.lang.String toString(T t) throws AdapterException {
         if (t == null) {
             return null;
         }

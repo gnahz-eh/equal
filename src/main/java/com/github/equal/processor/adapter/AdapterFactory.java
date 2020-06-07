@@ -25,7 +25,7 @@
 package com.github.equal.processor.adapter;
 
 import com.github.equal.annotation.Column;
-import com.github.equal.exception.EqualException;
+import com.github.equal.exception.AdapterException;
 import com.github.equal.utils.StringUtils;
 
 import java.lang.reflect.Field;
@@ -63,7 +63,7 @@ public class AdapterFactory {
         ADAPTER_MAP.put(LocalDateTime.class, new DateTimeAdapter(StringUtils.DATE_TIME_PATTERN));
     }
 
-    public static Adapter getInstance(Field field) throws EqualException {
+    public static Adapter getInstance(Field field) throws AdapterException {
         if (field == null) return null;
         Class fieldType = field.getType();
         Column column = field.getAnnotation(Column.class);
@@ -81,7 +81,7 @@ public class AdapterFactory {
             }
             return ADAPTER_MAP.get(fieldType);
         } catch (Exception e) {
-            throw new EqualException(e);
+            throw new AdapterException(e);
         }
     }
 }

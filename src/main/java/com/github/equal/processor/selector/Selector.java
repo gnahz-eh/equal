@@ -24,7 +24,7 @@
 
 package com.github.equal.processor.selector;
 
-import com.github.equal.exception.EqualException;
+import com.github.equal.exception.SelectorException;
 import com.github.equal.utils.ConstantUtils;
 import com.github.equal.utils.ExceptionUtils;
 
@@ -138,7 +138,7 @@ public class Selector<T> {
         }
     }
 
-    public List<T> executeQuery() throws EqualException {
+    public List<T> executeQuery() throws SelectorException {
         toStream();
         return this.returnStream.collect(Collectors.toList());
     }

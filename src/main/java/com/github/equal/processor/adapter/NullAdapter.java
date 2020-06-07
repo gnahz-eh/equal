@@ -24,12 +24,12 @@
 
 package com.github.equal.processor.adapter;
 
-import com.github.equal.exception.EqualException;
+import com.github.equal.exception.AdapterException;
 
 public final class NullAdapter implements Adapter<String, Object> {
 
     @Override
-    public Object fromString(String str) throws EqualException {
+    public Object fromString(String str) throws AdapterException {
         return null;
     }
 }

@@ -24,8 +24,9 @@
 
 package com.github.equal.processor.inserter;
 
+import com.github.equal.enums.ExceptionType;
 import com.github.equal.enums.FileType;
-import com.github.equal.exception.EqualException;
+import com.github.equal.exception.InserterException;
 import com.github.equal.utils.ConstantUtils;
 import com.github.equal.utils.ExceptionUtils;
 import com.github.equal.utils.StringUtils;
@@ -90,6 +91,7 @@ public class Inserter {
 
     public Inserter range(int rowStartIndex, int numberOfRows) {
         ExceptionUtils.assertValidRowStartIndex(rowStartIndex);
+        ExceptionUtils.assertNumberOfRowsIsNotLessThan0(numberOfRows);
         this.range();
         this.rowStartIndex = rowStartIndex;
         this.numberOfRows = Math.min(this.numberOfRows, numberOfRows);
@@ -134,9 +136,9 @@ public class Inserter {
         return this;
     }
 
-    public void flush() throws EqualException {
+    public void flush() throws InserterException {
         if (data == null || data.isEmpty()) {
-            throw new EqualException(ExceptionUtils.INSERT_DATA_IS_NULL);
+            throw new InserterException(ExceptionType.INSERT_DATA_IS_NULL);
         }
         InserterContext.insertIntoFile(this);
     }

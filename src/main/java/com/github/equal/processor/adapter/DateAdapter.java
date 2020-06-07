@@ -24,8 +24,8 @@
 
 package com.github.equal.processor.adapter;
 
-import com.github.equal.exception.EqualException;
-import com.github.equal.utils.ExceptionUtils;
+import com.github.equal.enums.ExceptionType;
+import com.github.equal.exception.AdapterException;
 import com.github.equal.utils.StringUtils;
 
 import java.time.LocalDate;
@@ -48,7 +48,7 @@ public class DateAdapter implements Adapter<String, LocalDate> {
     }
 
     @Override
-    public LocalDate fromString(String str) throws EqualException {
+    public LocalDate fromString(String str) throws AdapterException {
         try {
             if (str == null) {
                 return null;
@@ -63,16 +63,16 @@ public class DateAdapter implements Adapter<String, LocalDate> {
                     Year year = Year.parse(str, dateTimeFormatter);
                     return year.atMonth(Month.JANUARY).atDay(1);
                 } catch (DateTimeParseException e2) {
-                    throw new EqualException(ExceptionUtils.ADAPT_DATE_ERROR, e2.getMessage());
+                    throw new AdapterException(ExceptionType.ADAPT_DATE_ERROR, e2.getMessage());
                 }
             }
-        } catch (EqualException e) {
-            throw new EqualException(e);
+        } catch (AdapterException e) {
+            throw new AdapterException(e);
         }
     }
 
     @Override
-    public String toString(LocalDate date) throws EqualException {
+    public String toString(LocalDate date) throws AdapterException {
         if (date == null) {
             return null;
         }

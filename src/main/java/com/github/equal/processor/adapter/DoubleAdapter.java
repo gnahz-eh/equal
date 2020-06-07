@@ -24,14 +24,14 @@
 
 package com.github.equal.processor.adapter;
 
-import com.github.equal.exception.EqualException;
-import com.github.equal.utils.ExceptionUtils;
+import com.github.equal.enums.ExceptionType;
+import com.github.equal.exception.AdapterException;
 import com.github.equal.utils.StringUtils;
 
 public class DoubleAdapter extends NumberAdapter<Double> {
 
     @Override
-    public Double fromString(String str) throws EqualException {
+    public Double fromString(String str) throws AdapterException {
         if (StringUtils.isEmpty(str)) {
             return null;
         }
@@ -39,7 +39,7 @@ public class DoubleAdapter extends NumberAdapter<Double> {
             str = super.cleanComma(str);
             return Double.parseDouble(str);
         } catch (Exception e) {
-            throw new EqualException(ExceptionUtils.ADAPT_VALUE_ERROR, str + " -> Double");
+            throw new AdapterException(ExceptionType.ADAPT_VALUE_ERROR, str + " -> Double");
         }
     }
 }

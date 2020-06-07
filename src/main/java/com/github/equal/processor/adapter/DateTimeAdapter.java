@@ -24,8 +24,8 @@
 
 package com.github.equal.processor.adapter;
 
-import com.github.equal.exception.EqualException;
-import com.github.equal.utils.ExceptionUtils;
+import com.github.equal.enums.ExceptionType;
+import com.github.equal.exception.AdapterException;
 import com.github.equal.utils.StringUtils;
 
 import java.time.LocalDateTime;
@@ -45,19 +45,19 @@ public class DateTimeAdapter implements Adapter<String, LocalDateTime> {
     }
 
     @Override
-    public LocalDateTime fromString(String str) throws EqualException {
+    public LocalDateTime fromString(String str) throws AdapterException {
         try {
             if (str == null) {
                 return null;
             }
             return LocalDateTime.parse(str, dateTimeFormatter);
         } catch (DateTimeParseException e) {
-            throw new EqualException(ExceptionUtils.ADAPT_DATE_TIME_ERROR, e.getMessage());
+            throw new AdapterException(ExceptionType.ADAPT_DATE_TIME_ERROR, e.getMessage());
         }
     }
 
     @Override
-    public String toString(LocalDateTime localDateTime) throws EqualException {
+    public String toString(LocalDateTime localDateTime) throws AdapterException {
         if (localDateTime == null) {
             return null;
         }

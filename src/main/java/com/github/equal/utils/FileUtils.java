@@ -25,7 +25,7 @@
 package com.github.equal.utils;
 
 import com.github.equal.enums.FileType;
-import com.github.equal.exception.EqualException;
+import com.github.equal.exception.SelectorException;
 import org.apache.poi.poifs.filesystem.FileMagic;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
@@ -74,7 +74,7 @@ public class FileUtils {
         try {
             fm = FileMagic.valueOf(is);
         } catch (IOException e) {
-            throw new EqualException(e);
+            throw new SelectorException(e);
         }
         switch (fm) {
             case OLE2:
@@ -86,19 +86,19 @@ public class FileUtils {
         }
     }
 
-    public static Workbook getWorkbook(File file) throws EqualException {
+    public static Workbook getWorkbook(File file) throws SelectorException {
         try {
             return WorkbookFactory.create(file);
         } catch (IOException e) {
-            throw new EqualException(e);
+            throw new SelectorException(e);
         }
     }
 
-    public static Workbook getWorkbook(InputStream inputStream) throws EqualException {
+    public static Workbook getWorkbook(InputStream inputStream) throws SelectorException {
         try {
             return WorkbookFactory.create(inputStream);
         } catch (IOException e) {
-            throw new EqualException(e);
+            throw new SelectorException(e);
         }
     }
 

@@ -24,19 +24,22 @@
 
 package com.github.equal.processor.selector;
 
+import com.github.equal.enums.ExceptionType;
 import com.github.equal.enums.FileType;
-import com.github.equal.utils.ExceptionUtils;
-import com.github.equal.exception.EqualException;
+import com.github.equal.exception.SelectorException;
 import com.github.equal.utils.FileUtils;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.stream.Stream;
 
 public class SelectorContext {
 
     private static FileSelector fileSelector;
 
-    public static <T> Stream<T> selectFromFile(Selector selector) throws EqualException {
+    public static <T> Stream<T> selectFromFile(Selector selector) throws SelectorException {
         FileType fileType = FileUtils.getFileTypeBySourceFile(selector.getSourceFile());
         switch (fileType) {
             case XLSX:
@@ -47,21 +50,21 @@ public class SelectorContext {
                 try {
                     fileSelector = new CSVSelector(new FileInputStream(selector.getSourceFile()));
                 } catch (FileNotFoundException e) {
-                    throw new EqualException(ExceptionUtils.FILE_NOT_FOUND, selector.getSourceFile().getName(), e);
+                    throw new SelectorException(ExceptionType.FILE_NOT_FOUND, selector.getSourceFile().getName(), e);
                 }
                 break;
             default:
-                throw new EqualException(ExceptionUtils.UNSUPPORTED_FILE_TYPE);
+                throw new SelectorException(ExceptionType.UNSUPPORTED_FILE_TYPE);
         }
         return fileSelector.selectFromFile(selector);
     }
 
-    public static <T> Stream<T> selectFromStream(Selector selector) throws EqualException {
+    public static <T> Stream<T> selectFromStream(Selector selector) throws SelectorException {
         byte[] bytes = null;
         try {
             bytes = FileUtils.toByteArray(selector.getInputStream());
         } catch (IOException e) {
-            throw new EqualException(e);
+            throw new SelectorException(e);
         }
         FileType fileType = FileUtils.getFileTypeByInputStream(selector.getInputStream());
         switch (fileType) {
@@ -73,7 +76,7 @@ public class SelectorContext {
                 fileSelector = new CSVSelector(new ByteArrayInputStream(bytes));
                 break;
             default:
-                throw new EqualException(ExceptionUtils.UNSUPPORTED_FILE_TYPE);
+                throw new SelectorException(ExceptionType.UNSUPPORTED_FILE_TYPE);
         }
         return fileSelector.selectFromFile(selector);
     }

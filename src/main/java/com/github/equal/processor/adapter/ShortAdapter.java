@@ -24,14 +24,14 @@
 
 package com.github.equal.processor.adapter;
 
-import com.github.equal.exception.EqualException;
-import com.github.equal.utils.ExceptionUtils;
+import com.github.equal.enums.ExceptionType;
+import com.github.equal.exception.AdapterException;
 import com.github.equal.utils.StringUtils;
 
 public class ShortAdapter extends NumberAdapter<Short> {
 
     @Override
-    public Short fromString(String str) throws EqualException {
+    public Short fromString(String str) throws AdapterException {
         if (StringUtils.isEmpty(str)) {
             return null;
         }
@@ -39,7 +39,7 @@ public class ShortAdapter extends NumberAdapter<Short> {
             str = super.cleanComma(str);
             return Short.parseShort(str);
         } catch (Exception e) {
-            throw new EqualException(ExceptionUtils.ADAPT_VALUE_ERROR, str + " -> Short");
+            throw new AdapterException(ExceptionType.ADAPT_VALUE_ERROR, str + " -> Short");
         }
     }
 }

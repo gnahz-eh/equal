@@ -25,10 +25,10 @@
 package com.github.equal.processor.inserter;
 
 import com.github.equal.annotation.Column;
-import com.github.equal.exception.EqualException;
+import com.github.equal.enums.ExceptionType;
+import com.github.equal.exception.InserterException;
 import com.github.equal.processor.adapter.Adapter;
 import com.github.equal.utils.ConstantUtils;
-import com.github.equal.utils.ExceptionUtils;
 import com.github.equal.utils.InserterUtils;
 
 import java.io.*;
@@ -68,7 +68,7 @@ public class CSVInserter extends FileInserter {
             }
             fw.flush();
         } catch (IOException e) {
-            throw new EqualException(e);
+            throw new InserterException(e);
         }
     }
 
@@ -97,7 +97,7 @@ public class CSVInserter extends FileInserter {
                         csvRowData.add(row);
                     }
                 } catch (Exception e) {
-                    throw new EqualException(e);
+                    throw new InserterException(e);
                 }
             }
         }
@@ -113,14 +113,14 @@ public class CSVInserter extends FileInserter {
                     csvRowData.add(line + ConstantUtils.NEW_LINE);
                 }
             } catch (IOException e) {
-                throw new EqualException(e);
+                throw new InserterException(e);
             }
 
             // create a new file
             try {
                 fileWriter = new FileWriter(inserter.getSourceFile(), false);
             } catch (IOException e) {
-                throw new EqualException(e);
+                throw new InserterException(e);
             }
 
             int numberOfInitialData = csvRowData.size();
@@ -148,7 +148,7 @@ public class CSVInserter extends FileInserter {
                     }
                     rowStartIndex++;
                 } catch (Exception e) {
-                    throw new EqualException(e);
+                    throw new InserterException(e);
                 }
             }
         }
@@ -201,14 +201,14 @@ public class CSVInserter extends FileInserter {
             try {
                 fileWriter = new FileWriter(inserter.getSourceFile(), inserter.isSourceFileExist());
             } catch (IOException e) {
-                throw new EqualException(e);
+                throw new InserterException(e);
             }
         } else {
             // source file exist, need to read the source file data, do not insert columns names
             try {
                 this.inputStream = new FileInputStream(inserter.getSourceFile());
             } catch (FileNotFoundException e) {
-                throw new EqualException(ExceptionUtils.FILE_OPEN_ERROR, inserter.getSourceFile().getName(), e);
+                throw new InserterException(ExceptionType.FILE_OPEN_ERROR, inserter.getSourceFile().getName(), e);
             }
         }
     }

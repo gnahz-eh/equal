@@ -25,7 +25,7 @@
 package com.github.equal.processor.selector;
 
 import com.github.equal.annotation.Column;
-import com.github.equal.exception.EqualException;
+import com.github.equal.exception.SelectorException;
 import com.github.equal.processor.adapter.Adapter;
 import com.github.equal.utils.ConstantUtils;
 
@@ -45,7 +45,7 @@ public class CSVSelector extends FileSelector {
     }
 
     @Override
-    public <T> Stream<T> selectFromFile(Selector selector) throws EqualException {
+    public <T> Stream<T> selectFromFile(Selector selector) throws SelectorException {
         Stream.Builder<T> builder = Stream.builder();
         Class clazz = selector.getClazz();
         try {
@@ -81,11 +81,11 @@ public class CSVSelector extends FileSelector {
             }
             return builder.build();
         } catch (IOException e) {
-            throw new EqualException(e);
+            throw new SelectorException(e);
         } catch (InstantiationException e1) {
-            throw new EqualException(e1);
+            throw new SelectorException(e1);
         } catch (IllegalAccessException e2) {
-            throw new EqualException(e2);
+            throw new SelectorException(e2);
         }
     }
 
@@ -99,7 +99,7 @@ public class CSVSelector extends FileSelector {
         try {
             field.set(obj, value);
         } catch (Exception e) {
-            throw new EqualException(e);
+            throw new SelectorException(e);
         }
     }
 }
