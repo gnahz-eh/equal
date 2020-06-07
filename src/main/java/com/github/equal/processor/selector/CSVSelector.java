@@ -48,9 +48,9 @@ public class CSVSelector extends FileSelector {
     public <T> Stream<T> selectFromFile(Selector selector) throws SelectorException {
         Stream.Builder<T> builder = Stream.builder();
         Class clazz = selector.getClazz();
-        try {
-            BufferedReader bufferedReader = new BufferedReader(
-                    new InputStreamReader(inputStream, selector.getCharset()));
+        try (BufferedReader bufferedReader = new BufferedReader(
+                new InputStreamReader(inputStream, selector.getCharset()))) {
+            
             init(clazz.getDeclaredFields());
             int rowStartIndex = selector.getRowStartIndex();
             int numberOfRows = selector.getNumberOfRows();

@@ -25,15 +25,13 @@
 package com.github.equal.utils;
 
 import com.github.equal.enums.FileType;
+import com.github.equal.exception.EqualException;
 import com.github.equal.exception.SelectorException;
 import org.apache.poi.poifs.filesystem.FileMagic;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 
 public class FileUtils {
 
@@ -119,5 +117,13 @@ public class FileUtils {
             return true;
         }
         return false;
+    }
+
+    public static void closeIO(Closeable io) {
+        try {
+            io.close();
+        } catch (IOException e) {
+            throw new EqualException(e);
+        }
     }
 }

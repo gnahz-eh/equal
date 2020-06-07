@@ -29,6 +29,7 @@ import com.github.equal.enums.ExceptionType;
 import com.github.equal.exception.InserterException;
 import com.github.equal.processor.adapter.Adapter;
 import com.github.equal.utils.ConstantUtils;
+import com.github.equal.utils.FileUtils;
 import com.github.equal.utils.InserterUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -113,9 +114,11 @@ public abstract class ExcelFileInserter extends FileInserter {
     private void flushData() throws InserterException {
         try {
             workbook.write(this.outputStream);
-            this.outputStream.close();
         } catch (IOException e) {
             throw new InserterException(ExceptionType.INSERT_DATA_ERROR);
+        } finally {
+            FileUtils.closeIO(workbook);
+            FileUtils.closeIO(outputStream);
         }
     }
 

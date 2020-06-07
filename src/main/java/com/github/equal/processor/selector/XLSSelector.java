@@ -29,6 +29,7 @@ import com.github.equal.exception.SelectorException;
 import com.github.equal.processor.adapter.Adapter;
 import com.github.equal.utils.ConstantUtils;
 import com.github.equal.utils.DateUtils;
+import com.github.equal.utils.FileUtils;
 import com.github.equal.utils.StringUtils;
 import org.apache.poi.ss.usermodel.*;
 
@@ -41,6 +42,8 @@ import java.util.Date;
 import java.util.stream.Stream;
 
 public class XLSSelector extends FileSelector {
+
+    private Workbook workbook;
 
     public XLSSelector(Workbook workbook) {
         this.workbook = workbook;
@@ -86,6 +89,8 @@ public class XLSSelector extends FileSelector {
             throw new SelectorException(e);
         } catch (IllegalAccessException e1) {
             throw new SelectorException(e1);
+        } finally {
+            FileUtils.closeIO(workbook);
         }
     }
 

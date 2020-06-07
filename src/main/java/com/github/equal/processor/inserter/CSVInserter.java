@@ -29,6 +29,7 @@ import com.github.equal.enums.ExceptionType;
 import com.github.equal.exception.InserterException;
 import com.github.equal.processor.adapter.Adapter;
 import com.github.equal.utils.ConstantUtils;
+import com.github.equal.utils.FileUtils;
 import com.github.equal.utils.InserterUtils;
 
 import java.io.*;
@@ -114,6 +115,9 @@ public class CSVInserter extends FileInserter {
                 }
             } catch (IOException e) {
                 throw new InserterException(e);
+            } finally {
+                FileUtils.closeIO(bufferedReader);
+                FileUtils.closeIO(inputStream);
             }
 
             // create a new file
