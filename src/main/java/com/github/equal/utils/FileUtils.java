@@ -108,7 +108,7 @@ public class FileUtils {
             outputStream.write(buffer, 0, n);
         }
         outputStream.flush();
-        outputStream.close();
+        closeIO(outputStream);
         return outputStream.toByteArray();
     }
 
