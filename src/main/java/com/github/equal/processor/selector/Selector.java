@@ -52,11 +52,11 @@ public class Selector<T> {
     /**
      * Construction method
      */
-    public Selector(Class<T> clazz) {
+    private Selector(Class<T> clazz) {
         this.clazz = clazz;
     }
 
-    public static <T> Selector select(Class<T> clazz) {
+    public static <T> Selector<T> select(Class<T> clazz) {
         return new Selector<>(clazz);
     }
 
