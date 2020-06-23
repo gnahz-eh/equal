@@ -413,7 +413,7 @@ class SelectorTest {
     void selectCSVWithBlankLine() throws EqualException {
         int rowStartIndex = 2;
         int numOfRows = 8;
-        List<Student3> students = Selector
+        List<Student4> students = Selector
                 .select(Student4.class)
                 .from(new File(pkgName + "/Student5.csv"))
                 .where(rowStartIndex, numOfRows)
@@ -425,27 +425,27 @@ class SelectorTest {
     void selectCSVWithBlankLine2() throws EqualException {
         int rowStartIndex = 11;
         int numOfRows = 1;
-        List<Student3> students = Selector
+        List<Student4> students = Selector
                 .select(Student4.class)
                 .from(new File(pkgName + "/Student5.csv"))
                 .where(rowStartIndex, numOfRows)
                 .executeQuery();
         assertEquals(students.size(), numOfRows);
 
-        List<Student3> students2 = Selector
+        List<Student4> students2 = Selector
                 .select(Student4.class)
                 .from(new File(pkgName + "/Student5.csv"))
                 .where(rowStartIndex)
                 .executeQuery();
         assertNotEquals(students2.size(), 0);
 
-        List<Student3> students3 = Selector
+        List<Student4> students3 = Selector
                 .select(Student4.class)
                 .from(new File(pkgName + "/Student5.csv"))
                 .executeQuery();
         assertNotEquals(students3.size(), 0);
 
-        List<Student3> students4 = Selector
+        List<Student4> students4 = Selector
                 .select(Student4.class)
                 .from(new File(pkgName + "/Student5.csv"))
                 .where()
@@ -457,21 +457,21 @@ class SelectorTest {
     void selectCSVWithBlankLine3() throws EqualException {
         int rowStartIndex = 11;
         int numOfRows = 2;
-        List<Student3> students = Selector
+        List<Student4> students = Selector
                 .select(Student4.class)
                 .from(new File(pkgName + "/Student5.csv"))
                 .where(rowStartIndex, numOfRows)
                 .executeQuery();
         assertEquals(students.size(), numOfRows);
 
-        List<Student3> students2 = Selector
+        List<Student4> students2 = Selector
                 .select(Student4.class)
                 .from(new File(pkgName + "/Student5.csv"))
                 .where(rowStartIndex)
                 .executeQuery();
         assertNotEquals(students2.size(), 0);
 
-        List<Student3> students3 = Selector
+        List<Student4> students3 = Selector
                 .select(Student4.class)
                 .from(new File(pkgName + "/Student5.csv"))
                 .executeQuery();
@@ -482,21 +482,21 @@ class SelectorTest {
     void selectCSVWithBlankLine4() throws EqualException {
         int rowStartIndex = 3;
         int numOfRows = 10;
-        List<Student3> students = Selector
+        List<Student4> students = Selector
                 .select(Student4.class)
                 .from(new File(pkgName + "/Student5.csv"))
                 .where(rowStartIndex, numOfRows)
                 .executeQuery();
         assertEquals(students.size(), numOfRows);
 
-        List<Student3> students2 = Selector
+        List<Student4> students2 = Selector
                 .select(Student4.class)
                 .from(new File(pkgName + "/Student5.csv"))
                 .where(rowStartIndex)
                 .executeQuery();
         assertNotEquals(students2.size(), 0);
 
-        List<Student3> students3 = Selector
+        List<Student4> students3 = Selector
                 .select(Student4.class)
                 .from(new File(pkgName + "/Student5.csv"))
                 .executeQuery();
@@ -507,21 +507,21 @@ class SelectorTest {
     void selectCSVWithBlankLine5() throws EqualException {
         int rowStartIndex = 2;
         int numOfRows = 2;
-        List<Student3> students = Selector
+        List<Student4> students = Selector
                 .select(Student4.class)
                 .from(new File(pkgName + "/Student5.csv"))
                 .where(rowStartIndex, numOfRows)
                 .executeQuery();
         assertEquals(students.size(), numOfRows);
 
-        List<Student3> students2 = Selector
+        List<Student4> students2 = Selector
                 .select(Student4.class)
                 .from(new File(pkgName + "/Student5.csv"))
                 .where(rowStartIndex)
                 .executeQuery();
         assertNotEquals(students2.size(), 0);
 
-        List<Student3> students3 = Selector
+        List<Student4> students3 = Selector
                 .select(Student4.class)
                 .from(new File(pkgName + "/Student5.csv"))
                 .executeQuery();
@@ -532,21 +532,21 @@ class SelectorTest {
     void selectCSVWithBlankLine6() throws EqualException {
         int rowStartIndex = 6;
         int numOfRows = 2;
-        List<Student3> students = Selector
+        List<Student4> students = Selector
                 .select(Student4.class)
                 .from(new File(pkgName + "/Student5.csv"))
                 .where(rowStartIndex, numOfRows)
                 .executeQuery();
         assertEquals(students.size(), numOfRows);
 
-        List<Student3> students2 = Selector
+        List<Student4> students2 = Selector
                 .select(Student4.class)
                 .from(new File(pkgName + "/Student5.csv"))
                 .where(rowStartIndex)
                 .executeQuery();
         assertNotEquals(students2.size(), 0);
 
-        List<Student3> students3 = Selector
+        List<Student4> students3 = Selector
                 .select(Student4.class)
                 .from(new File(pkgName + "/Student5.csv"))
                 .executeQuery();
@@ -557,21 +557,21 @@ class SelectorTest {
     void selectCSVWithBlankLine7() throws EqualException {
         int rowStartIndex = 13;
         int numOfRows = 2;
-        List<Student3> students = Selector
+        List<Student4> students = Selector
                 .select(Student4.class)
                 .from(new File(pkgName + "/Student5.csv"))
                 .where(rowStartIndex, numOfRows)
                 .executeQuery();
         assertEquals(students.size(), numOfRows);
 
-        List<Student3> students2 = Selector
+        List<Student4> students2 = Selector
                 .select(Student4.class)
                 .from(new File(pkgName + "/Student5.csv"))
                 .where(rowStartIndex)
                 .executeQuery();
         assertEquals(students2.size(), 0);
 
-        List<Student3> students3 = Selector
+        List<Student4> students3 = Selector
                 .select(Student4.class)
                 .from(new File(pkgName + "/Student5.csv"))
                 .executeQuery();
@@ -582,21 +582,21 @@ class SelectorTest {
     void selectCSVWithBlankLine8() throws EqualException {
         int rowStartIndex = 9;
         int numOfRows = 0;
-        List<Student3> students = Selector
+        List<Student4> students = Selector
                 .select(Student4.class)
                 .from(new File(pkgName + "/Student5.csv"))
                 .where(rowStartIndex, numOfRows)
                 .executeQuery();
         assertEquals(students.size(), numOfRows);
 
-        List<Student3> students2 = Selector
+        List<Student4> students2 = Selector
                 .select(Student4.class)
                 .from(new File(pkgName + "/Student5.csv"))
                 .where(rowStartIndex)
                 .executeQuery();
         assertNotEquals(students2.size(), 0);
 
-        List<Student3> students3 = Selector
+        List<Student4> students3 = Selector
                 .select(Student4.class)
                 .from(new File(pkgName + "/Student5.csv"))
                 .executeQuery();
