@@ -48,7 +48,7 @@ public abstract class FileInserter {
 
     void init() {
 
-        Field[] fields = inserter.getData().iterator().next().getClass().getDeclaredFields();
+        Field[] fields = inserter.getClazz().getDeclaredFields();
         this.fieldIndexes = new HashMap<>(fields.length);
         this.fieldAdapters = new HashMap<>();
         this.columns = new ArrayList<>();

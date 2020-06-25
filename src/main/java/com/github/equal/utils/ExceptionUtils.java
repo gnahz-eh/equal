@@ -128,4 +128,10 @@ public class ExceptionUtils {
             throw new IllegalArgumentException(ExceptionType.FILE_TYPES_ARE_INCONSISTENT.getExceptionMessage());
         }
     }
+
+    public static void assertIsTargetClassType(Class<?> actual, Class<?> expect) {
+        if (!actual.equals(expect)) {
+            throw new IllegalArgumentException(ExceptionType.INCONSISTENT_CLASS_TYPE.getExceptionMessage());
+        }
+    }
 }

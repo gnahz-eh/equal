@@ -47,7 +47,7 @@ public class Selector<T> {
     private int rowStartIndex = ConstantUtils.ROW_START_INDEX;
     private int numberOfRows = ConstantUtils.DEFAULT_NUMBER_OF_ROW;
     private Stream<T> returnStream;
-    private Charset charset = StandardCharsets.UTF_8;;
+    private Charset charset = StandardCharsets.UTF_8;
 
     /**
      * Construction method

@@ -45,6 +45,7 @@ public enum ExceptionType {
     INVALID_TABLE_INDEX                       (206, "Invalid table index"),
     INSERT_DATA_ERROR                         (207, "Insert data error"),
     FILE_TYPES_ARE_INCONSISTENT               (208, "File types are inconsistent"),
+    INCONSISTENT_CLASS_TYPE                   (209, "Inconsistent class type"),
 
     ADAPT_VALUE_ERROR                         (501, "Adapt value error"),
     ADAPT_DATE_ERROR                          (502, "Adapt date error"),
