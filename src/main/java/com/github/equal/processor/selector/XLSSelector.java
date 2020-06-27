@@ -25,6 +25,7 @@
 package com.github.equal.processor.selector;
 
 import com.github.equal.annotation.Column;
+import com.github.equal.enums.ExceptionType;
 import com.github.equal.exception.SelectorException;
 import com.github.equal.processor.adapter.Adapter;
 import com.github.equal.utils.DateUtils;
@@ -52,9 +53,14 @@ public class XLSSelector extends FileSelector {
     public <T> Stream<T> selectFromFile(Selector<T> selector) throws SelectorException {
         Stream.Builder<T> builder = Stream.builder();
         Class<T> clazz = selector.getClazz();
+
         try {
             init(clazz.getDeclaredFields());
             Sheet table = getTable(selector);
+
+            if (table == null) {
+                throw new SelectorException(ExceptionType.DID_NOT_FIND_THE_TABLE);
+            }
 
             int rowStartIndex = selector.getRowStartIndex();
             int numberOfRows = selector.getNumberOfRows();

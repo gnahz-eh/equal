@@ -28,14 +28,15 @@ import com.github.equal.bean.Student;
 import com.github.equal.bean.Student2;
 import com.github.equal.bean.Student3;
 import com.github.equal.bean.Student4;
+import com.github.equal.enums.ExceptionType;
 import com.github.equal.exception.EqualException;
+import com.github.equal.exception.SelectorException;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class SelectorTest {
 
@@ -284,6 +285,38 @@ class SelectorTest {
                 .where(rowStartIndex, numOfRows)
                 .executeQuery();
         assertEquals(students.size(), numOfRows);
+    }
+
+    @Test
+    void selectXLSX8() throws EqualException {
+        int rowStartIndex = 2;
+        int numOfRows = 5;
+
+        Throwable exception = assertThrows(SelectorException.class, () -> {
+            List<Student> students = Selector
+                    .select(Student.class)
+                    .from(new File(pkgName + "/Student6.xlsx"), "Sheet2")
+                    .where(rowStartIndex, numOfRows)
+                    .executeQuery();
+        });
+
+        assertEquals(exception.getMessage(), ExceptionType.DID_NOT_FIND_THE_TABLE.getExceptionMessage());
+    }
+
+    @Test
+    void selectXLSX9() throws EqualException {
+        int rowStartIndex = 2;
+        int numOfRows = 5;
+
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> {
+            List<Student> students = Selector
+                    .select(Student.class)
+                    .from(new File(pkgName + "/Student6.xlsx"), 2)
+                    .where(rowStartIndex, numOfRows)
+                    .executeQuery();
+        });
+
+        assertEquals(exception.getMessage(), "Sheet index (2) is out of range (0..0)");
     }
 //---------------------------------------------------------------------------
 

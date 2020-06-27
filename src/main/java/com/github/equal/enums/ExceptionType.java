@@ -36,6 +36,7 @@ public enum ExceptionType {
     ROW_START_INDEX_IS_LESS_THAN_1            (107, "Row start row index is less than 1"),
     UNSUPPORTED_FILE_TYPE                     (109, "Unsupported file type"),
     FILE_NOT_FOUND                            (110, "File not found"),
+    DID_NOT_FIND_THE_TABLE                    (111, "Did find the table, please check the param tableName"),
 
     INSERT_DATA_IS_NULL                       (201, "Insert data is null"),
     FILE_OPEN_ERROR                           (202, "File open error"),
