@@ -45,14 +45,15 @@ public enum ExceptionType {
     INVALID_TABLE_INDEX                       (206, "Invalid table index"),
     INSERT_DATA_ERROR                         (207, "Insert data error"),
     FILE_TYPES_ARE_INCONSISTENT               (208, "File types are inconsistent"),
+    INCONSISTENT_CLASS_TYPE                   (209, "Inconsistent class type"),
 
     ADAPT_VALUE_ERROR                         (501, "Adapt value error"),
     ADAPT_DATE_ERROR                          (502, "Adapt date error"),
     ADAPT_TIME_ERROR                          (503, "Adapt time error"),
     ADAPT_DATE_TIME_ERROR                     (504, "Adapt date time error");
 
-    private int exceptionCode;
-    private String exceptionMessage;
+    private final int exceptionCode;
+    private final String exceptionMessage;
 
     ExceptionType(int exceptionCode, String exceptionMessage) {
         this.exceptionCode = exceptionCode;

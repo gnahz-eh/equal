@@ -37,7 +37,7 @@ import java.time.format.DateTimeParseException;
 
 public class DateAdapter implements Adapter<String, LocalDate> {
 
-    private DateTimeFormatter dateTimeFormatter;
+    private final DateTimeFormatter dateTimeFormatter;
 
     public DateAdapter(String datePattern) {
         if (StringUtils.isNotEmpty(datePattern)) {
@@ -72,10 +72,10 @@ public class DateAdapter implements Adapter<String, LocalDate> {
     }
 
     @Override
-    public String toString(LocalDate date) throws AdapterException {
+    public String toString(Object date) throws AdapterException {
         if (date == null) {
             return null;
         }
-        return date.format(dateTimeFormatter);
+        return ((LocalDate) date).format(dateTimeFormatter);
     }
 }

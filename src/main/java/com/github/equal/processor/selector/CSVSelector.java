@@ -38,23 +38,23 @@ import java.util.stream.Stream;
 
 public class CSVSelector extends FileSelector {
 
-    private InputStream inputStream;
+    private final InputStream inputStream;
 
     public CSVSelector(InputStream inputStream) {
         this.inputStream = inputStream;
     }
 
     @Override
-    public <T> Stream<T> selectFromFile(Selector selector) throws SelectorException {
+    public <T> Stream<T> selectFromFile(Selector<T> selector) throws SelectorException {
         Stream.Builder<T> builder = Stream.builder();
-        Class clazz = selector.getClazz();
+        Class<T> clazz = selector.getClazz();
         try (BufferedReader bufferedReader = new BufferedReader(
                 new InputStreamReader(inputStream, selector.getCharset()))) {
             
             init(clazz.getDeclaredFields());
             int rowStartIndex = selector.getRowStartIndex();
             int numberOfRows = selector.getNumberOfRows();
-            String line = null;
+            String line;
 
             while ((line = bufferedReader.readLine()) != null) {
                 if (numberOfRows == 0) break;
@@ -63,12 +63,12 @@ public class CSVSelector extends FileSelector {
                 if (line.equals(StringUtils.BLINK_STRING)) {
                     builder.add(null);
                 } else {
-                    Object obj = clazz.newInstance();
+                    T obj = clazz.newInstance();
                     String[] items = line.split(StringUtils.COMMA);
                     for (Field field : fieldIndexes.values()) {
                         setField(field, items, obj);
                     }
-                    builder.add((T) obj);
+                    builder.add(obj);
                 }
                 numberOfRows--;
             }
@@ -80,12 +80,8 @@ public class CSVSelector extends FileSelector {
                 }
             }
             return builder.build();
-        } catch (IOException e) {
+        } catch (IOException | InstantiationException | IllegalAccessException e) {
             throw new SelectorException(e);
-        } catch (InstantiationException e1) {
-            throw new SelectorException(e1);
-        } catch (IllegalAccessException e2) {
-            throw new SelectorException(e2);
         }
     }
 

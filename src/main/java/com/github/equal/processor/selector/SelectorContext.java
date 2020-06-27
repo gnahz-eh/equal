@@ -39,7 +39,7 @@ public class SelectorContext {
 
     private static FileSelector fileSelector;
 
-    public static <T> Stream<T> selectFromFile(Selector selector) throws SelectorException {
+    public static <T> Stream<T> selectFromFile(Selector<T> selector) throws SelectorException {
         FileType fileType = FileUtils.getFileTypeBySourceFile(selector.getSourceFile());
         switch (fileType) {
             case XLSX:
@@ -59,8 +59,8 @@ public class SelectorContext {
         return fileSelector.selectFromFile(selector);
     }
 
-    public static <T> Stream<T> selectFromStream(Selector selector) throws SelectorException {
-        byte[] bytes = null;
+    public static <T> Stream<T> selectFromStream(Selector<T> selector) throws SelectorException {
+        byte[] bytes;
         try {
             bytes = FileUtils.toByteArray(selector.getInputStream());
         } catch (IOException e) {

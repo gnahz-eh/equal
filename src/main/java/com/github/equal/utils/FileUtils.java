@@ -60,15 +60,13 @@ public class FileUtils {
 
     /**
      * Reference from WorkbookFactory.create(InputStream inp, String password)
-     * @param inputStream
-     * @return
      */
     public static FileType getFileTypeByInputStream(InputStream inputStream) {
         if (inputStream == null) {
             return FileType.NONE;
         }
         InputStream is = FileMagic.prepareToCheckMagic(inputStream);
-        FileMagic fm = null;
+        FileMagic fm;
         try {
             fm = FileMagic.valueOf(is);
         } catch (IOException e) {
@@ -103,7 +101,7 @@ public class FileUtils {
     public static byte[] toByteArray(InputStream inputStream) throws IOException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         byte[] buffer = new byte[1024 * 4];
-        int n = 0;
+        int n;
         while (-1 != (n = inputStream.read(buffer))) {
             outputStream.write(buffer, 0, n);
         }
@@ -113,10 +111,7 @@ public class FileUtils {
     }
 
     public static boolean isExcelFile(FileType fileType) {
-        if (fileType == FileType.XLS || fileType == FileType.XLSX) {
-            return true;
-        }
-        return false;
+        return fileType == FileType.XLS || fileType == FileType.XLSX;
     }
 
     public static void closeIO(Closeable io) {

@@ -30,7 +30,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 public class XLSInserter extends ExcelFileInserter {
 
-    public XLSInserter(Inserter inserter) {
+    public XLSInserter(Inserter<?> inserter) {
         super(inserter);
     }
 

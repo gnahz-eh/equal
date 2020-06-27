@@ -27,31 +27,23 @@ package com.github.equal.processor.inserter;
 import com.github.equal.enums.ExceptionType;
 import com.github.equal.enums.FileType;
 import com.github.equal.exception.InserterException;
-import com.github.equal.utils.ExceptionUtils;
-import com.github.equal.utils.FileUtils;
 
 public class InserterContext {
 
-    private static FileInserter fileInserter;
-
-    public static void insertIntoFile(Inserter inserter) throws InserterException {
+    public static void insertIntoFile(Inserter<?> inserter) throws InserterException {
         FileType fileType = inserter.getFileType();
-        FileType realType = FileUtils.getFileTypeBySourceFile(inserter.getSourceFile());
-        ExceptionUtils.assertIsTargetFileType(realType, fileType);
         switch (fileType) {
             case XLSX:
-                fileInserter = new XLSXInserter(inserter);
+                new XLSXInserter(inserter).insertIntoFile();
                 break;
             case XLS:
-                fileInserter = new XLSInserter(inserter);
+                new XLSInserter(inserter).insertIntoFile();
                 break;
             case CSV:
-                fileInserter = new CSVInserter(inserter);
+                new CSVInserter(inserter).insertIntoFile();
                 break;
             default:
                 throw new InserterException(ExceptionType.UNSUPPORTED_FILE_TYPE);
-
         }
-        fileInserter.insertIntoFile();
     }
 }

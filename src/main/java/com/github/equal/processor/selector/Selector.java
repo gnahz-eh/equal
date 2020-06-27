@@ -42,12 +42,12 @@ public class Selector<T> {
     private File sourceFile;
     private InputStream inputStream;
     private String tableName;
-    private Class<T> clazz;
+    private final Class<T> clazz;
     private int tableIndex = 0;
     private int rowStartIndex = ConstantUtils.ROW_START_INDEX;
     private int numberOfRows = ConstantUtils.DEFAULT_NUMBER_OF_ROW;
     private Stream<T> returnStream;
-    private Charset charset = StandardCharsets.UTF_8;;
+    private Charset charset = StandardCharsets.UTF_8;
 
     /**
      * Construction method
@@ -129,13 +129,12 @@ public class Selector<T> {
             if (this.returnStream == null) {
                 this.returnStream = SelectorContext.selectFromFile(this);
             }
-            return returnStream;
         } else {
             if (this.returnStream == null) {
                 this.returnStream = SelectorContext.selectFromStream(this);
             }
-            return returnStream;
         }
+        return returnStream;
     }
 
     public List<T> executeQuery() throws SelectorException {

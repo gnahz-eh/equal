@@ -42,16 +42,16 @@ import java.util.stream.Stream;
 
 public class XLSSelector extends FileSelector {
 
-    private Workbook workbook;
+    private final Workbook workbook;
 
     public XLSSelector(Workbook workbook) {
         this.workbook = workbook;
     }
 
     @Override
-    public <T> Stream<T> selectFromFile(Selector selector) throws SelectorException {
+    public <T> Stream<T> selectFromFile(Selector<T> selector) throws SelectorException {
         Stream.Builder<T> builder = Stream.builder();
-        Class clazz = selector.getClazz();
+        Class<T> clazz = selector.getClazz();
         try {
             init(clazz.getDeclaredFields());
             Sheet table = getTable(selector);
@@ -68,11 +68,11 @@ public class XLSSelector extends FileSelector {
                 if (row == null) {
                     builder.add(null);
                 } else {
-                    Object obj = clazz.newInstance();
+                    T obj = clazz.newInstance();
                     for (Field field : fieldIndexes.values()) {
                         setField(field, row, obj);
                     }
-                    builder.add((T) obj);
+                    builder.add(obj);
                 }
                 numberOfRows--;
             }
@@ -84,10 +84,8 @@ public class XLSSelector extends FileSelector {
                 }
             }
             return builder.build();
-        } catch (InstantiationException e) {
+        } catch (InstantiationException | IllegalAccessException e) {
             throw new SelectorException(e);
-        } catch (IllegalAccessException e1) {
-            throw new SelectorException(e1);
         } finally {
             FileUtils.closeIO(workbook);
         }
@@ -115,7 +113,7 @@ public class XLSSelector extends FileSelector {
         return adapter.fromString(cell.getNumericCellValue() + StringUtils.BLINK_STRING);
     }
 
-    public Sheet getTable(Selector selector) {
+    private Sheet getTable(Selector<?> selector) {
         return StringUtils.isNotEmpty(selector.getTableName()) ?
                 workbook.getSheet(selector.getTableName()) :
                 workbook.getSheetAt(selector.getTableIndex());

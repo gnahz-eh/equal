@@ -46,7 +46,7 @@ public class CSVInserter extends FileInserter {
     private FileWriter fileWriter;
     private InputStream inputStream;
 
-    public CSVInserter(Inserter inserter) {
+    public CSVInserter(Inserter<?> inserter) {
         super(inserter);
     }
 
@@ -74,7 +74,7 @@ public class CSVInserter extends FileInserter {
     }
 
     private List<String> parseData(Collection<?> data, int numberOfRows, int rowStartIndex, boolean isSourceFileExist) {
-        List<String> csvRowData = null;
+        List<String> csvRowData;
 
         // source exist not exist
         if (!isSourceFileExist) {
@@ -108,7 +108,7 @@ public class CSVInserter extends FileInserter {
             BufferedReader bufferedReader = new BufferedReader(
                     new InputStreamReader(inputStream, inserter.getCharset()));
             csvRowData = new ArrayList<>();
-            String line = null;
+            String line;
             try {
                 while ((line = bufferedReader.readLine()) != null) {
                     csvRowData.add(line + StringUtils.NEW_LINE);
@@ -139,7 +139,7 @@ public class CSVInserter extends FileInserter {
             for (Object obj : data) {
                 if (0 == numberOfRows--) break;
                 try {
-                    String row = null;
+                    String row;
                     if (obj != null) {
                         row = parseRow(obj);
                     } else {
@@ -166,7 +166,7 @@ public class CSVInserter extends FileInserter {
 
             Field field = fields.get(i);
             Object val = field.get(obj);
-            Adapter adapter = fieldAdapters.get(field);
+            Adapter<String, ?> adapter = fieldAdapters.get(field);
             sb.append(val == null ? StringUtils.BLINK_STRING : adapter.toString(val));
             if (i < fields.size() - 1) {
                 sb.append(StringUtils.COMMA);

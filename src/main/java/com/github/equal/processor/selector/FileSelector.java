@@ -40,7 +40,7 @@ public abstract class FileSelector {
     protected Map<Integer, Field> fieldIndexes;
     protected Map<Field, Adapter<String, ?>> fieldAdapters;
 
-    public abstract <T> Stream<T> selectFromFile(Selector selector);
+    public abstract <T> Stream<T> selectFromFile(Selector<T> selector);
 
     public void init(Field[] fields) throws SelectorException {
         fieldIndexes = new HashMap<>(fields.length);
@@ -54,7 +54,7 @@ public abstract class FileSelector {
             field.setAccessible(true);
             fieldIndexes.put(column.index(), field);
 
-            Adapter adapter = null;
+            Adapter<String, ?> adapter;
             adapter = AdapterFactory.getInstance(field);
             if (adapter != null) {
                 fieldAdapters.put(field, adapter);

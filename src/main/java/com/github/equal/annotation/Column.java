@@ -41,7 +41,7 @@ public @interface Column {
 
     String name() default StringUtils.BLINK_STRING;
 
-    Class<? extends Adapter> adapter() default NullAdapter.class;
+    Class<? extends Adapter<String, ?>> adapter() default NullAdapter.class;
 
     String dateTimePattern() default StringUtils.BLINK_STRING;
 }

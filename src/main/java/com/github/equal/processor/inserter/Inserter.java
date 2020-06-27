@@ -29,6 +29,7 @@ import com.github.equal.enums.FileType;
 import com.github.equal.exception.InserterException;
 import com.github.equal.utils.ConstantUtils;
 import com.github.equal.utils.ExceptionUtils;
+import com.github.equal.utils.FileUtils;
 import com.github.equal.utils.StringUtils;
 
 import java.io.File;
@@ -37,10 +38,11 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 
-public class Inserter {
+public class Inserter<T> {
 
     private Collection<?> data;
     private FileType fileType;
+    private final Class<T> clazz;
     private int rowStartIndex = ConstantUtils.ROW_START_INDEX; // first row is title
     private int numberOfRows;
     private File sourceFile;
@@ -48,22 +50,18 @@ public class Inserter {
     private String tableName = StringUtils.DEFAULT;
     private boolean dataInitFlag = false;
     private boolean isSourceFileExist = false;
-    private Charset charset = StandardCharsets.UTF_8;
-    private int rowAccessWindowSize = ConstantUtils.ROW_ACCESS_WS;
+    private final Charset charset = StandardCharsets.UTF_8;
+    private final int rowAccessWindowSize = ConstantUtils.ROW_ACCESS_WS;
 
-    public Inserter(FileType fileType) {
-        this.fileType = fileType;
+    private Inserter(Class<T> clazz) {
+        this.clazz = clazz;
     }
 
-    public static Inserter insert() {
-        return new Inserter(FileType.XLSX);
+    public static <T> Inserter<T> insert(Class<T> clazz) {
+        return new Inserter<>(clazz);
     }
 
-    public static Inserter insert(FileType fileType) {
-        return new Inserter(fileType);
-    }
-
-    public Inserter values(Collection<?> data) {
+    public Inserter<T> values(Collection<?> data) {
         ExceptionUtils.assertInsertDataIsNotNull(data);
         this.data = data;
         this.dataInitFlag = true;
@@ -71,7 +69,7 @@ public class Inserter {
         return this;
     }
 
-    public Inserter range() {
+    public Inserter<T> range() {
         this.rowStartIndex = ConstantUtils.ROW_START_INDEX;
         if (!this.dataInitFlag) {
             throw new RuntimeException("Insert data have not been init initialized");
@@ -82,14 +80,14 @@ public class Inserter {
         return this;
     }
 
-    public Inserter range(int rowStartIndex) {
+    public Inserter<T> range(int rowStartIndex) {
         ExceptionUtils.assertValidRowStartIndex(rowStartIndex);
         this.range();
         this.rowStartIndex = rowStartIndex;
         return this;
     }
 
-    public Inserter range(int rowStartIndex, int numberOfRows) {
+    public Inserter<T> range(int rowStartIndex, int numberOfRows) {
         ExceptionUtils.assertValidRowStartIndex(rowStartIndex);
         ExceptionUtils.assertNumberOfRowsIsNotLessThan0(numberOfRows);
         this.range();
@@ -99,7 +97,7 @@ public class Inserter {
     }
 
     // sourceFile cannot be a dir
-    public Inserter into(File sourceFile) {
+    public Inserter<T> into(File sourceFile) {
         ExceptionUtils.assertNotNullSourceFile(sourceFile);
         if (sourceFile.exists()) {
             ExceptionUtils.assertSourceFileIsNotDir(sourceFile);
@@ -107,30 +105,33 @@ public class Inserter {
         } else {
             try {
                 File parentDir = sourceFile.getParentFile();
+                boolean d = true;
                 if (!parentDir.exists()) {
-                    parentDir.mkdirs();
+                    d = parentDir.mkdirs();
                 }
-                sourceFile.createNewFile();
-                this.isSourceFileExist = false;
+                boolean f = sourceFile.createNewFile();
+                this.isSourceFileExist = !(d && f);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
+        this.fileType = FileUtils.getFileTypeBySourceFile(sourceFile);
         this.sourceFile = sourceFile;
         return this;
     }
 
     // sourceFile must be exist
-    public Inserter into(File sourceFile, int tableIndex) {
+    public Inserter<T> into(File sourceFile, int tableIndex) {
         ExceptionUtils.assertValidSourceFile(sourceFile);
         ExceptionUtils.assertTableIndexBigThanZero(tableIndex);
         this.sourceFile = sourceFile;
         this.tableIndex = tableIndex;
+        this.fileType = FileUtils.getFileTypeBySourceFile(sourceFile);
         this.isSourceFileExist = true;
         return this;
     }
 
-    public Inserter into(File sourceFile, String tableName) {
+    public Inserter<T> into(File sourceFile, String tableName) {
         this.into(sourceFile);
         this.tableName = tableName;
         return this;
@@ -140,6 +141,10 @@ public class Inserter {
         if (data == null || data.isEmpty()) {
             throw new InserterException(ExceptionType.INSERT_DATA_IS_NULL);
         }
+
+        Class<?> dataClazz = data.iterator().next().getClass();
+        ExceptionUtils.assertIsTargetClassType(dataClazz, clazz);
+
         InserterContext.insertIntoFile(this);
     }
 
@@ -181,5 +186,9 @@ public class Inserter {
 
     public Charset getCharset() {
         return charset;
+    }
+
+    public Class<T> getClazz() {
+        return clazz;
     }
 }
