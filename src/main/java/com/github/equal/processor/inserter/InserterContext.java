@@ -30,24 +30,20 @@ import com.github.equal.exception.InserterException;
 
 public class InserterContext {
 
-    private static FileInserter fileInserter;
-
     public static void insertIntoFile(Inserter<?> inserter) throws InserterException {
         FileType fileType = inserter.getFileType();
         switch (fileType) {
             case XLSX:
-                fileInserter = new XLSXInserter(inserter);
+                new XLSXInserter(inserter).insertIntoFile();
                 break;
             case XLS:
-                fileInserter = new XLSInserter(inserter);
+                new XLSInserter(inserter).insertIntoFile();
                 break;
             case CSV:
-                fileInserter = new CSVInserter(inserter);
+                new CSVInserter(inserter).insertIntoFile();
                 break;
             default:
                 throw new InserterException(ExceptionType.UNSUPPORTED_FILE_TYPE);
-
         }
-        fileInserter.insertIntoFile();
     }
 }

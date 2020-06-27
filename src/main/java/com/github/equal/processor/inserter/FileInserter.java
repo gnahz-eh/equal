@@ -36,13 +36,13 @@ import java.util.Map;
 
 public abstract class FileInserter {
 
-    Inserter inserter;
+    Inserter<?> inserter;
     Map<Integer, Field> fieldIndexes;
     Map<Field, Adapter<String, ?>> fieldAdapters;
     List<Column> columns;
     boolean insertColumnNames;
 
-    public FileInserter(Inserter inserter) {
+    public FileInserter(Inserter<?> inserter) {
         this.inserter = inserter;
     }
 
@@ -62,7 +62,7 @@ public abstract class FileInserter {
 
                 columns.add(column);
 
-                Adapter adapter = null;
+                Adapter<String, ?> adapter;
                 adapter = AdapterFactory.getInstance(field);
                 if (adapter != null) {
                     fieldAdapters.put(field, adapter);

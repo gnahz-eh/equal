@@ -50,7 +50,7 @@ public abstract class ExcelFileInserter extends FileInserter {
     protected Workbook workbook;
     protected OutputStream outputStream;
 
-    public ExcelFileInserter(Inserter inserter) {
+    public ExcelFileInserter(Inserter<?> inserter) {
         super(inserter);
     }
 
@@ -96,7 +96,7 @@ public abstract class ExcelFileInserter extends FileInserter {
             }
 
             Cell cell = row.createCell(colIndex);
-            Adapter adapter = fieldAdapters.get(field);
+            Adapter<String, ?> adapter = fieldAdapters.get(field);
             String formatedValue = adapter.toString(val);
             cell.setCellValue(formatedValue);
         }
@@ -127,7 +127,7 @@ public abstract class ExcelFileInserter extends FileInserter {
         int tableIndex = inserter.getTableIndex();
         String tableName = inserter.getTableName();
         this.insertColumnNames = false;
-        Sheet table = null;
+        Sheet table;
         if (tableIndex != ConstantUtils.DEFAULT_TABLE_INDEX) {
             try {
                 table = workbook.getSheetAt(tableIndex);

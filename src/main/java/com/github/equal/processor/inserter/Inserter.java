@@ -42,7 +42,7 @@ public class Inserter<T> {
 
     private Collection<?> data;
     private FileType fileType;
-    private Class<T> clazz;
+    private final Class<T> clazz;
     private int rowStartIndex = ConstantUtils.ROW_START_INDEX; // first row is title
     private int numberOfRows;
     private File sourceFile;
@@ -50,8 +50,8 @@ public class Inserter<T> {
     private String tableName = StringUtils.DEFAULT;
     private boolean dataInitFlag = false;
     private boolean isSourceFileExist = false;
-    private Charset charset = StandardCharsets.UTF_8;
-    private int rowAccessWindowSize = ConstantUtils.ROW_ACCESS_WS;
+    private final Charset charset = StandardCharsets.UTF_8;
+    private final int rowAccessWindowSize = ConstantUtils.ROW_ACCESS_WS;
 
     private Inserter(Class<T> clazz) {
         this.clazz = clazz;
@@ -105,11 +105,12 @@ public class Inserter<T> {
         } else {
             try {
                 File parentDir = sourceFile.getParentFile();
+                boolean d = true;
                 if (!parentDir.exists()) {
-                    parentDir.mkdirs();
+                    d = parentDir.mkdirs();
                 }
-                sourceFile.createNewFile();
-                this.isSourceFileExist = false;
+                boolean f = sourceFile.createNewFile();
+                this.isSourceFileExist = !(d && f);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

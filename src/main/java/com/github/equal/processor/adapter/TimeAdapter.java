@@ -34,7 +34,7 @@ import java.time.format.DateTimeParseException;
 
 public class TimeAdapter implements Adapter<String, LocalTime> {
 
-    private DateTimeFormatter dateTimeFormatter;
+    private final DateTimeFormatter dateTimeFormatter;
 
     public TimeAdapter(String timePattern) {
         if (StringUtils.isNotEmpty(timePattern)) {
@@ -57,10 +57,10 @@ public class TimeAdapter implements Adapter<String, LocalTime> {
     }
 
     @Override
-    public String toString(LocalTime localTime) throws AdapterException {
+    public String toString(Object localTime) throws AdapterException {
         if (localTime == null) {
             return null;
         }
-        return localTime.format(dateTimeFormatter);
+        return ((LocalTime) localTime).format(dateTimeFormatter);
     }
 }

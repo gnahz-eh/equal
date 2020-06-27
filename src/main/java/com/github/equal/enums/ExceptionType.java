@@ -52,8 +52,8 @@ public enum ExceptionType {
     ADAPT_TIME_ERROR                          (503, "Adapt time error"),
     ADAPT_DATE_TIME_ERROR                     (504, "Adapt date time error");
 
-    private int exceptionCode;
-    private String exceptionMessage;
+    private final int exceptionCode;
+    private final String exceptionMessage;
 
     ExceptionType(int exceptionCode, String exceptionMessage) {
         this.exceptionCode = exceptionCode;

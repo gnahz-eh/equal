@@ -33,7 +33,7 @@ import java.io.IOException;
 
 public class XLSXInserter extends ExcelFileInserter {
 
-    public XLSXInserter(Inserter inserter) {
+    public XLSXInserter(Inserter<?> inserter) {
         super(inserter);
     }
 

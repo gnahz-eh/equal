@@ -39,7 +39,7 @@ import java.util.Map;
 
 public class AdapterFactory {
 
-    private static final Map<Class, Adapter> ADAPTER_MAP = new HashMap<>();
+    private static final Map<Class<?>, Adapter<String, ?>> ADAPTER_MAP = new HashMap<>();
 
     static {
         ADAPTER_MAP.put(String.class, new StringAdapter());
@@ -63,9 +63,9 @@ public class AdapterFactory {
         ADAPTER_MAP.put(LocalDateTime.class, new DateTimeAdapter(StringUtils.DATE_TIME_PATTERN));
     }
 
-    public static Adapter getInstance(Field field) throws AdapterException {
+    public static Adapter<String, ?> getInstance(Field field) throws AdapterException {
         if (field == null) return null;
-        Class fieldType = field.getType();
+        Class<?> fieldType = field.getType();
         Column column = field.getAnnotation(Column.class);
 
         if (fieldType.equals(LocalDate.class)) {
