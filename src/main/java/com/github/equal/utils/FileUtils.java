@@ -24,10 +24,12 @@
 
 package com.github.equal.utils;
 
+import com.github.equal.enums.ExceptionType;
 import com.github.equal.enums.FileType;
 import com.github.equal.exception.EqualException;
 import com.github.equal.exception.SelectorException;
 import org.apache.poi.poifs.filesystem.FileMagic;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
@@ -95,6 +97,19 @@ public class FileUtils {
             return WorkbookFactory.create(inputStream);
         } catch (IOException e) {
             throw new SelectorException(e);
+        }
+    }
+
+    public static Sheet getTable(Workbook workbook, int tableIndex, String tableName) {
+
+        if (tableIndex != ConstantUtils.DEFAULT_TABLE_INDEX) {
+            try {
+                return workbook.getSheetAt(tableIndex);
+            } catch (Exception e) {
+                throw new EqualException(ExceptionType.INVALID_TABLE_INDEX, String.valueOf(tableIndex));
+            }
+        } else {
+            return workbook.getSheet(tableName);
         }
     }
 

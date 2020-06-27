@@ -24,6 +24,8 @@
 
 package com.github.equal.exception;
 
+import com.github.equal.enums.ExceptionType;
+
 public class EqualException extends RuntimeException {
 
     public EqualException() {
@@ -32,6 +34,10 @@ public class EqualException extends RuntimeException {
 
     public EqualException(String exceptionMessage, Throwable cause) {
         super(exceptionMessage, cause);
+    }
+
+    public EqualException(ExceptionType exceptionType, String supplement) {
+        super(exceptionType.getExceptionMessage() + ": " + supplement);
     }
 
     public EqualException(String exceptionMessage) {

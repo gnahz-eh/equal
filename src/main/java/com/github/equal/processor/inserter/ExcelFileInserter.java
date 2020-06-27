@@ -128,15 +128,8 @@ public abstract class ExcelFileInserter extends FileInserter {
         String tableName = inserter.getTableName();
         this.insertColumnNames = false;
         Sheet table;
-        if (tableIndex != ConstantUtils.DEFAULT_TABLE_INDEX) {
-            try {
-                table = workbook.getSheetAt(tableIndex);
-            } catch (Exception e) {
-                throw new InserterException(ExceptionType.INVALID_TABLE_INDEX, String.valueOf(tableIndex));
-            }
-        } else {
-            table = workbook.getSheet(tableName);
-        }
+
+        table = FileUtils.getTable(workbook, tableIndex, tableName);
 
         if (table == null) {
             table = workbook.createSheet(inserter.getTableName());
