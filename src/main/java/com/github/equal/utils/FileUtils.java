@@ -136,4 +136,15 @@ public class FileUtils {
             throw new EqualException(e);
         }
     }
+
+    public static void flushData(Workbook workbook, OutputStream outputStream) throws EqualException {
+        try {
+            workbook.write(outputStream);
+        } catch (IOException e) {
+            throw new EqualException(ExceptionType.FLUSH_DATA_ERROR);
+        } finally {
+            closeIO(workbook);
+            closeIO(outputStream);
+        }
+    }
 }

@@ -48,10 +48,14 @@ public enum ExceptionType {
     FILE_TYPES_ARE_INCONSISTENT               (208, "File types are inconsistent"),
     INCONSISTENT_CLASS_TYPE                   (209, "Inconsistent class type"),
 
+    DELETE_DATA_ERROR                         (307, "Delete data error"),
+
     ADAPT_VALUE_ERROR                         (501, "Adapt value error"),
     ADAPT_DATE_ERROR                          (502, "Adapt date error"),
     ADAPT_TIME_ERROR                          (503, "Adapt time error"),
-    ADAPT_DATE_TIME_ERROR                     (504, "Adapt date time error");
+    ADAPT_DATE_TIME_ERROR                     (504, "Adapt date time error"),
+
+    FLUSH_DATA_ERROR                          (601, "Flush data error");
 
     private final int exceptionCode;
     private final String exceptionMessage;

@@ -38,7 +38,6 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.util.Collection;
@@ -75,7 +74,8 @@ public abstract class ExcelFileInserter extends FileInserter {
         } catch (Exception e) {
             throw new InserterException(ExceptionType.INSERT_DATA_ERROR, String.valueOf(i));
         }
-        flushData();
+
+        FileUtils.flushData(workbook, outputStream);
     }
 
     private void insertRow(Object obj, int index) throws Exception {
@@ -108,17 +108,6 @@ public abstract class ExcelFileInserter extends FileInserter {
             Cell cell = head.createCell(column.index());
             cell.setCellValue(column.name());
             table.setColumnWidth(column.index(), ConstantUtils.DEFAULT_COLUMN_WIDTH);
-        }
-    }
-
-    private void flushData() throws InserterException {
-        try {
-            workbook.write(this.outputStream);
-        } catch (IOException e) {
-            throw new InserterException(ExceptionType.INSERT_DATA_ERROR);
-        } finally {
-            FileUtils.closeIO(workbook);
-            FileUtils.closeIO(outputStream);
         }
     }
 

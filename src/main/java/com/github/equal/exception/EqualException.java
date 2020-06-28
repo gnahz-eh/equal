@@ -36,6 +36,10 @@ public class EqualException extends RuntimeException {
         super(exceptionMessage, cause);
     }
 
+    public EqualException(ExceptionType exceptionType) {
+        super(exceptionType.getExceptionMessage());
+    }
+
     public EqualException(ExceptionType exceptionType, String supplement) {
         super(exceptionType.getExceptionMessage() + ": " + supplement);
     }
