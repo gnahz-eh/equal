@@ -38,7 +38,6 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.util.Collection;
@@ -75,7 +74,8 @@ public abstract class ExcelFileInserter extends FileInserter {
         } catch (Exception e) {
             throw new InserterException(ExceptionType.INSERT_DATA_ERROR, String.valueOf(i));
         }
-        flushData();
+
+        FileUtils.flushData(workbook, outputStream);
     }
 
     private void insertRow(Object obj, int index) throws Exception {
@@ -111,32 +111,14 @@ public abstract class ExcelFileInserter extends FileInserter {
         }
     }
 
-    private void flushData() throws InserterException {
-        try {
-            workbook.write(this.outputStream);
-        } catch (IOException e) {
-            throw new InserterException(ExceptionType.INSERT_DATA_ERROR);
-        } finally {
-            FileUtils.closeIO(workbook);
-            FileUtils.closeIO(outputStream);
-        }
-    }
-
     private void initExcelFile() {
         init();
         int tableIndex = inserter.getTableIndex();
         String tableName = inserter.getTableName();
         this.insertColumnNames = false;
         Sheet table;
-        if (tableIndex != ConstantUtils.DEFAULT_TABLE_INDEX) {
-            try {
-                table = workbook.getSheetAt(tableIndex);
-            } catch (Exception e) {
-                throw new InserterException(ExceptionType.INVALID_TABLE_INDEX, String.valueOf(tableIndex));
-            }
-        } else {
-            table = workbook.getSheet(tableName);
-        }
+
+        table = FileUtils.getTable(workbook, tableIndex, tableName);
 
         if (table == null) {
             table = workbook.createSheet(inserter.getTableName());

@@ -25,6 +25,7 @@
 package com.github.equal.processor.selector;
 
 import com.github.equal.annotation.Column;
+import com.github.equal.enums.ExceptionType;
 import com.github.equal.exception.SelectorException;
 import com.github.equal.processor.adapter.Adapter;
 import com.github.equal.utils.DateUtils;
@@ -52,43 +53,53 @@ public class XLSSelector extends FileSelector {
     public <T> Stream<T> selectFromFile(Selector<T> selector) throws SelectorException {
         Stream.Builder<T> builder = Stream.builder();
         Class<T> clazz = selector.getClazz();
-        try {
-            init(clazz.getDeclaredFields());
-            Sheet table = getTable(selector);
 
-            int rowStartIndex = selector.getRowStartIndex();
-            int numberOfRows = selector.getNumberOfRows();
-            int rows = table.getLastRowNum() + 1;
+        init(clazz.getDeclaredFields());
+        Sheet table = getTable(selector);
 
-            for (int i = 0; i < rows; i++) {
-                if (numberOfRows == 0) break;
-                if (i < rowStartIndex - 1) continue;
-
-                Row row = table.getRow(i);
-                if (row == null) {
-                    builder.add(null);
-                } else {
-                    T obj = clazz.newInstance();
-                    for (Field field : fieldIndexes.values()) {
-                        setField(field, row, obj);
-                    }
-                    builder.add(obj);
-                }
-                numberOfRows--;
-            }
-
-            // if numberRows > rows, use null
-            if (numberOfRows > 0) {
-                while (0 != numberOfRows--) {
-                    builder.add(null);
-                }
-            }
-            return builder.build();
-        } catch (InstantiationException | IllegalAccessException e) {
-            throw new SelectorException(e);
-        } finally {
-            FileUtils.closeIO(workbook);
+        if (table == null) {
+            throw new SelectorException(ExceptionType.DID_NOT_FIND_THE_TABLE);
         }
+
+        int rowStartIndex = selector.getRowStartIndex();
+        int numberOfRows = selector.getNumberOfRows();
+        int rows = table.getLastRowNum() + 1;
+
+        for (int i = 0; i < rows; i++) {
+            if (numberOfRows == 0) break;
+            if (i < rowStartIndex - 1) continue;
+
+            Row row = table.getRow(i);
+            if (row == null) {
+                builder.add(null);
+            } else {
+                T obj;
+
+                try {
+                    obj = clazz.newInstance();
+                } catch (InstantiationException | IllegalAccessException e) {
+                    throw new SelectorException(e);
+                } finally {
+                    FileUtils.closeIO(workbook);
+                }
+
+                for (Field field : fieldIndexes.values()) {
+                    setField(field, row, obj);
+                }
+                builder.add(obj);
+            }
+            numberOfRows--;
+        }
+
+        // if numberRows > rows, use null
+        if (numberOfRows > 0) {
+            while (0 != numberOfRows--) {
+                builder.add(null);
+            }
+        }
+
+        FileUtils.closeIO(workbook);
+        return builder.build();
     }
 
     @Override

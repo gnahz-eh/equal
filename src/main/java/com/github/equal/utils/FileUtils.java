@@ -24,10 +24,12 @@
 
 package com.github.equal.utils;
 
+import com.github.equal.enums.ExceptionType;
 import com.github.equal.enums.FileType;
 import com.github.equal.exception.EqualException;
 import com.github.equal.exception.SelectorException;
 import org.apache.poi.poifs.filesystem.FileMagic;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
@@ -98,6 +100,19 @@ public class FileUtils {
         }
     }
 
+    public static Sheet getTable(Workbook workbook, int tableIndex, String tableName) {
+
+        if (tableIndex != ConstantUtils.DEFAULT_TABLE_INDEX) {
+            try {
+                return workbook.getSheetAt(tableIndex);
+            } catch (Exception e) {
+                throw new EqualException(ExceptionType.INVALID_TABLE_INDEX, String.valueOf(tableIndex));
+            }
+        } else {
+            return workbook.getSheet(tableName);
+        }
+    }
+
     public static byte[] toByteArray(InputStream inputStream) throws IOException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         byte[] buffer = new byte[1024 * 4];
@@ -119,6 +134,17 @@ public class FileUtils {
             io.close();
         } catch (IOException e) {
             throw new EqualException(e);
+        }
+    }
+
+    public static void flushData(Workbook workbook, OutputStream outputStream) throws EqualException {
+        try {
+            workbook.write(outputStream);
+        } catch (IOException e) {
+            throw new EqualException(ExceptionType.FLUSH_DATA_ERROR);
+        } finally {
+            closeIO(workbook);
+            closeIO(outputStream);
         }
     }
 }

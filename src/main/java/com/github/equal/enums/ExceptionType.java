@@ -36,6 +36,7 @@ public enum ExceptionType {
     ROW_START_INDEX_IS_LESS_THAN_1            (107, "Row start row index is less than 1"),
     UNSUPPORTED_FILE_TYPE                     (109, "Unsupported file type"),
     FILE_NOT_FOUND                            (110, "File not found"),
+    DID_NOT_FIND_THE_TABLE                    (111, "Did find the table, please check the param tableName"),
 
     INSERT_DATA_IS_NULL                       (201, "Insert data is null"),
     FILE_OPEN_ERROR                           (202, "File open error"),
@@ -47,10 +48,14 @@ public enum ExceptionType {
     FILE_TYPES_ARE_INCONSISTENT               (208, "File types are inconsistent"),
     INCONSISTENT_CLASS_TYPE                   (209, "Inconsistent class type"),
 
+    DELETE_DATA_ERROR                         (307, "Delete data error"),
+
     ADAPT_VALUE_ERROR                         (501, "Adapt value error"),
     ADAPT_DATE_ERROR                          (502, "Adapt date error"),
     ADAPT_TIME_ERROR                          (503, "Adapt time error"),
-    ADAPT_DATE_TIME_ERROR                     (504, "Adapt date time error");
+    ADAPT_DATE_TIME_ERROR                     (504, "Adapt date time error"),
+
+    FLUSH_DATA_ERROR                          (601, "Flush data error");
 
     private final int exceptionCode;
     private final String exceptionMessage;
