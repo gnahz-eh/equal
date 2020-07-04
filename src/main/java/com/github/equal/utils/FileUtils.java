@@ -34,6 +34,9 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import java.io.*;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FileUtils {
 
@@ -146,5 +149,24 @@ public class FileUtils {
             closeIO(workbook);
             closeIO(outputStream);
         }
+    }
+
+    public static List<String> readCSVData(InputStream inputStream, Charset charset) {
+
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, charset));
+        List<String> csvRowData = new ArrayList<>();
+        String line;
+
+        try {
+            while ((line = bufferedReader.readLine()) != null) {
+                csvRowData.add(line + StringUtils.NEW_LINE);
+            }
+        } catch (IOException e) {
+            throw new EqualException(e);
+        } finally {
+            FileUtils.closeIO(bufferedReader);
+            FileUtils.closeIO(inputStream);
+        }
+        return csvRowData;
     }
 }

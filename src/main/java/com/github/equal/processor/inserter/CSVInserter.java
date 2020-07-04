@@ -105,20 +105,7 @@ public class CSVInserter extends FileInserter {
         // source exist, not insert column names
         else {
 
-            BufferedReader bufferedReader = new BufferedReader(
-                    new InputStreamReader(inputStream, inserter.getCharset()));
-            csvRowData = new ArrayList<>();
-            String line;
-            try {
-                while ((line = bufferedReader.readLine()) != null) {
-                    csvRowData.add(line + StringUtils.NEW_LINE);
-                }
-            } catch (IOException e) {
-                throw new InserterException(e);
-            } finally {
-                FileUtils.closeIO(bufferedReader);
-                FileUtils.closeIO(inputStream);
-            }
+            csvRowData = FileUtils.readCSVData(inputStream, inserter.getCharset());
 
             // create a new file
             try {
