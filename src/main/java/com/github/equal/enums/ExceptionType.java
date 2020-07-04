@@ -48,7 +48,7 @@ public enum ExceptionType {
     FILE_TYPES_ARE_INCONSISTENT               (208, "File types are inconsistent"),
     INCONSISTENT_CLASS_TYPE                   (209, "Inconsistent class type"),
 
-    DELETE_DATA_ERROR                         (307, "Delete data error"),
+    INDEX_LIST_IS_NULL                        (301, "Index list is null"),
 
     ADAPT_VALUE_ERROR                         (501, "Adapt value error"),
     ADAPT_DATE_ERROR                          (502, "Adapt date error"),
