@@ -31,6 +31,7 @@ import com.github.equal.exception.InserterException;
 import java.io.File;
 import java.io.InputStream;
 import java.util.Collection;
+import java.util.Set;
 
 public class ExceptionUtils {
 
@@ -132,6 +133,12 @@ public class ExceptionUtils {
     public static void assertIsTargetClassType(Class<?> actual, Class<?> expect) {
         if (!actual.equals(expect)) {
             throw new IllegalArgumentException(ExceptionType.INCONSISTENT_CLASS_TYPE.getExceptionMessage());
+        }
+    }
+
+    public static void assertIndexesNotNull(Set<Integer> indexes) {
+        if (indexes == null || indexes.isEmpty()) {
+            throw new IllegalArgumentException(ExceptionType.INDEX_LIST_IS_NULL.getExceptionMessage());
         }
     }
 }

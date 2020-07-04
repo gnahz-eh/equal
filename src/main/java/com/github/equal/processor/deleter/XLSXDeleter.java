@@ -22,23 +22,28 @@
  * SOFTWARE.
  */
 
-package com.github.equal.utils;
+package com.github.equal.processor.deleter;
 
-public class ConstantUtils {
+import com.github.equal.exception.DeleterException;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-    public static final int ROW_START_INDEX = 2;
+import java.io.FileInputStream;
+import java.io.IOException;
 
-    public static final int MAX_ROWS_IN_XLS = 65536;
+public class XLSXDeleter extends ExcelFileDeleter {
 
-    public static final int MAX_ROWS_IN_XLSX = 1048576;
+    public XLSXDeleter(Deleter<?> deleter) {
+        super(deleter);
+    }
 
-    public static final int DEFAULT_COLUMN_WIDTH = 20 * 256;
+    @Override
+    public void deleteFromFile() throws DeleterException {
+        try {
+            this.workbook = new XSSFWorkbook(new FileInputStream(deleter.getSourceFile()));
+        } catch (IOException e) {
+            throw new DeleterException(e);
+        }
 
-    public static final int DEFAULT_NUMBER_OF_ROW = -1;
-
-    public static final int DEFAULT_TABLE_INDEX = -1;
-
-    public static final int ROW_ACCESS_WS = 100;
-
-    public static final int DEFAULT_DELETE_START_INDEX = -1;
+        super.deleteData();
+    }
 }
