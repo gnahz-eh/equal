@@ -7,3 +7,4 @@ site/_site
 .settings
 .classpath
 **/build/*
+temp.md
