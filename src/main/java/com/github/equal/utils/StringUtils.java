@@ -24,9 +24,6 @@
 
 package com.github.equal.utils;
 
-import lombok.experimental.UtilityClass;
-
-@UtilityClass
 public class StringUtils {
 
     public static final String XLS = "XLS";
