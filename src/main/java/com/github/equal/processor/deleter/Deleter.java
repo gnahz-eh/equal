@@ -32,6 +32,8 @@ import com.github.equal.utils.FileUtils;
 import com.github.equal.utils.StringUtils;
 
 import java.io.File;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
@@ -47,10 +49,10 @@ public class Deleter<T> {
     private int numberOfRows = ConstantUtils.DEFAULT_NUMBER_OF_ROW;
     private List<Integer> indexes = null;
     private Class<T> clazz;
+    private final Charset charset = StandardCharsets.UTF_8;
 
     public Deleter(Class<T> clazz) {
         this.clazz = clazz;
-
     }
 
     public static <T> Deleter<T> delete(Class<T> clazz) {
@@ -139,5 +141,9 @@ public class Deleter<T> {
 
     public List<Integer> getIndexes() {
         return indexes;
+    }
+
+    public Charset getCharset() {
+        return charset;
     }
 }

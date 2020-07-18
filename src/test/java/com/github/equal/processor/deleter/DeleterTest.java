@@ -256,4 +256,89 @@ class DeleterTest {
         assertEquals(exception.getMessage(), ExceptionType.SOURCE_FILE_DOES_NOT_EXIST.getExceptionMessage());
     }
 
+//----------------------------------------------------------------------------------------------------------------
+
+    @Test
+    void deleteCSV_FILE() throws EqualException {
+        int rowStartIndex = 14;
+        Deleter.delete(Student.class)
+                .from(new File(pkgName + "/Student.csv"))
+                .where(rowStartIndex, 1)
+                .execute();
+    }
+
+    @Test
+    void deleteCSV_FILE2() throws EqualException {
+        int rowStartIndex = 15;
+        Deleter.delete(Student.class)
+                .from(new File(pkgName + "/Student.csv"))
+                .where(rowStartIndex, 10)
+                .execute();
+    }
+
+    @Test
+    void deleteCSV_FILE3() throws EqualException {
+        int rowStartIndex = 14;
+        Deleter.delete(Student.class)
+                .from(new File(pkgName + "/Student.csv"))
+                .where(rowStartIndex, 3)
+                .execute();
+    }
+
+    @Test
+    void deleteCSV_FILE4() throws EqualException {
+        int rowStartIndex = 12;
+        Deleter.delete(Student.class)
+                .from(new File(pkgName + "/Student.csv"))
+                .where(rowStartIndex)
+                .execute();
+    }
+
+    @Test
+    void deleteCSV_FILE5() throws EqualException {
+        int rowStartIndex = 47;
+        Deleter.delete(Student.class)
+                .from(new File(pkgName + "/Student.csv"))
+                .where(rowStartIndex, 2)
+                .execute();
+    }
+
+    @Test
+    void deleteCSV_FILE6() throws EqualException {
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> {
+            int rowStartIndex = 1;
+            Deleter.delete(Student.class)
+                    .from(new File(pkgName + "/Student.csv"))
+                    .where(rowStartIndex, 2)
+                    .execute();
+        });
+
+        assertEquals(exception.getMessage(), ExceptionType.ROW_START_INDEX_IS_LESS_THAN_2.getExceptionMessage());
+    }
+
+    @Test
+    void deleteCSV_FILE7() throws EqualException {
+
+        Set<Integer> indexes = Stream.of(-1, 0, 4, 2, 19, 6, 100).collect(Collectors.toSet());
+
+        Deleter.delete(Student.class)
+                .from(new File(pkgName + "/Student.csv"))
+                .where(indexes)
+                .execute();
+    }
+
+
+    @Test
+    void deleteCSV_FILE_NON_EXIST() throws EqualException {
+
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> {
+            int rowStartIndex = 14;
+            Deleter.delete(Student.class)
+                    .from(new File(pkgName + "/AAA.csv"))
+                    .where(rowStartIndex, 1)
+                    .execute();
+        });
+
+        assertEquals(exception.getMessage(), ExceptionType.SOURCE_FILE_DOES_NOT_EXIST.getExceptionMessage());
+    }
 }

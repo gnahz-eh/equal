@@ -34,6 +34,9 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import java.io.*;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FileUtils {
 
@@ -125,10 +128,6 @@ public class FileUtils {
         return outputStream.toByteArray();
     }
 
-    public static boolean isExcelFile(FileType fileType) {
-        return fileType == FileType.XLS || fileType == FileType.XLSX;
-    }
-
     public static void closeIO(Closeable io) {
         try {
             io.close();
@@ -145,6 +144,39 @@ public class FileUtils {
         } finally {
             closeIO(workbook);
             closeIO(outputStream);
+        }
+    }
+
+    public static List<String> readCSVData(InputStream inputStream, Charset charset) {
+
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, charset));
+        List<String> csvRowData = new ArrayList<>();
+        String line;
+
+        try {
+            while ((line = bufferedReader.readLine()) != null) {
+                csvRowData.add(line + StringUtils.NEW_LINE);
+            }
+        } catch (IOException e) {
+            throw new EqualException(e);
+        } finally {
+            FileUtils.closeIO(bufferedReader);
+            FileUtils.closeIO(inputStream);
+        }
+        return csvRowData;
+    }
+
+    public static void flushData(FileWriter fileWriter, List<String> data) {
+        try (FileWriter fw = fileWriter) {
+            fw.write(StringUtils.BOM_HEAD);
+
+            // insert row
+            for (String row : data) {
+                fw.write(row);
+            }
+            fw.flush();
+        } catch (IOException e) {
+            throw new EqualException(e);
         }
     }
 }
