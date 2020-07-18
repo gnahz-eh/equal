@@ -138,7 +138,7 @@ public class ExceptionUtils {
 
     public static void assertIndexesNotNull(Set<Integer> indexes) {
         if (indexes == null || indexes.isEmpty()) {
-            throw new IllegalArgumentException(ExceptionType.INDEX_LIST_IS_NULL.getExceptionMessage());
+            throw new IllegalArgumentException(ExceptionType.INDEXES_SET_IS_NULL.getExceptionMessage());
         }
     }
 }

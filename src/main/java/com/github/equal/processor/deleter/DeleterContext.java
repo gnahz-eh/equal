@@ -40,7 +40,7 @@ public class DeleterContext {
                 new XLSDeleter(deleter).deleteFromFile();
                 break;
             case CSV:
-                // todo
+                new CSVDeleter(deleter).deleteFromFile();
                 break;
             default:
                 throw new DeleterException(ExceptionType.UNSUPPORTED_FILE_TYPE);
