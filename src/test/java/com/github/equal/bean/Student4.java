@@ -25,12 +25,9 @@
 package com.github.equal.bean;
 
 import com.github.equal.annotation.Column;
-import lombok.Data;
 
 import java.time.LocalTime;
-import java.util.Date;
 
-@Data
 public class Student4 {
 
     @Column(name = "name", index = 0)
@@ -57,6 +54,46 @@ public class Student4 {
         this.sex = sex;
         this.classNumber = classNumber;
         this.hobby = hobby;
+        this.birthTime = birthTime;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public int getClassNumber() {
+        return classNumber;
+    }
+
+    public void setClassNumber(int classNumber) {
+        this.classNumber = classNumber;
+    }
+
+    public String getHobby() {
+        return hobby;
+    }
+
+    public void setHobby(String hobby) {
+        this.hobby = hobby;
+    }
+
+    public LocalTime getBirthTime() {
+        return birthTime;
+    }
+
+    public void setBirthTime(LocalTime birthTime) {
         this.birthTime = birthTime;
     }
 }
