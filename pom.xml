@@ -23,7 +23,6 @@
         <junit-vintage-engine.version>4.12.1</junit-vintage-engine.version>
         <junit-jupiter.version>5.5.0-M1</junit-jupiter.version>
         <slf4j-api.version>1.7.25</slf4j-api.version>
-        <maven-coveralls-plugin.version>4.3.0</maven-coveralls-plugin.version>
     </properties>
 
     <issueManagement>
@@ -105,11 +104,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.eluder.coveralls</groupId>
-                <artifactId>coveralls-maven-plugin</artifactId>
-                <version>${maven-coveralls-plugin.version}</version>
             </plugin>
         </plugins>
     </build>
