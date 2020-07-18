@@ -60,17 +60,7 @@ public class CSVInserter extends FileInserter {
         boolean isSourceFileExist = inserter.isSourceFileExist();
         List<String> csvRowData = this.parseData(data, numberOfRows, rowStartIndex, isSourceFileExist);
 
-        try (FileWriter fw = this.fileWriter) {
-            fw.write(StringUtils.BOM_HEAD);
-
-            // insert row
-            for (String row : csvRowData) {
-                fw.write(row);
-            }
-            fw.flush();
-        } catch (IOException e) {
-            throw new InserterException(e);
-        }
+        FileUtils.flushData(fileWriter, csvRowData);
     }
 
     private List<String> parseData(Collection<?> data, int numberOfRows, int rowStartIndex, boolean isSourceFileExist) {
@@ -108,6 +98,8 @@ public class CSVInserter extends FileInserter {
             csvRowData = FileUtils.readCSVData(inputStream, inserter.getCharset());
 
             // create a new file
+            // In deleter, these codes can be moved into insertIntoFile()
+            // Since the source file must be existent.
             try {
                 fileWriter = new FileWriter(inserter.getSourceFile(), false);
             } catch (IOException e) {
