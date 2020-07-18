@@ -8,43 +8,83 @@
     <artifactId>Equal</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>Equal</name>
-    <description>A Java framework to operate excel like SQL</description>
+    <description>A Java lib to operate excel files in a SQL-style.</description>
 
     <properties>
         <poi.version>4.0.1</poi.version>
+        <java.version>1.8</java.version>
+        <encoding.version>UTF-8</encoding.version>
+        <maven-compiler-plugin.version>2.5.1</maven-compiler-plugin.version>
+        <maven-surefire-plugin.version>2.22.0</maven-surefire-plugin.version>
+        <maven-resources-plugin.version>2.5</maven-resources-plugin.version>
+        <jacoco-maven-plugin.version>0.8.3</jacoco-maven-plugin.version>
+        <junit-platform-launcher.version>1.0.1</junit-platform-launcher.version>
+        <junit-jupiter-engine.version>5.0.1</junit-jupiter-engine.version>
+        <junit-vintage-engine.version>4.12.1</junit-vintage-engine.version>
+        <junit-jupiter.version>5.5.0-M1</junit-jupiter.version>
+        <slf4j-api.version>1.7.25</slf4j-api.version>
+        <maven-coveralls-plugin.version>4.3.0</maven-coveralls-plugin.version>
     </properties>
+
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/gnahZ-eH/equal/issues</url>
+    </issueManagement>
+
+    <ciManagement>
+        <system>Github Actions</system>
+        <url>https://github.com/gnahZ-eH/equal/actions</url>
+    </ciManagement>
+
+    <developers>
+        <developer>
+            <id>gnahZ-eH</id>
+            <name>He Zhang</name>
+            <url>https://github.com/gnahZ-eH</url>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://opensource.org/licenses/mit-license.php</url>
+        </license>
+    </licenses>
+
     <build>
         <defaultGoal>compile</defaultGoal>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.5.1</version>
+                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
-                    <encoding>UTF-8</encoding>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <encoding>${encoding.version}</encoding>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <!-- JUnit 5 requires Surefire version 2.22.0 or higher -->
-                <version>2.22.0</version>
+                <version>${maven-surefire-plugin.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>2.5</version>
+                <version>${maven-resources-plugin.version}</version>
                 <configuration>
-                    <encoding>UTF-8</encoding>
+                    <encoding>${encoding.version}</encoding>
                 </configuration>
             </plugin>
-
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.3</version>
+                <version>${jacoco-maven-plugin.version}</version>
                 <configuration>
                     <includes>
                         <include>com/**/*</include>
@@ -66,6 +106,11 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.eluder.coveralls</groupId>
+                <artifactId>coveralls-maven-plugin</artifactId>
+                <version>${maven-coveralls-plugin.version}</version>
+            </plugin>
         </plugins>
     </build>
 
@@ -73,36 +118,36 @@
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-launcher</artifactId>
-            <version>1.0.1</version>
+            <version>${junit-platform-launcher.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.0.1</version>
+            <version>${junit-jupiter-engine.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.vintage</groupId>
             <artifactId>junit-vintage-engine</artifactId>
-            <version>4.12.1</version>
+            <version>${junit-vintage-engine.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>5.5.0-M1</version>
+            <version>${junit-jupiter.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.jacoco</groupId>
             <artifactId>jacoco-maven-plugin</artifactId>
-            <version>0.8.3</version>
+            <version>${jacoco-maven-plugin.version}</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.7.25</version>
+            <version>${slf4j-api.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -114,12 +159,6 @@
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
             <version>${poi.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.16.18</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>
