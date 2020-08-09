@@ -6,64 +6,80 @@
 **READING <font color='green' size='5'>E</font>XCEL(CSV) FILES IN A S<font color='green' size='5'>Q</font>L- STYLE AND RET<font color='green' size='5'>U</font>RN <font color='green' size='5'>A</font>N OBJECT <font color='green' size='5'>L</font>IST AS RESULT.**
 
 ## What is EQUAL ?
-EQUAL is a small lib that can operate excel files in a sql-style. It includes the basic operations like read, write, update and delete. And for the file title, it follows this rule:
+EQUAL is a small lib that can operate excel files in a sql-style. It includes the basic operations like read, write, update and delete.
 
-Source File              | Column Name
--------------------------|-----------------------
-Source File Exist        | Not Insert Column Name
-Source File Do Not Exist | Insert Column Name
+---
 
 ## How to use ?
+### PREPARE
+- We need a bean class which is a model of excel or csv file. For example, if we want to operate an excel file that includes some books, we need a Book class with some annotations, the index should start from 0 and should match the order in excel/csv files.
+    ```java
+    public class Book {
 
-## Examples
-We need a bean class which is a model of excel or csv files. For example, if we want to operate an csv file that includes students message, we need a Student class with some annotations, the index should start from 0 and should match the sort in excel/csv files. Like:
-```java
-public class Student {
+        @Column(name = "id", index = 0)
+        public int id;
 
-    @Column(name = "name", index = 0)
-    private String name;
+        @Column(name = "name", index = 1)
+        public String name;
 
-    @Column(name = "sex", index = 1)
-    private String sex;
+        @Column(name = "author", index = 2)
+        public String author;
 
-    @Column(name="classNumber", index = 2)
-    private int classNumber;
+        @Column(name = "publishTime", index = 3)
+        public LocalDate publishTime;
 
-    @Column(name="hobby", index = 3)
-    private String hobby;
+        public Book() {}
 
-    @Column(name = "birth", index = 4)
-    private LocalDate birthDate;
-
-    public Student() { }
-
-    public Student(String name, String sex, int classNumber, String hobby, LocalDate birthDate) {
-        this.name = name;
-        this.sex = sex;
-        this.classNumber = classNumber;
-        this.hobby = hobby;
-        this.birthDate = birthDate;
+        public Book(int id, String name, String author, LocalDate publishTime) {
+            this.id = id;
+            this.name = name;
+            this.author = author;
+            this.publishTime = publishTime;
+        }
     }
-}
-```
-The CSV file like:
-```csv
-name,sex,classNumber,hobby,birth
-a,male,3965,reading,2019/01/01
-b,male,5330,hiking,2019/01/02
-c,male,338,sports,2019/01/03
-d,male,8102,play,2019/01/04
-e,famale,87,others,2019/01/05
-f,famale,94,others,2019/01/06
-g,famale,784,others,2019/01/07
-h,famale,176,others,2019/01/08
-```
+    ```
+- ⚠️The empty constructor is mandatory❗
 
-### READ
-```java
-List<Student> students = Selector
-      .select(Student.class)
-      .from(new File(pkgName + "/Student2.csv"))
-      .where()
-      .executeQuery();
-```
+- The excel file like:
+    ![](./src/test/resources/imgs/Book.png)
+
+---
+
+### READ 
+- The code should like:
+    ```java
+    List<Book> books = Selector
+        .select(Book.class)
+        .from(new File("src/test/resources/Book.xlsx"))
+        .where()
+        .executeQuery();
+    ```
+-  ⚠️There is another function `where()` with Parameters: `[int rowStartIndex, int numberOfRows]`, the `rowStartIndex` is where you start to read in excel file(begin from `1`) and should greater or equal to `2`.
+
+### WRITE
+- The code should like:
+    ```java
+    Inserter
+        .insert(Book.class)
+        .into(new File("src/test/resources/Book.csv"))
+        .values(books)
+        .range()
+        .flush();
+    ```
+-  ⚠️There is another function `range()` with Parameters: `[int rowStartIndex, int numberOfRows]`, the `rowStartIndex` is where you start to write into the file and should greater or equal to `1`.
+-  ⚠️And for the file title, it follows this rule:
+   | Source File              | Column Name            |
+   | ------------------------ | ---------------------- |
+   | Source File Exist        | Not Insert Column Name |
+   | Source File Do Not Exist | Insert Column Name     |
+-  The result should like:
+    ```csv
+    id,name,author,publishTime
+    0,Notre-Dame de Paris,Victor Hugo,1831/01/14
+    1,Wuthering Heights,Emily Bronte,1847/07/06
+    2,The Red and the Black,Marie-Henri Beyle,1830/09/27
+    3,Jean-Christophe,Romain Rolland,1912/04/18
+    4,David Copperfield,Charles John Huffam Dickens,1849/02/03
+    ```
+### UPDATE
+### DELETE
