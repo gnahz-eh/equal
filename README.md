@@ -38,7 +38,7 @@ EQUAL is a small lib that can operate excel files in a sql-style. It includes th
         }
     }
     ```
-- ⚠️The empty constructor is mandatory❗
+- ⚠️ The empty constructor is mandatory❗
 
 - The excel file like:
     ![](./src/test/resources/imgs/Book.png)
@@ -54,7 +54,7 @@ EQUAL is a small lib that can operate excel files in a sql-style. It includes th
         .where()
         .executeQuery();
     ```
--  ⚠️There is another function `where()` with Parameters: `[int rowStartIndex, int numberOfRows]`, the `rowStartIndex` is where you start to read in excel file(begin from `1`) and should greater or equal to `2`.
+-  📌 There is another function `where()` with Parameters: `[int rowStartIndex, int numberOfRows]`, the `rowStartIndex` is where you start to read in excel file(begin from `1`) and should greater or equal to `2`.
 
 ### WRITE
 - The code should like:
@@ -66,8 +66,8 @@ EQUAL is a small lib that can operate excel files in a sql-style. It includes th
         .range()
         .flush();
     ```
--  ⚠️There is another function `range()` with Parameters: `[int rowStartIndex, int numberOfRows]`, the `rowStartIndex` is where you start to write into the file and should greater or equal to `1`.
--  ⚠️And for the file title, it follows this rule:
+-  📌️ There is another function `range()` with Parameters: `[int rowStartIndex, int numberOfRows]`, the `rowStartIndex` is where you start to write into the file and should greater or equal to `1`.
+-  📌 And for the file title, it follows this rule:
    | Source File              | Column Name            |
    | ------------------------ | ---------------------- |
    | Source File Exist        | Not Insert Column Name |
