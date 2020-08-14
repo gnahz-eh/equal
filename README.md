@@ -2,6 +2,7 @@
 
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)]()
 [![Build Status](https://github.com/gnahZ-eH/equal/workflows/Java%20CI/badge.svg)](https://github.com/gnahZ-eH/equal/actions)
+[![codecov](https://codecov.io/gh/gnahZ-eH/equal/branch/master/graph/badge.svg)](https://codecov.io/gh/gnahZ-eH/equal)
 
 **READING <font color='green' size='5'>E</font>XCEL(CSV) FILES IN A S<font color='green' size='5'>Q</font>L- STYLE AND RET<font color='green' size='5'>U</font>RN <font color='green' size='5'>A</font>N OBJECT <font color='green' size='5'>L</font>IST AS RESULT.**
 
