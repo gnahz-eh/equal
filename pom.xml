@@ -88,6 +88,10 @@
                     <includes>
                         <include>com/**/*</include>
                     </includes>
+                    <excludes>
+                        <exclude>com/**/exception/*</exclude>
+                        <exclude>com/**/utils/*</exclude>
+                    </excludes>
                 </configuration>
                 <executions>
                     <execution>
