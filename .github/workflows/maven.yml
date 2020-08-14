@@ -19,8 +19,8 @@ jobs:
       - name: Build with Maven
         run: mvn -B package --file pom.xml
       - name: Upload coverage to Codecov
-          uses: codecov/codecov-action@v1.0.2
-          with:
-            token: ${{secrets.CODECOV_TOKEN}}
-            file: ./target/site/jacoco/jacoco.xml
+        uses: codecov/codecov-action@v1.0.2
+        with:
+          token: ${{secrets.CODECOV_TOKEN}}
+          file: ./target/site/jacoco/jacoco.xml
 
