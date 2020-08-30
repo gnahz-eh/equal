@@ -26,6 +26,8 @@ package com.github.equal.utils;
 
 public class InserterUtils {
 
+    private InserterUtils() { }
+
     public static boolean doesInsertColumnNames(int rowStartIndex, int numberOfRows) {
         return (rowStartIndex) > 1 && (numberOfRows > 0);
     }

@@ -35,6 +35,8 @@ import java.util.Set;
 
 public class ExceptionUtils {
 
+    private ExceptionUtils() { }
+
     public static void assertValidSourceFile(File sourceFile) {
         assertNotNullSourceFile(sourceFile);
         assertSourceFileExists(sourceFile);

@@ -30,6 +30,8 @@ import com.github.equal.exception.DeleterException;
 
 public class DeleterContext {
 
+    private DeleterContext() { }
+
     public static void deleteFromFile(Deleter<?> deleter) throws DeleterException {
         FileType fileType = deleter.getFileType();
         switch (fileType) {

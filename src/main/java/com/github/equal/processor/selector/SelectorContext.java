@@ -37,6 +37,8 @@ import java.util.stream.Stream;
 
 public class SelectorContext {
 
+    private SelectorContext() { }
+
     private static FileSelector fileSelector;
 
     public static <T> Stream<T> selectFromFile(Selector<T> selector) throws SelectorException {

@@ -30,6 +30,8 @@ import java.time.LocalTime;
 
 public class DateUtils {
 
+    private DateUtils() { }
+
     public static boolean isDateOrTime(Class<?> clazz) {
         return LocalDate.class.equals(clazz) ||
                 LocalDateTime.class.equals(clazz) ||

@@ -40,6 +40,8 @@ import java.util.List;
 
 public class FileUtils {
 
+    private FileUtils() { }
+
     public static FileType getFileTypeBySourceFile(File sourceFile) {
         if (sourceFile == null || !sourceFile.exists()) {
             return FileType.NONE;

@@ -26,6 +26,8 @@ package com.github.equal.utils;
 
 public class StringUtils {
 
+    private StringUtils() { }
+
     public static final String XLS = "XLS";
     public static final String XLSX = "XLSX";
     public static final String CSV = "CSV";

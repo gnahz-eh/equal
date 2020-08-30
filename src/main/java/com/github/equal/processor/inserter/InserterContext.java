@@ -30,6 +30,8 @@ import com.github.equal.exception.InserterException;
 
 public class InserterContext {
 
+    private InserterContext() { }
+
     public static void insertIntoFile(Inserter<?> inserter) throws InserterException {
         FileType fileType = inserter.getFileType();
         switch (fileType) {
